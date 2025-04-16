@@ -17,7 +17,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('/Motor-bikes/Slike/Diavel_V4/Landing image.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -399,7 +398,7 @@ section p {
 }
 
 .additional-images.scrollable::-webkit-scrollbar-track {
-    background-color: #f5f5f5; /* Light gray scrollbar track */
+    
     border-radius: 10px; /* Rounded scrollbar track */
 }
 
