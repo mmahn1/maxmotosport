@@ -12,28 +12,26 @@ const auth = require('../middleware/auth');
 router.get('/', auth, async (req, res) => {
   try {
     const userId = req.user.id;
-    
-    // Get orders
-    const orders = await db.all(`
+
+    const [orders] = await db.query(`
       SELECT o.order_id, o.order_date, o.status, o.total, o.shipping_address, o.payment_method
       FROM orders o
       WHERE o.user_id = ?
       ORDER BY o.order_date DESC
     `, [userId]);
-    
-    // Get order items for each order
+
     for (let order of orders) {
-      const items = await db.all(`
+      const [items] = await db.query(`
         SELECT oi.*, p.name, pi.image_url as image
         FROM order_items oi
         JOIN products p ON oi.product_id = p.id
         LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = TRUE
         WHERE oi.order_id = ?
       `, [order.order_id]);
-      
+
       order.items = items;
     }
-    
+
     res.json({ success: true, orders });
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -49,15 +47,9 @@ router.get('/', auth, async (req, res) => {
 router.get('/count', auth, async (req, res) => {
   try {
     const userId = req.user.id;
-    
-    db.query('SELECT COUNT(*) AS orderCount FROM orders WHERE user_id = ?', [userId])
-      .then(([rows]) => {
-        res.json({ success: true, orderCount: rows[0].orderCount });
-      })
-      .catch(err => {
-        console.error('Error fetching order count:', err);
-        res.status(500).json({ success: false, message: 'Failed to fetch order count' });
-      });
+
+    const [rows] = await db.query('SELECT COUNT(*) AS orderCount FROM orders WHERE user_id = ?', [userId]);
+    res.json({ success: true, orderCount: rows[0].orderCount });
   } catch (error) {
     console.error('Error fetching order count:', error);
     res.status(500).json({ success: false, message: 'Server error' });
@@ -73,29 +65,29 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const userId = req.user.id;
     const orderId = req.params.id;
-    
-    // Get order
-    const order = await db.get(`
+
+    const [orderResults] = await db.query(`
       SELECT o.order_id, o.order_date, o.status, o.total, o.shipping_address, o.payment_method
       FROM orders o
       WHERE o.order_id = ? AND o.user_id = ?
     `, [orderId, userId]);
-    
-    if (!order) {
+
+    if (orderResults.length === 0) {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
-    
-    // Get order items
-    const items = await db.all(`
+
+    const order = orderResults[0];
+
+    const [items] = await db.query(`
       SELECT oi.*, p.name, pi.image_url as image
       FROM order_items oi
       JOIN products p ON oi.product_id = p.id
       LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = TRUE
       WHERE oi.order_id = ?
     `, [orderId]);
-    
+
     order.items = items;
-    
+
     res.json({ success: true, order });
   } catch (error) {
     console.error('Error fetching order:', error);
