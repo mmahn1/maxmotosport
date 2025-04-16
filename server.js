@@ -16,15 +16,19 @@ const JSON_FILE = __dirname + "/ponudba/izdelki.json";
 
 // Database connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '', // Ensure this matches your XAMPP MySQL setup
-    database: 'users_db' // Ensure this matches the database you're inspecting
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASS || '', // Ensure this matches your MySQL setup
+    database: process.env.DB_NAME || 'users_db' // Ensure this matches your database name
 });
 
 db.connect(err => {
-    if (err) throw err;
-    console.log('✅ Connected to MySQL Database: users_db');
+    if (err) {
+        console.error('❌ Error connecting to MySQL:', err.stack);
+        return;
+    }
+    console.log('✅ Connected to MySQL!');
 });
 
 db.query('SELECT DATABASE()', (err, results) => {
