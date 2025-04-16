@@ -15,21 +15,23 @@ const app = express();
 const PORT = 3000;
 const JSON_FILE = __dirname + "/ponudba/izdelki.json";
 
-// Database connection
+// Check if running in production (Railway / Hostinger)
+const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
+
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || '', // Ensure this matches your MySQL setup
-    database: process.env.DB_NAME || 'users_db' // Ensure this matches your database name
+  host: isProduction ? process.env.DB_HOST : 'localhost',
+  user: isProduction ? process.env.DB_USER : 'root',
+  password: isProduction ? process.env.DB_PASS : '', // or your local MySQL password
+  database: isProduction ? process.env.DB_NAME : 'users_db',
+  port: isProduction ? process.env.DB_PORT || 3306 : 3306
 });
 
 db.connect(err => {
-    if (err) {
-        console.error('❌ Error connecting to MySQL:', err.stack);
-        return;
-    }
-    console.log('✅ Connected to MySQL!');
+  if (err) {
+    console.error('❌ Error connecting to MySQL:', err.stack);
+    return;
+  }
+  console.log('✅ Connected to MySQL!');
 });
 
 db.query('SELECT DATABASE()', (err, results) => {
