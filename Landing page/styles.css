@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-    
+    background: #fff; /* Set a solid white background */
 }
 
 a {
@@ -375,7 +375,7 @@ section p {
 
 .additional-images.scrollable img {
     width: auto; /* Maintain aspect ratio */
-    height: 400px; /* Set a larger consistent height */
+    height: 300px; /* Reduce height to make the scrollable area smaller */
     object-fit: contain; /* Ensure the entire image fits within the container */
     border-radius: 10px; /* Add rounded corners */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
