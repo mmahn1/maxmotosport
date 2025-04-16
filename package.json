@@ -1,7 +1,7 @@
 {
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js --omit=dev",
     "dev": "nodemon server.js",
     "init-db": "node server/init-db.js",
     "fix-deps": "node fix-vulnerabilities.js"
