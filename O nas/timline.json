@@ -1,0 +1,1278 @@
+[
+  {
+    "id": 1,
+    "name": "Ducati Monster",
+    "description": "Ducati Monster je razred naked motornih koles, ki jih je Ducati predstavil leta 1993. Od takrat je postal eden največjih uspehov Ducatija in pomemben del njihove prodajne linije. Monster je bil zasnovan kot gol motocikel z vidnim motorjem in minimalnim ohišjem, z močnim izraznim značajem.",
+    "imageUrl": "/Slike/timeLine/monster.jpg",
+    "releaseDate": {
+      "from": "1993",
+      "to": "present"
+    },
+    "specs": {
+      "displacement": "803 cc - 1262 cc (odvisno od modela)",
+      "maxPower": "73 KM - 147 KM (odvisno od modela)",
+      "maxSpeed": "200 km/h - 250 km/h (odvisno od modela)",
+      "dryWeight": "166 kg - 188 kg (odvisno od modela)"
+    },
+    "price": "€9,990 - €18,390"
+  },
+  {
+    "id": 2,
+    "name": "Ducati Panigale V4",
+    "description": "Ducati Panigale V4 je super športni motocikel, ki ga je italijanski proizvajalec motociklov Ducati predstavil leta 2018 kot naslednika modela 1299 Panigale. Je prvi serijski motocikel Ducati z V4 motorjem, ki izhaja neposredno iz Desmosedici MotoGP motocikla.",
+    "imageUrl": "/Slike/timeLine/panigale.jpg",
+    "releaseDate": {
+      "from": "2018",
+      "to": "present"
+    },
+    "specs": {
+      "displacement": "1103 cc",
+      "maxPower": "214 KM pri 13,000 vrt/min",
+      "maxSpeed": "preko 300 km/h",
+      "dryWeight": "175 kg"
+    },
+    "price": "€22,990 - €40,000+"
+  },
+  {
+    "id": 1,
+    "name": "Ducati Panigale",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/panigale.jpg",
+    "releaseDate": {
+      "from": "2011",
+      "to": "present"
+    },
+    "price": "18290€",
+    "description": "The Panigale family, which was named after the town of Borgo Panigale, was born in 2011 and includes sports motorcycles manufactured by Ducati. Replacing the Ducati conventional frame, the motorcycles from the Panigale family use a monocoque frame. In 2015 Ducati introduced the Panigale R.",
+    "specs": {
+      "displacement": "890cc",
+      "maxPower": "88kW (120hp) @ 10,750rpm",
+      "maxSpeed": "280 km/h (174 mph)",
+      "dryWeight": "179 kg (395 lb)"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ducati Diavel",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/diavel.jpg",
+    "releaseDate": {
+      "from": "2010",
+      "to": "present"
+    },
+    "price": "26790€",
+    "description": "The Diavel motorcycle was presented in 2010 at the EICMA Motorcycle Show in Milan and produced from 2011 in two versions: the Dark, which is the standard model, and the Carbon, which featured Marchesini wheels, a carbon front mudguard, carbon tank, and seat cowling, and a coated front suspension.",
+    "specs": {
+      "displacement": "1158cc",
+      "maxPower": "124 kW (168 hp) @ 10,750 rpm",
+      "maxSpeed": "270 km/h (168 mph",
+      "dryWeight": "223 kg (492 lb)"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Ducati Monster",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/monster.jpg",
+    "releaseDate": {
+      "from": "1933",
+      "to": "present"
+    },
+    "price": "13590€",
+    "description": "The first Monster motorcycle was built in 1993 somewhere in Bologna, Italy, and was designed by Miguel Angel Galluzzi. The Monster family had a huge success, accounting in 2005 for more than 50 percent of Ducati sales. In addition to that, the Monster was the favorite platform for other custom motorcycle builders. In 2016, the number of Monsters produced was somewhere around 300,000 units.",
+    "specs": {
+      "displacement": "937cc",
+      "maxPower": "111 hp (82 kW) @ 9,250 rpm",
+      "maxSpeed": "225 km/h (140 mph)",
+      "dryWeight": "166 kg (366 lbs)"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Ducati Multistrada",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/multistrada.jpg",
+    "releaseDate": {
+      "from": "2002",
+      "to": "present"
+    },
+    "price": "16990€",
+    "description": "The Multistrada story started way back in 2003 when the Italian motorcycle manufacturer introduced the Ducati Multistrada, a series of V-twin and V4-powered touring-focused machines designed by Pierre Terblanche.",
+    "specs": {
+      "displacement": "890cc",
+      "maxPower": "85 kW (115,6 CV) @ 10750 rpm",
+      "maxSpeed": "210 km/h (130 mph)",
+      "dryWeight": "199 kg (439 lb)"
+    }
+  },
+  {
+    "id": 5,
+    "name": "Ducati Hypermotard",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/hypermotard.jpg",
+    "releaseDate": {
+      "from": "2007",
+      "to": "present"
+    },
+    "price": "13890€",
+    "description": "The Ducati Hypermotard was a supermotard motorcycle built by the Italian Motorcycle manufacturer Ducati, presented at the 2005 EICMA Motorcycle Show in Milan, Italy. The bike was designed by Pierre Terblanche and was awarded \"Best of Show\" minutes after its unveiling.",
+    "specs": {
+      "displacement": "659cc",
+      "maxPower": "77.5 hp (57 kW) @ 9,750 rpm",
+      "maxSpeed": "140 km/h (87 mph)",
+      "dryWeight": "151 kg (333 lbs)"
+    }
+  },
+  {
+    "id": 6,
+    "name": "Ducati Streetfighter",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/streetfighter.jpg",
+    "releaseDate": {
+      "from": "2008",
+      "to": "present"
+    },
+    "price": "16990€",
+    "description": "The Streetfighter was announced in 2008 at the EICMA fair in Milan and was built by Ducati in 2009. It was a converted superbike without fairings, a longer wheelbase, and a wider handlebar. The characteristics of this motorcycle are a powerful engine and an aggressive look. The Streetfighter was built from 2009 to 2011, and the S version from 2009 to 2012.",
+    "specs": {
+      "displacement": "890cc",
+      "maxPower": "88 kW (120 hp) @ 10,750 rpm",
+      "maxSpeed": "255 km/h (158 mph)",
+      "dryWeight": " 178 kg (392 lbs)"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Ducati Scrambler",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/scrambler.jpg",
+    "releaseDate": {
+      "from": "1962",
+      "to": "present"
+    },
+    "price": "10490€",
+    "description": "The Scrambler was initially built by Ducati from 1962 until 1974, especially for the American market. The revived Scrambler was introduced at the 2014 Intermot Motorcycle Show with sales for the U.S. starting in 2015, in seven different configurations: 803cc Classic, Urban Enduro, Icon, Flat Track Pro, Full Throttle, Italia Independent, and the 399cc Sixty2. As of 2017, Ducati made available six different variations of the Ducati Scrambler: Sixty2, Icon, Classic, Full Throttle, Café Racer, and Desert Sled.",
+    "specs": {
+      "displacement": "803cc",
+      "maxPower": "73 hp (54 kW) @ 8,250 rpm",
+      "maxSpeed": "193 km/h (120 mph)",
+      "dryWeight": "170 kg (375 lbs)"
+    }
+  },
+  {
+    "id": 8,
+    "name": "Ducati DesertX",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/desertX.jpg",
+    "releaseDate": {
+      "from": "2023",
+      "to": "present"
+    },
+    "price": "17635€",
+    "description": "In 2023, the Italian motorcycle manufacturer announced the new Ducati DesertX Rally, an off-road machine dedicated to those riders who crave challenging journeys and rallies.",
+    "specs": {
+      "displacement": "937cc",
+      "maxPower": "110 hp (81 kW) @ 9,250 rpm",
+      "maxSpeed": " 200 km/h (124 mph)",
+      "dryWeight": "210 kg (463 lb)"
+    }
+  },
+  {
+    "id": 9,
+    "name": "Ducati Supersport",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/supersport.gif",
+    "releaseDate": {
+      "from": "2017",
+      "to": "present"
+    },
+    "price": "16990€",
+    "description": "In 1988 Ducati started manufacturing the SuperSport, a series of air-cooled four-stroke Desmodromic motorcycles. The 750 Sport and 750 GT were used as a base for the first official SuperSport motorcycles, but featured bodywork style scooped from the Imola bikes. In 1992, a limited edition of the SuperSport was sold under the SuperLight name.",
+    "specs": {
+      "displacement": "937cc",
+      "maxPower": " 110 hp (81 kW) @ 9,000 rpm",
+      "maxSpeed": "240 km/h (149 mph)",
+      "dryWeight": "184 kg (406 lbs)"
+    }
+  },
+  {
+    "id": 10,
+    "name": "Ducati 100",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/ducati 100.jpg",
+    "releaseDate": {
+      "from": "1955",
+      "to": "1966"
+    },
+    "price": "Discontiniued",
+    "description": "Engineer Fabio Taglioni was brought to Ducati in 1954 to design a small, high-performance engine. The result is presented on March 5, 1955, is a beautiful 98 cm3 (49 x 52 mm) which will be quickly updated to 125cc and then to 175cc. This engine is extremely well-designed and will launch Ducati's sporting careers. Marianna is equipped with a four-cylinder air-cooled engine.",
+    "specs": {
+      "displacement": "98cc",
+      "maxPower": "8 hp @ 8,000 rpm",
+      "maxSpeed": "105 km/h (65 mph)",
+      "dryWeight": "100 kg (220 lbs)"
+    }
+  },
+  {
+    "id": 11,
+    "name": "Ducati 1000",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/1000.jpg",
+    "releaseDate": {
+      "from": "1984",
+      "to": "2007"
+    },
+    "price": "Discontiniued",
+    "description": "The 1984 Ducati 1000S2 comes with features such as a 38mm Marzocchi telescopic front fork, dual Marzocchi shocks as a rear suspension, dual front disc brakes, gold-colored cast-aluminium wheels, a dual exhaust system, a dual seat, a half-fairing with a large windscreen, a race-inspired livery, a large, round headlight and an analogue instrument cluster.",
+    "specs": {
+      "displacement": "973cc",
+      "maxPower": " 76 hp @ 6,700 rpm",
+      "maxSpeed": "222 km/h (138 mph)​",
+      "dryWeight": "196 kg (430 lbs)​"
+    }
+  },
+  {
+    "id": 12,
+    "name": "Ducati 1098",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/1098.jpg",
+    "releaseDate": {
+      "from": "2007",
+      "to": "2010"
+    },
+    "price": "Discontiniued",
+    "description": "The Ducati 1098 was a sports machine manufactured by Ducati from 2007 to 2009. The bike was made in three versions: Ducati 1098, 1098S, and 1098R. In 2009, the Ducati 1098 was succeeded by the 1198, while the R version remained in production that year.",
+    "specs": {
+      "displacement": "1099",
+      "maxPower": "160 hp (119 kW) @ 9,750 rpm",
+      "maxSpeed": "280 km/h (174 mph)",
+      "dryWeight": "173 kg (381 lbs)"
+    }
+  },
+  {
+    "id": 13,
+    "name": "Ducati 1198",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/1198.jpg",
+    "releaseDate": {
+      "from": "2008",
+      "to": "2012"
+    },
+    "price": "Discontiniued",
+    "description": "The Ducati 1198 was a sports bike made by the Italian motorcycle manufacturer Ducati from 2009 to 2012.",
+    "specs": {
+      "displacement": "1198,4cc",
+      "maxPower": "170 hp (127 kW) @ 9,750 rpm",
+      "maxSpeed": "299 km/h (186 mph)",
+      "dryWeight": "171 kg (377 lbs)"
+    }
+  },
+  {
+    "id": 14,
+    "name": "Ducati 1200",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/1200.jpg",
+    "releaseDate": {
+      "from": "1964",
+      "to": "1965"
+    },
+    "price": "Discontiniued",
+    "description": "The Ducati Berliner 1260 Apollo was a prototype manufactured in 1964 in only two units. It was powered by a 1,257cc V4 engine that delivered 100 hp and could reach a top speed of 190 kph (120 mph).",
+    "specs": {
+      "displacement": "1257cc",
+      "maxPower": "147 hp (108 kW) @ 9,250 rpm",
+      "maxSpeed": "N/A",
+      "dryWeight": " 189 kg (417 lbs)​"
+    }
+  },
+  {
+    "id": 15,
+    "name": "Ducati 125",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/125.jpg",
+    "releaseDate": {
+      "from": "1955",
+      "to": "1979"
+    },
+    "price": "Discontiniued",
+    "description": "The 1955 Ducati 125 Sport had, at its heart, an air-cooled, four-stroke, 125cc, single cylinder powerplant paired to a four-speed manual transmission that could reach a maximum power output of 10 horsepower at 8500 rpm.",
+    "specs": {
+      "displacement": "124,4cc",
+      "maxPower": "10 hp @ 8,500 rpm",
+      "maxSpeed": "112 km/h (70 mph)",
+      "dryWeight": "100.5 kg (222 lbs)​"
+    }
+  },
+  {
+    "id": 16,
+    "name": "Ducati 160",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/160.jpg",
+    "releaseDate": {
+      "from": "1965",
+      "to": "1971"
+    },
+    "price": "Discontiniued",
+    "description": "The 1965 Ducati 160 Monza Junior sports an air-cooled, four-stroke, 156cc, single cylinder powerplant paired to a four-speed manual transmission and can reach a maximum power output of 10 horsepower at 8000 rpm.",
+    "specs": {
+      "displacement": "156cc",
+      "maxPower": "13 hp @ 8,000 rpm",
+      "maxSpeed": "63 mph (101 km/h)",
+      "dryWeight": "234 lbs (106 kg)"
+    }
+  },
+  {
+    "id": 17,
+    "name": "Ducati 175",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/175.jpg",
+    "releaseDate": {
+      "from": "1957",
+      "to": "1965"
+    },
+    "price": "Discontiniued",
+    "description": "With production of the overhead camshaft singles well underway for 1958 the Formula 3 superseded the Marianna (the Gran Sport's nickname) as a catalogued production racer. The F3 was first offered as a 125 and 175, and from 1960, a 250, and was still largely Marianna based. Almost nothing, however, from the production street bikes was used in the F3.",
+    "specs": {
+      "displacement": "174,5cc",
+      "maxPower": " 11 hp @ 7,500 rpm",
+      "maxSpeed": " 115 km/h (71 mph)",
+      "dryWeight": "102 kg (225 lbs)​"
+    }
+  },
+  {
+    "id": 18,
+    "name": "Ducati 200",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/200.jpg",
+    "releaseDate": {
+      "from": "1959",
+      "to": "1965"
+    },
+    "price": "Discontiniued",
+    "description": "The Ducati 200 Elite (1959) is a classic Italian sportbike known for its sleek design and strong performance, solidifying Ducati's reputation in the late 1950s.",
+    "specs": {
+      "displacement": "204cc",
+      "maxPower": "18 hp @ 7,800 rpm",
+      "maxSpeed": "137 km/h (85 mph)",
+      "dryWeight": " 109 kg (240 lbs"
+    }
+  },
+  {
+    "id": 19,
+    "name": "Ducati 250",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/250.jpg",
+    "releaseDate": {
+      "from": "1961",
+      "to": "1973"
+    },
+    "price": "Discontiniued",
+    "description": "A versatile motorcycle designed for both on-road and light off-road use, popular among enthusiasts for its agility and classic styling.",
+    "specs": {
+      "displacement": "249cc",
+      "maxPower": "18 hp @ 7,500 rpm",
+      "maxSpeed": "120 km/h (75 mph)",
+      "dryWeight": "128 kg (282 lbs)"
+    }
+  },
+  {
+    "id": 20,
+    "name": "Ducati 350",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/350.jpg",
+    "releaseDate": {
+      "from": "1968",
+      "to": "1994"
+    },
+    "price": "Discontiniued",
+    "description": "A sport-oriented motorcycle featuring Ducati's desmodromic valve system, offering enhanced performance and a distinctive riding experience.",
+    "specs": {
+      "displacement": "340,2cc",
+      "maxPower": "27 hp @ 8,500 rpm",
+      "maxSpeed": "130 km/h (81 mph)",
+      "dryWeight": "130 kg (287 lbs"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Ducati 400",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/400.jpg",
+    "releaseDate": {
+      "from": "1986",
+      "to": "1996"
+    },
+    "price": "Discontiniued",
+    "description": "Developed primarily for markets with specific licensing regulations, this model offered the aesthetic appeal of larger Ducati sportbikes in a more accessible package.",
+    "specs": {
+      "displacement": "398cc",
+      "maxPower": "36–46 hp @ 9,000 rpm",
+      "maxSpeed": " 180 km/h (112 mph)",
+      "dryWeight": "173 kg (381 lbs)"
+    }
+  },
+  {
+    "id": 22,
+    "name": "Ducati 450",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/450.jpg",
+    "releaseDate": {
+      "from": "1969",
+      "to": "1974"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 450 was part of Ducati's single-cylinder series, popular for its performance, reliability, and distinctive style in the late '60s and early '70s.",
+    "specs": {
+      "displacement": "436cc",
+      "maxPower": "27hp @ 7000rpm",
+      "maxSpeed": "155 km/h (96 mph)",
+      "dryWeight": "133 kg (293 lbs)"
+    }
+  },
+  {
+    "id": 23,
+    "name": "Ducati 48",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/48.gif",
+    "releaseDate": {
+      "from": "1952",
+      "to": "1958"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 48 was a compact, economical motorcycle ideal for city commuting, widely popular in post-war Italy.",
+    "specs": {
+      "displacement": "48cc",
+      "maxPower": "2hp @ 5500rpm",
+      "maxSpeed": "50 km/h (31 mph)",
+      "dryWeight": "44 kg (97 lbs)"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Ducati 50",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/50.gif",
+    "releaseDate": {
+      "from": "1966",
+      "to": "1969"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 50 was a lightweight, entry-level bike suitable for young riders, offering an affordable way into motorcycling.",
+    "specs": {
+      "displacement": "49cc",
+      "maxPower": "4.2hp @ 8600rpm",
+      "maxSpeed": "80 km/h (50 mph)",
+      "dryWeight": "58 kg (128 lbs)"
+    }
+  },
+  {
+    "id": 25,
+    "name": "Ducati 500",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/500.jpg",
+    "releaseDate": {
+      "from": "1975",
+      "to": "1981"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 500, also known as the parallel twin, represented Ducati's experimentation with parallel twin engines, offering smooth riding and distinct styling.",
+    "specs": {
+      "displacement": "498cc",
+      "maxPower": "46hp @ 8500rpm",
+      "maxSpeed": "175 km/h (109 mph)",
+      "dryWeight": "170 kg (375 lbs)"
+    }
+  },
+  {
+    "id": 26,
+    "name": "Ducati 55",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/55.gif",
+    "releaseDate": {
+      "from": "1955",
+      "to": "1957"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 55 was an economical and practical motorcycle, popular in mid-1950s Italy for its reliability and ease of maintenance.",
+    "specs": {
+      "displacement": "55cc",
+      "maxPower": "2.5hp @ 6000rpm",
+      "maxSpeed": "60 km/h (37 mph)",
+      "dryWeight": "50 kg (110 lbs)"
+    }
+  },
+  {
+    "id": 27,
+    "name": "Ducati 60",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/60.gif",
+    "releaseDate": {
+      "from": "1949",
+      "to": "1951"
+    },
+    "price": "discontinued",
+    "description": "Ducati 60 was one of Ducati's earliest lightweight motorcycles, introducing the brand to a wider audience post-World War II.",
+    "specs": {
+      "displacement": "60cc",
+      "maxPower": "2hp @ 5000rpm",
+      "maxSpeed": "64 km/h (40 mph)",
+      "dryWeight": "45 kg (99 lbs)"
+    }
+  },
+  {
+    "id": 28,
+    "name": "Ducati 600",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/600.jpg",
+    "releaseDate": {
+      "from": "1981",
+      "to": "1984"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 600 Pantah represented a significant technical advancement for Ducati, laying foundations for the modern era of the brand.",
+    "specs": {
+      "displacement": "583cc",
+      "maxPower": "57hp @ 9000rpm",
+      "maxSpeed": "190 km/h (118 mph)",
+      "dryWeight": "180 kg (397 lbs)"
+    }
+  },
+  {
+    "id": 29,
+    "name": "Ducati 620",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/620.jpg",
+    "releaseDate": {
+      "from": "2002",
+      "to": "2006"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 620 Monster combined sporty handling and everyday usability, making it a favorite among new and experienced riders alike.",
+    "specs": {
+      "displacement": "618cc",
+      "maxPower": "60hp @ 9500rpm",
+      "maxSpeed": "190 km/h (118 mph)",
+      "dryWeight": "168 kg (370 lbs)"
+    }
+  },
+  {
+    "id": 30,
+    "name": "Ducati 65",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/65.jpg",
+    "releaseDate": {
+      "from": "1952",
+      "to": "1958"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 65 was known for its simplicity and efficiency, catering to budget-conscious riders of the post-war period.",
+    "specs": {
+      "displacement": "65cc",
+      "maxPower": "2.5hp @ 5600rpm",
+      "maxSpeed": "70 km/h (43 mph)",
+      "dryWeight": "50 kg (110 lbs)"
+    }
+  },
+  {
+    "id": 31,
+    "name": "Ducati 650",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/650.jpg",
+    "releaseDate": {
+      "from": "1985",
+      "to": "1988"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 650 Indiana was Ducati's attempt at a cruiser-style bike, offering relaxed ergonomics and smooth cruising performance.",
+    "specs": {
+      "displacement": "649cc",
+      "maxPower": "53hp @ 8500rpm",
+      "maxSpeed": "180 km/h (112 mph)",
+      "dryWeight": "200 kg (441 lbs)"
+    }
+  },
+  {
+    "id": 32,
+    "name": "Ducati 748",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/748.jpg",
+    "releaseDate": {
+      "from": "1994",
+      "to": "2002"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 748 was celebrated for its superb handling, compact size, and impressive power delivery, making it popular in the superbike segment.",
+    "specs": {
+      "displacement": "748cc",
+      "maxPower": "98hp @ 11000rpm",
+      "maxSpeed": "240 km/h (149 mph)",
+      "dryWeight": "196 kg (432 lbs)"
+    }
+  },
+  {
+    "id": 33,
+    "name": "Ducati 749",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/749.jpg",
+    "releaseDate": {
+      "from": "2003",
+      "to": "2006"
+    },
+    "price": "discontinued",
+    "description": "Ducati 749 offered advanced racing technology and aggressive styling, appealing to enthusiasts who valued performance and aesthetics.",
+    "specs": {
+      "displacement": "748cc",
+      "maxPower": "103hp @ 10000rpm",
+      "maxSpeed": "250 km/h (155 mph)",
+      "dryWeight": "186 kg (410 lbs)"
+    }
+  },
+  {
+    "id": 34,
+    "name": "Ducati 750",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/750.jpg",
+    "releaseDate": {
+      "from": "1971",
+      "to": "1986"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 750 is iconic, featuring Ducati's first L-twin engine, revered for its groundbreaking performance and timeless design.",
+    "specs": {
+      "displacement": "748cc",
+      "maxPower": "60hp @ 8200rpm",
+      "maxSpeed": "200 km/h (124 mph)",
+      "dryWeight": "185 kg (408 lbs)"
+    }
+  },
+  {
+    "id": 35,
+    "name": "Ducati 80",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/80.jpg",
+    "releaseDate": {
+      "from": "1961",
+      "to": "1965"
+    },
+    "price": "discontinued",
+    "description": "Ducati 80 was compact yet powerful enough for daily commuting and leisure riding, appealing to a wide demographic in the 1960s.",
+    "specs": {
+      "displacement": "80cc",
+      "maxPower": "4hp @ 8000rpm",
+      "maxSpeed": "75 km/h (47 mph)",
+      "dryWeight": "64 kg (141 lbs)"
+    }
+  },
+  {
+    "id": 36,
+    "name": "Ducati 800",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/800.jpg",
+    "releaseDate": {
+      "from": "2003",
+      "to": "2007"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 800 series provided a balance of power, handling, and style, suitable for both experienced riders and newcomers alike.",
+    "specs": {
+      "displacement": "803cc",
+      "maxPower": "74hp @ 8250rpm",
+      "maxSpeed": "210 km/h (130 mph)",
+      "dryWeight": "179 kg (395 lbs)"
+    }
+  },
+  {
+    "id": 37,
+    "name": "Ducati 848",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/848.jpg",
+    "releaseDate": {
+      "from": "2008",
+      "to": "2013"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 848 offered exceptional power, handling, and technology, making it a highly regarded middleweight sportbike.",
+    "specs": {
+      "displacement": "849cc",
+      "maxPower": "134hp @ 10000rpm",
+      "maxSpeed": "270 km/h (168 mph)",
+      "dryWeight": "168 kg (370 lbs)"
+    }
+  },
+  {
+    "id": 38,
+    "name": "Ducati 85",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/85.jpg",
+    "releaseDate": {
+      "from": "1958",
+      "to": "1964"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 85 was known for reliability, simple design, and ease of handling, appealing to practical-minded riders.",
+    "specs": {
+      "displacement": "85cc",
+      "maxPower": "6hp @ 7500rpm",
+      "maxSpeed": "85 km/h (53 mph)",
+      "dryWeight": "66 kg (145 lbs)"
+    }
+  },
+  {
+    "id": 39,
+    "name": "Ducati 851",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/851.jpg",
+    "releaseDate": {
+      "from": "1987",
+      "to": "1992"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 851 was Ducati's first superbike featuring a four-valve engine, paving the way for modern superbike performance.",
+    "specs": {
+      "displacement": "851cc",
+      "maxPower": "102hp @ 9000rpm",
+      "maxSpeed": "240 km/h (149 mph)",
+      "dryWeight": "195 kg (430 lbs)"
+    }
+  },
+  {
+    "id": 40,
+    "name": "Ducati 860",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/860.jpg",
+    "releaseDate": {
+      "from": "1974",
+      "to": "1979"
+    },
+    "price": "discontinued",
+    "description": "Ducati 860 combined Italian styling with dependable performance, maintaining Ducati's tradition of sporty and capable road bikes.",
+    "specs": {
+      "displacement": "864cc",
+      "maxPower": "65hp @ 7000rpm",
+      "maxSpeed": "195 km/h (121 mph)",
+      "dryWeight": "223 kg (492 lbs)"
+    }
+  },
+  {
+    "id": 41,
+    "name": "Ducati 888",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/888.jpg",
+    "releaseDate": {
+      "from": "1991",
+      "to": "1994"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 888 set new benchmarks in superbike racing, known for its outstanding power, precision handling, and race-proven pedigree.",
+    "specs": {
+      "displacement": "888cc",
+      "maxPower": "104hp @ 10000rpm",
+      "maxSpeed": "260 km/h (162 mph)",
+      "dryWeight": "188 kg (414 lbs)"
+    }
+  },
+  {
+    "id": 42,
+    "name": "Ducati 900",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/900.gif",
+    "releaseDate": {
+      "from": "1975",
+      "to": "2002"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 900 series was famous for its powerful L-twin engines and classic Italian styling, offering strong performance with iconic Ducati character.",
+    "specs": {
+      "displacement": "904cc",
+      "maxPower": "80hp @ 7500rpm",
+      "maxSpeed": "220 km/h (137 mph)",
+      "dryWeight": "188 kg (414 lbs)"
+    }
+  },
+  {
+    "id": 43,
+    "name": "Ducati 916",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/916.jpg",
+    "releaseDate": {
+      "from": "1994",
+      "to": "1998"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 916 is an iconic superbike, renowned for its revolutionary design and exceptional performance on both street and track.",
+    "specs": {
+      "displacement": "916cc",
+      "maxPower": "114hp @ 9000rpm",
+      "maxSpeed": "260 km/h (162 mph)",
+      "dryWeight": "195 kg (430 lbs)"
+    }
+  },
+  {
+    "id": 44,
+    "name": "Ducati 98",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/98.jpg",
+    "releaseDate": {
+      "from": "1952",
+      "to": "1958"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 98 was a versatile, practical motorcycle designed for everyday use, known for its ease of handling and reliability.",
+    "specs": {
+      "displacement": "98cc",
+      "maxPower": "6hp @ 6500rpm",
+      "maxSpeed": "90 km/h (56 mph)",
+      "dryWeight": "70 kg (154 lbs)"
+    }
+  },
+  {
+    "id": 45,
+    "name": "Ducati 996",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/996.jpg",
+    "releaseDate": {
+      "from": "1999",
+      "to": "2002"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 996 evolved from the legendary 916, featuring improved performance, handling, and aesthetics, dominating the superbike scene.",
+    "specs": {
+      "displacement": "996cc",
+      "maxPower": "112hp @ 8500rpm",
+      "maxSpeed": "265 km/h (165 mph)",
+      "dryWeight": "198 kg (436 lbs)"
+    }
+  },
+  {
+    "id": 46,
+    "name": "Ducati 998",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/998.jpg",
+    "releaseDate": {
+      "from": "2002",
+      "to": "2004"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 998 continued the lineage of iconic superbikes, combining racing heritage with advanced technology and performance.",
+    "specs": {
+      "displacement": "998cc",
+      "maxPower": "123hp @ 9750rpm",
+      "maxSpeed": "270 km/h (168 mph)",
+      "dryWeight": "198 kg (436 lbs)"
+    }
+  },
+  {
+    "id": 47,
+    "name": "Ducati 999",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/999.jpg",
+    "releaseDate": {
+      "from": "2003",
+      "to": "2006"
+    },
+    "price": "discontinued",
+    "description": "The Ducati 999 offered striking design and state-of-the-art technology, representing a new era of Ducati superbikes.",
+    "specs": {
+      "displacement": "998cc",
+      "maxPower": "140hp @ 9750rpm",
+      "maxSpeed": "280 km/h (174 mph)",
+      "dryWeight": "186 kg (410 lbs)"
+    }
+  },
+  {
+    "id": 48,
+    "name": "Ducati Apollo",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/apollo.jpg",
+    "releaseDate": {
+      "from": "1964",
+      "to": "1965"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Apollo was a groundbreaking prototype designed for the American market, known for its powerful V4 engine and distinctive styling.",
+    "specs": {
+      "displacement": "1260cc",
+      "maxPower": "100hp @ 7000rpm",
+      "maxSpeed": "200 km/h (124 mph)",
+      "dryWeight": "270 kg (595 lbs)"
+    }
+  },
+  {
+    "id": 49,
+    "name": "Ducati Brio",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/brio.gif",
+    "releaseDate": {
+      "from": "1963",
+      "to": "1968"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Brio was an affordable scooter featuring Italian styling and practicality, appealing to urban commuters.",
+    "specs": {
+      "displacement": "48cc",
+      "maxPower": "1.5hp @ 5500rpm",
+      "maxSpeed": "50 km/h (31 mph)",
+      "dryWeight": "42 kg (93 lbs)"
+    }
+  },
+  {
+    "id": 50,
+    "name": "Ducati Brisk",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/brisk.gif",
+    "releaseDate": {
+      "from": "1961",
+      "to": "1965"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Brisk was a compact, efficient, and easy-to-handle motorcycle, suitable for city riding and short trips.",
+    "specs": {
+      "displacement": "98cc",
+      "maxPower": "5hp @ 7000rpm",
+      "maxSpeed": "85 km/h (53 mph)",
+      "dryWeight": "75 kg (165 lbs)"
+    }
+  },
+  {
+    "id": 51,
+    "name": "Ducati Cruiser",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/cruiser.jpg",
+    "releaseDate": {
+      "from": "1952",
+      "to": "1954"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Cruiser was Ducati's first attempt at creating a luxury scooter, characterized by its unique styling and advanced features for the era.",
+    "specs": {
+      "displacement": "175cc",
+      "maxPower": "8hp @ 6000rpm",
+      "maxSpeed": "85 km/h (53 mph)",
+      "dryWeight": "103 kg (227 lbs)"
+    }
+  },
+  {
+    "id": 52,
+    "name": "Ducati Cucciolo",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/cucciolo.jpg",
+    "releaseDate": {
+      "from": "1946",
+      "to": "1958"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Cucciolo was Ducati's iconic motorized bicycle engine, which became immensely popular due to its affordability and reliability.",
+    "specs": {
+      "displacement": "48cc",
+      "maxPower": "1hp @ 4500rpm",
+      "maxSpeed": "40 km/h (25 mph)",
+      "dryWeight": "18 kg (40 lbs)"
+    }
+  },
+  {
+    "id": 53,
+    "name": "Ducati Desmo",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/desmo.jpg",
+    "releaseDate": {
+      "from": "1968",
+      "to": "1974"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Desmo introduced Ducati's desmodromic valve system, significantly enhancing engine performance and reliability.",
+    "specs": {
+      "displacement": "450cc",
+      "maxPower": "36hp @ 8500rpm",
+      "maxSpeed": "170 km/h (106 mph)",
+      "dryWeight": "128 kg (282 lbs)"
+    }
+  },
+  {
+    "id": 54,
+    "name": "Ducati Desmosedici RR",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/rr.jpg",
+    "releaseDate": {
+      "from": "2007",
+      "to": "2008"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Desmosedici RR was a road-legal replica of Ducati's MotoGP race bike, renowned for its extreme performance and exclusivity.",
+    "specs": {
+      "displacement": "989cc",
+      "maxPower": "197hp @ 13800rpm",
+      "maxSpeed": "303 km/h (188 mph)",
+      "dryWeight": "171 kg (377 lbs)"
+    }
+  },
+  {
+    "id": 55,
+    "name": "Ducati Elite",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/elite.jpg",
+    "releaseDate": {
+      "from": "1959",
+      "to": "1965"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Elite combined elegant styling with reliable performance, making it a popular choice among enthusiasts in the late '50s and '60s.",
+    "specs": {
+      "displacement": "204cc",
+      "maxPower": "18hp @ 7500rpm",
+      "maxSpeed": "130 km/h (81 mph)",
+      "dryWeight": "104 kg (229 lbs)"
+    }
+  },
+  {
+    "id": 56,
+    "name": "Ducati GT",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/gt.jpg",
+    "releaseDate": {
+      "from": "1971",
+      "to": "1978"
+    },
+    "price": "discontinued",
+    "description": "The Ducati GT series was well-known for combining comfortable touring capabilities with robust performance and reliability.",
+    "specs": {
+      "displacement": "750cc",
+      "maxPower": "57hp @ 8000rpm",
+      "maxSpeed": "200 km/h (124 mph)",
+      "dryWeight": "185 kg (408 lbs)"
+    }
+  },
+  {
+    "id": 57,
+    "name": "Ducati Hyperstrada",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/hyperstrada.jpg",
+    "releaseDate": {
+      "from": "2013",
+      "to": "2016"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Hyperstrada blended practicality with performance, designed for both spirited riding and touring.",
+    "specs": {
+      "displacement": "821cc",
+      "maxPower": "110hp @ 9250rpm",
+      "maxSpeed": "220 km/h (137 mph)",
+      "dryWeight": "181 kg (399 lbs)"
+    }
+  },
+  {
+    "id": 58,
+    "name": "Ducati Mach",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/mach.jpg",
+    "releaseDate": {
+      "from": "1964",
+      "to": "1969"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Mach was recognized for its sporty design and competitive performance in smaller displacement classes.",
+    "specs": {
+      "displacement": "250cc",
+      "maxPower": "24hp @ 8500rpm",
+      "maxSpeed": "160 km/h (99 mph)",
+      "dryWeight": "112 kg (247 lbs)"
+    }
+  },
+  {
+    "id": 59,
+    "name": "Ducati Mark",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/mark.jpg",
+    "releaseDate": {
+      "from": "1967",
+      "to": "1974"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Mark offered practicality, ease of maintenance, and reliable performance, popular among riders seeking daily usability.",
+    "specs": {
+      "displacement": "250cc",
+      "maxPower": "18hp @ 7500rpm",
+      "maxSpeed": "135 km/h (84 mph)",
+      "dryWeight": "118 kg (260 lbs)"
+    }
+  },
+  {
+    "id": 60,
+    "name": "Ducati Mille",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/mille.jpg",
+    "releaseDate": {
+      "from": "1985",
+      "to": "1988"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Mille was a high-performance motorcycle featuring an advanced engine and distinctive Ducati styling, favored by enthusiasts.",
+    "specs": {
+      "displacement": "973cc",
+      "maxPower": "76hp @ 7000rpm",
+      "maxSpeed": "215 km/h (134 mph)",
+      "dryWeight": "204 kg (450 lbs)"
+    }
+  },
+  {
+    "id": 61,
+    "name": "Ducati Pantah",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/pantah.jpg",
+    "releaseDate": {
+      "from": "1979",
+      "to": "1985"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Pantah revolutionized Ducati's engineering approach, laying the groundwork for modern Ducati designs.",
+    "specs": {
+      "displacement": "499cc",
+      "maxPower": "50hp @ 9000rpm",
+      "maxSpeed": "190 km/h (118 mph)",
+      "dryWeight": "180 kg (397 lbs)"
+    }
+  },
+  {
+    "id": 62,
+    "name": "Ducati Paso",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/paso.jpg",
+    "releaseDate": {
+      "from": "1986",
+      "to": "1992"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Paso was known for its fully enclosed aerodynamic fairing, innovative technology, and refined performance.",
+    "specs": {
+      "displacement": "748cc",
+      "maxPower": "72hp @ 8500rpm",
+      "maxSpeed": "210 km/h (130 mph)",
+      "dryWeight": "195 kg (430 lbs)"
+    }
+  },
+  {
+    "id": 63,
+    "name": "Ducati Paul Smart",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/paul smart.jpg",
+    "releaseDate": {
+      "from": "2006",
+      "to": "2007"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Paul Smart commemorated the legendary racer, blending classic Ducati style with modern technology and performance.",
+    "specs": {
+      "displacement": "992cc",
+      "maxPower": "92hp @ 8000rpm",
+      "maxSpeed": "225 km/h (140 mph)",
+      "dryWeight": "181 kg (399 lbs)"
+    }
+  },
+  {
+    "id": 64,
+    "name": "Ducati Piuma",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/piuma.gif",
+    "releaseDate": {
+      "from": "1956",
+      "to": "1959"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Piuma was a lightweight racing motorcycle known for agility and competitive performance on the racing circuits of the 1950s.",
+    "specs": {
+      "displacement": "98cc",
+      "maxPower": "9hp @ 9000rpm",
+      "maxSpeed": "100 km/h (62 mph)",
+      "dryWeight": "58 kg (128 lbs)"
+    }
+  },
+  {
+    "id": 65,
+    "name": "Ducati Siluro",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/siluro.jpg",
+    "releaseDate": {
+      "from": "1956",
+      "to": "1958"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Siluro was designed for racing enthusiasts, known for its aerodynamic form and competitive track performance.",
+    "specs": {
+      "displacement": "125cc",
+      "maxPower": "12hp @ 10000rpm",
+      "maxSpeed": "120 km/h (74 mph)",
+      "dryWeight": "85 kg (187 lbs)"
+    }
+  },
+  {
+    "id": 66,
+    "name": "Ducati Sport",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/sport.jpg",
+    "releaseDate": {
+      "from": "1972",
+      "to": "1981"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Sport provided riders with a sporty yet practical motorcycle, well-regarded for its powerful performance and agility.",
+    "specs": {
+      "displacement": "750cc",
+      "maxPower": "62hp @ 8500rpm",
+      "maxSpeed": "210 km/h (130 mph)",
+      "dryWeight": "182 kg (401 lbs)"
+    }
+  },
+  {
+    "id": 67,
+    "name": "Ducati ST",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/st.jpg",
+    "releaseDate": {
+      "from": "1997",
+      "to": "2007"
+    },
+    "price": "discontinued",
+    "description": "The Ducati ST series blended sportbike performance with touring comfort, catering to riders who valued long-distance comfort without sacrificing agility.",
+    "specs": {
+      "displacement": "944cc",
+      "maxPower": "83hp @ 8500rpm",
+      "maxSpeed": "230 km/h (143 mph)",
+      "dryWeight": "207 kg (456 lbs)"
+    }
+  },
+  {
+    "id": 68,
+    "name": "Ducati Supermono",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/supermono.jpg",
+    "releaseDate": {
+      "from": "1993",
+      "to": "1995"
+    },
+    "price": "discontinued",
+    "description": "The Ducati Supermono was a lightweight racing motorcycle recognized for its innovative design, outstanding handling, and superior track performance.",
+    "specs": {
+      "displacement": "549cc",
+      "maxPower": "75hp @ 10000rpm",
+      "maxSpeed": "225 km/h (140 mph)",
+      "dryWeight": "118 kg (260 lbs)"
+    }
+  },
+  {
+    "id": 69,
+    "name": "Ducati TT",
+    "manufacturer": "Ducati",
+    "imageUrl": "/Slike/timeLine/tt.jpg",
+    "releaseDate": {
+      "from": "1984",
+      "to": "1987"
+    },
+    "price": "discontinued",
+    "description": "The Ducati TT was designed specifically for competitive racing, featuring advanced technology and robust performance characteristics.",
+    "specs": {
+      "displacement": "750cc",
+      "maxPower": "80hp @ 9000rpm",
+      "maxSpeed": "220 km/h (137 mph)",
+      "dryWeight": "172 kg (379 lbs)"
+    }
+  }
+]

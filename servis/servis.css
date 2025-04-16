@@ -1,0 +1,378 @@
+.service-hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/Slike/ducati-service-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    border-radius: 5px;
+}
+
+.service-hero h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.service-hero p {
+    font-size: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+.service-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.service-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 60px;
+    gap: 30px;
+}
+
+.service-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.service-text h2 {
+    color: #e00;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.service-text h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #e00;
+}
+
+.service-text p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.service-image {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.rounded-image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.rounded-image:hover {
+    transform: scale(1.02);
+}
+
+.services-offered {
+    margin-bottom: 60px;
+}
+
+.services-offered h2 {
+    color: #e00;
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.services-offered h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 80px;
+    height: 3px;
+    background-color: #e00;
+    transform: translateX(-50%);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 30px 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-top: 3px solid #e00;
+}
+
+.service-icon {
+    font-size: 40px;
+    color: #e00;
+    margin-bottom: 20px;
+}
+
+.service-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.service-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.service-booking {
+    margin-bottom: 60px;
+    background-color: #f8f8f8;
+    padding: 50px 60px; 
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    max-width: 1100px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.service-booking h2 {
+    color: #e00;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.service-booking p {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.service-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 40px; 
+    width: 100%;
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    padding: 0 5px; 
+}
+
+.form-group.full-width {
+    grid-column: span 2;
+    padding: 0 15px; 
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    transition: border 0.3s ease;
+    box-sizing: border-box; 
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #e00;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(238, 0, 0, 0.1);
+}
+
+.btn-submit {
+    background-color: #e00;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto; 
+    min-width: 250px; 
+    max-width: 100%; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-submit:hover {
+    background-color: #c00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(238, 0, 0, 0.2);
+}
+
+.submission-status {
+    margin: 20px 0;
+}
+
+.success-message,
+.error-message {
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+    animation: fadeIn 0.5s;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-left: 5px solid #5cb85c;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 5px solid #dc3545;
+}
+
+.success-message h3,
+.error-message h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.service-faq {
+    margin-bottom: 60px;
+}
+
+.service-faq h2 {
+    color: #e00;
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.service-faq h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 80px;
+    height: 3px;
+    background-color: #e00;
+    transform: translateX(-50%);
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.faq-question {
+    background-color: #f8f8f8;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #f0f0f0;
+}
+
+.faq-question h3 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+}
+
+.faq-toggle {
+    color: #e00;
+    font-size: 18px;
+    transition: transform 0.3s;
+}
+
+.faq-item.active .faq-toggle {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 500px; 
+}
+
+@media (max-width: 768px) {
+    .service-form {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 20px;
+    }
+    
+    .form-group.full-width {
+        grid-column: span 1;
+        padding: 0 5px;
+    }
+    
+    .service-booking {
+        padding: 30px;
+    }
+    
+    .service-hero h1 {
+        font-size: 32px;
+    }
+    
+    .service-hero p {
+        font-size: 18px;
+    }
+}

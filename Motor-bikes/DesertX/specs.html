@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesertX Family Specifications</title>
+    <link rel="stylesheet" href="specs.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="app">
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline poster="/Slike/fallbackimage.png">
+                <source src="/Motor-bikes/Slike/DesertX/Video.mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-text">
+                <h1>DesertX Family</h1>
+                <h2>All tehnical information you need</h2>
+            </div>
+        </section>
+        
+        <section class="model-options">
+            <ul>
+                <li><a href="?model=DESERTX">DesertX</a></li>
+                <li><a href="?model=DESERTX_DISCOVERY">DesertX Discovery</a></li>
+                <li><a href="?model=DESERTX_RALLY">DesertX Rally</a></li>
+            </ul>
+        </section>
+        
+        <section class="model-specs">
+            <div class="specs-content">
+                <div class="text-specs">
+                    <h3 id="specs-title">RALLY</h3>
+                    <ul id="specs-list">
+                        <!-- Dynamic content will be inserted here -->
+                    </ul>
+                    <button id="go-back-button" class="go-back-btn">Go Back</button>
+                </div>
+                <div class="graph-specs">
+                    <img id="specs-graph" src="/Motor-bikes/Slike/DesertX_specs/RALLY_GRAF.png" alt="Rally Graph">
+                </div>
+            </div>
+        </section>
+
+        <section class="riding-aid-systems">
+            <h2>Electronic Riding Aid Systems</h2>
+            <div class="riding-aid-content">
+                <div class="text-content">
+                    <p class="category" id="aid-category">Safety</p>
+                    <h3 id="aid-title">Cornering ABS</h3>
+                    <p id="aid-text">An anti-lock braking system is a safety system that prevents a vehicle’s wheels from locking during heavy braking. Essentially, the ABS regulates the braking pressure on the wheel, allowing it to continuously have traction on the riding surface. There are different ABS intervention levels, depending on the selected Riding Mode.</p>
+                    <div class="navigation-arrows">
+                        <button id="prev-aid">&lt;</button>
+                        <button id="next-aid">&gt;</button>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <img id="aid-image" src="/Motor-bikes/Slike/DesertX/ABS.jpg" alt="Cornering ABS">
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2 class="gallery-title">Gallery</h2>
+            <p class="gallery-description">Explore the stunning visuals of the DesertX in action. Check out the images below to see the bike from every angle.</p>
+        </section>
+        <section class="additional-images">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 16.jpg" alt="Tall Image" class="grid-item1">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 11.jpg" alt="Small Image Below Tall" class="grid-item2">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 5.jpg" alt="Small Image Top Second Column" class="grid-item3">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 12.jpg" alt="Tall Image Second Column" class="grid-item4">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 10.jpg" alt="Small Image Top Third Column" class="grid-item5">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 14.jpg" alt="Small Image Middle Third Column" class="grid-item6">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 31.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
+        </section>
+        <div id="newsletter-placeholder"></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script>
+        function selectImage(img) {
+            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
+            img.classList.add('selected');
+            document.getElementById('selected-image').src = img.src;
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.location.hash === "#bike-details-container") {
+                document.querySelector("#bike-details-container").scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    </script>
+    <script defer src="/Motor-bikes/DesertX/specs.js"></script>
+</body>
+</html>
+
+

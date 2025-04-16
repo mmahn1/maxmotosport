@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | MaX Motosport</title>
+    <link rel="stylesheet" href="/header-footer/header-footer.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h2>User Dashboard</h2>
+            <ul class="nav-menu">
+                <li class="active" data-page="overview"><i class="icon-overview"></i> Overview</li>
+                <li data-page="orders"><i class="icon-orders"></i> My Orders</li>
+                <li data-page="maintenance"><i class="icon-maintenance"></i> Maintenance</li>
+                <li data-page="profile"><i class="icon-profile"></i> My Profile</li>
+                <li data-page="newsletter"><i class="icon-newsletter"></i> Newsletter</li>
+            </ul>
+            <div class="user-info">
+                <span id="user-name">Loading...</span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="overview-page" class="dashboard-page active">
+                <h1>Welcome to Your Dashboard</h1>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-icon orders-icon"></div>
+                        <div class="card-content">
+                            <h3>My Orders</h3>
+                            <p>View and track your product orders</p>
+                            <span id="order-count" class="count">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon maintenance-icon"></div>
+                        <div class="card-content">
+                            <h3>Maintenance</h3>
+                            <p>Schedule and track your maintenance requests</p>
+                            <span id="maintenance-count" class="count">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon newsletter-icon"></div>
+                        <div class="card-content">
+                            <h3>Newsletter</h3>
+                            <p>Manage your newsletter subscription</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div id="activity-feed">
+                        <p class="loading">Loading activity...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="orders-page" class="dashboard-page">
+                <h1>My Orders</h1>
+                <div class="order-history" id="order-container">
+                    <div class="loading">Loading your orders...</div>
+                </div>
+            </div>
+            
+            <div id="maintenance-page" class="dashboard-page">
+                <h1>Maintenance Services</h1>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="schedule">Schedule Service</button>
+                    <button class="tab-btn" data-tab="history">Service History</button>
+                </div>
+                
+                <div id="schedule-tab" class="tab-content active">
+                    <h2>Schedule a Maintenance Service</h2>
+                    <form id="maintenance-form">
+                        <div class="form-group">
+                            <label for="service-type">Service Type:</label>
+                            <select id="service-type" required>
+                                <option value="">Select a service</option>
+                                <option value="Regular Checkup">Regular Checkup</option>
+                                <option value="Oil Change">Oil Change</option>
+                                <option value="Tire Replacement">Tire Replacement</option>
+                                <option value="Brake Service">Brake Service</option>
+                                <option value="Engine Tune-up">Engine Tune-up</option>
+                                <option value="Other">Other (specify in notes)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicle-info">Vehicle Information:</label>
+                            <input type="text" id="vehicle-info" placeholder="Year, Make, Model" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointment-date">Preferred Date:</label>
+                            <input type="date" id="appointment-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointment-time">Preferred Time:</label>
+                            <select id="appointment-time" required>
+                                <option value="">Select a time</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Additional Notes:</label>
+                            <textarea id="notes" rows="4" placeholder="Please provide any additional information about your service needs"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="primary-btn">Schedule Service</button>
+                    </form>
+                </div>
+                
+                <div id="history-tab" class="tab-content">
+                    <h2>Your Service History</h2>
+                    <div id="maintenance-history">
+                        <div class="loading">Loading your service history...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="profile-page" class="dashboard-page">
+                <h1>My Profile</h1>
+                <div class="profile-container">
+                    <div class="profile-info">
+                        <h2>Personal Information</h2>
+                        <form id="profile-form">
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" disabled>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="full-name">Full Name:</label>
+                                <input type="text" id="full-name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="tel" id="phone">
+                            </div>
+                            
+                            <button type="submit" class="primary-btn">Update Profile</button>
+                        </form>
+                    </div>
+                    
+                    <div class="password-change">
+                        <h2>Change Password</h2>
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password:</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="new-password">New Password:</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password:</label>
+                                <input type="password" id="confirm-password" required>
+                            </div>
+                            
+                            <button type="submit" class="primary-btn">Change Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="newsletter-page" class="dashboard-page">
+                <h1>Newsletter Subscription</h1>
+                <div class="newsletter-container">
+                    <div class="newsletter-status">
+                        <h2>Your Subscription Status</h2>
+                        <div id="subscription-status">Checking status...</div>
+                        <div class="btn-container">
+                            <button id="subscribe-btn" class="primary-btn">Subscribe</button>
+                            <button id="unsubscribe-btn" class="secondary-btn">Unsubscribe</button>
+                        </div>
+                        <div class="note">
+                            <p>By subscribing, you'll receive updates about new products, special offers, and upcoming events from MaX Motosport.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="newsletter-archive">
+                        <h2>Recent Newsletters</h2>
+                        <div id="newsletter-list">
+                            <div class="loading">Loading newsletters...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    
+    <script src="/header-footer/header-footer.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

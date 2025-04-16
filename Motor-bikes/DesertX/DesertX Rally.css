@@ -1,0 +1,409 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use inherited text color */
+}
+
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Ensure the video is not clipped */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Ensure no background color covers the video */
+}
+
+.hero img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Ensure the image spans the full width of the hero section */
+    height: 100%; /* Ensure the image spans the full height of the hero section */
+    object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+    z-index: 1;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 2; /* Ensure the video is on top of other elements */
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1; /* Ensure it appears above the video */
+    background-color: transparent; /* Remove any background color */
+    box-shadow: none; /* Remove any shadow that might appear as an overlay */
+}
+
+.hero-content h1 {
+    font-size: 3rem; /* Increase font size by 20% */
+    margin-bottom: 12px; /* Adjust spacing */
+}
+
+.hero-content p {
+    font-size: 1.44rem; /* Increase font size by 20% */
+    margin-bottom: 24px; /* Adjust spacing */
+}
+
+.hero-content .btn {
+    display: inline-block;
+    padding: 12px 24px; /* Adjust padding */
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1.2rem; /* Increase font size by 20% */
+    transition: background-color 0.3s;
+}
+
+.hero-content .btn:hover {
+    background-color: #c00;
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 60px; /* Move text further up */
+    left: 60px; /* Move text further to the right */
+    color: #fff; /* White text for contrast */
+    font-size: 2.4rem; /* Increase font size by 20% */
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add text shadow for better visibility */
+    z-index: 2; /* Ensure it appears above the video and hero-content */
+    background-color: transparent; /* Remove any background color */
+}
+
+.description-section {
+    text-align: center;
+    padding: 40px; /* Increase padding */
+    background-color: #fff;
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.description-section h2 {
+    color: #e00;
+    font-size: 2.5rem; /* Increase font size */
+    margin-bottom: 20px; /* Add more spacing */
+}
+
+.description-section p {
+    color: #555;
+    font-size: 1.2rem; /* Increase font size */
+    line-height: 1.8; /* Improve readability */
+    margin: 0 auto;
+    max-width: 800px; /* Limit text width */
+}
+
+.model-options {
+    text-align: center;
+    padding: 10px; /* Reduce padding */
+    background-color: #fff;
+    border-radius: 10px; /* Add rounded corners */
+    border: 2px solid #e00; /* Add border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    max-width: 600px; /* Increase width to fit all items side by side */
+    margin: 30px auto; /* Center the box */
+}
+
+.model-options ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remove default margin */
+    display: flex; /* Display items side by side */
+    justify-content: space-between; /* Space out the items */
+    gap: 10px; /* Add spacing between items */
+}
+
+.model-options ul li {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px; /* Add rounded corners */
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.model-options ul li.selected {
+    background-color: #e00; /* Red background for selected model */
+    color: #fff; /* White text for selected model */
+}
+
+.model-options ul li:not(.selected) {
+    background-color: #fff; /* White background for unselected models */
+    color: #000; /* Black text for unselected models */
+}
+
+.image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Add spacing between thumbnails and main image */
+    padding: 20px;
+    background-color: #fff;
+}
+
+.main-image {
+    text-align: center;
+    margin-bottom: 20px; /* Add spacing below the main image */
+}
+
+.main-image img {
+    max-width: 100%; /* Ensure the image fits within its container */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.thumbnail-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add spacing between thumbnails */
+    margin-top: 20px; /* Add spacing above thumbnails */
+}
+
+.thumbnail-images img {
+    width: 100px; /* Increase thumbnail size */
+    height: 100px; /* Increase thumbnail size */
+    border: 2px solid transparent; /* Remove red outline */
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s;
+    cursor: pointer;
+    object-fit: cover; /* Ensure the image fits properly without distortion */
+    image-rendering: auto; /* Ensure proper rendering for high-quality images */
+    filter: blur(0); /* Ensure thumbnails are not blurry */
+}
+
+.thumbnail-images img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    border-color: #e00; /* Add a red border on hover */
+}
+
+.thumbnail-images img.selected {
+    border-color: #e00; /* Highlight selected thumbnail */
+}
+
+.bike-details-container {
+    display: flex;
+    flex-direction: column; /* Stack everything vertically */
+    align-items: center;
+    gap: 20px; /* Add spacing between elements */
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a stronger shadow for contrast */
+    max-width: 1200px;
+    margin: 40px auto; /* Center the container */
+}
+
+.bike-details {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align the content */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    gap: 20px; /* Add spacing between elements */
+    text-align: center; /* Center align text */
+}
+
+.bike-details p {
+    flex: 2; /* Allow the text to take more space */
+    font-size: 1.2rem; /* Increase font size */
+    margin: 10px 0;
+    color: #333;
+    line-height: 1.6; /* Improve readability */
+}
+
+.bike-details .price-and-button {
+    flex: 1; /* Allow the price and button to take less space */
+    text-align: right; /* Align content to the right */
+}
+
+.bike-details p.price {
+    font-size: 1.5rem; /* Make price larger */
+    font-weight: bold;
+    color: #e00; /* Highlight price in red */
+    margin-bottom: 10px; /* Add spacing below the price */
+}
+
+.add-to-cart-btn {
+    padding: 15px 30px; /* Increase button size */
+    font-size: 1.2rem; /* Increase font size */
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #c00;
+}
+
+.additional-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Three columns */
+    grid-template-rows: auto; /* Adjust rows automatically */
+    gap: 10px;
+    padding: 20px;
+    background-color: #fff;
+    max-width: 1200px; /* Limit the width of the grid */
+    margin: 0 auto; /* Center the grid */
+}
+
+.additional-images-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.additional-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.grid-item1 {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 1 / 3; /* Spans two rows (Tall image) */
+}
+
+.grid-item2 {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 3 / 4; /* Below the tall image */
+}
+
+.grid-item3 {
+    grid-column: 2 / 3; /* Second column */
+    grid-row: 1 / 2; /* Top of the second column */
+}
+
+.grid-item4 {
+    grid-column: 2 / 3; /* Second column */
+    grid-row: 2 / 4; /* Spans two rows (Tall image) */
+}
+
+.grid-item5 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 1 / 2; /* Top of the third column */
+}
+
+.grid-item6 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 2 / 3; /* Middle of the third column */
+}
+
+.grid-item7 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 3 / 4; /* Bottom of the third column */
+}
+
+.tech-specs {
+    position: relative; /* Enable positioning for child elements */
+    color: #fff;
+    background-size: contain; /* Ensure the entire image is visible */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image */
+    max-width: 1200px; /* Limit the section width */
+    margin: 20px auto; /* Center the section on the page */
+    height: auto; /* Allow the height to adjust based on the image */
+    aspect-ratio: 16 / 9; /* Maintain the aspect ratio of the image */
+    border-radius: 10px; /* Add rounded corners */
+    overflow: hidden; /* Ensure content stays within the section */
+}
+
+.tech-specs-content {
+    position: absolute; /* Position the content over the background */
+    top: 50%; /* Center vertically */
+    left: 20px; /* Add space from the left */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    max-width: 40%; /* Limit the width of the text content */
+    text-align: left; /* Align text to the left */
+}
+
+.tech-specs-content h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.tech-specs-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.tech-specs-content .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tech-specs-content .btn:hover {
+    background-color: #c00;
+}
+
+.gallery-section {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+}
+
+.gallery-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.gallery-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Add contrast between sections */
+section {
+    padding: 40px 20px;
+    margin-bottom: 20px;
+}
+
+section:nth-child(odd) {
+    background-color: #f5f5f5; /* Light gray for odd sections */
+}
+
+section:nth-child(even) {
+    background-color: #fff; /* White for even sections */
+}
+

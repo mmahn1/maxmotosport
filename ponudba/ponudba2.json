@@ -1,0 +1,20 @@
+[
+    {
+        "id": "bike-wear",
+        "name": "Motorcycle Wear",
+        "image": "/Slike/Ponudba/bikewear.png",
+        "redirectTo": "motorcycle-wear.html"
+    },
+    {
+        "id": "casual-wear",
+        "name": "Casual wear",
+        "image": "/Slike/Ponudba/Everyday.png",
+        "redirectTo": "casual-wear.html"
+    },
+    {
+        "id": "accessories",
+        "name": "Accessories",
+        "image": "/Slike/Ponudba/accessories.png",
+        "redirectTo": "accessories.html"
+    }
+]

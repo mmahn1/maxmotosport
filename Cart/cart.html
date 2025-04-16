@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Max MotoSport</title>
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script defer src="cart.js"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU&callback=initMap&loading=async&libraries=marker"
+        onerror="handleMapScriptError()">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    
+    <div id="header-placeholder"></div>
+    
+    <div class="main-content">
+        <h1>Your Cart</h1>
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="path-to-image.jpg" alt="Product Image"> <!-- Ensure image is displayed -->
+                        Product Name
+                    </td>
+                    <td>€100.00</td>
+                    <td>€200.00</td>
+                    <td>
+                        <input type="number" value="1" min="1"> <!-- Quantity input field -->
+                    </td>
+                    <td>
+                        <button>Remove</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="cart-summary">
+            <h2>Total: <span id="cart-total">€0.00</span></h2>
+            <button id="checkout-btn">Checkout</button>
+        </div>
+    </div>
+    
+    <button id="back-to-top" class="back-to-top" title="Nazaj na vrh">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <div id="newsletter-placeholder"></div>
+    <div id="footer-placeholder"></div>
+    
+    
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XDiavel V4</title>
+    <link rel="stylesheet" href="XDiavel_V4.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script defer src="/Motor-bikes/Diavel/XDiavel_V4.js"></script>
+    <script defer src="/Cart/cart-functions.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="app">
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline poster="/Slike/fallbackimage.png">
+                <source src="/Motor-bikes/Slike/XDiavel_V4/landing.mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-text">
+                
+                <h4>Feet Forward. Heads Turning.</h4>
+                <h1>New XDiavel V4</h1>
+            </div>
+        </section>
+
+        <div class="dare-to-astonish">
+            <h2><strong>Feet Forward. Heads Turning.</strong></h2>
+            <p>
+                The new Ducati XDiavel V4 challenges every convention, bringing that unmistakable Ducati DNA to the cruiser world. With an elegant, muscular and uncompromising silhouette, it dominates the scene with its sculped design and magnetic presence.
+                At its heart, the V4 Granturismo ensures exhilarating performance and smooth delivery with its 168 hp, boosting the riding pleasure without sacrificing on comfort.
+            </p>
+        </div>
+
+        
+
+        <section class="background-image" style="background-image: url('/Motor-bikes/Slike/XDiavel_V4/background.jpg'); height: 500px; background-size: cover; background-position: center; position: relative;">
+        </section>
+        <div class="bike-image-container">
+            <img id="bike-color-image" src="/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp" alt="XDiavel V4 in Burning Red" class="color-bike-image">
+        </div>
+        <section class="bike-details-container">
+            <div class="bike-description">
+                <h2>About the XDiavel V4</h2>
+                <p>
+                    The XDiavel V4 is a perfect blend of performance and style. With its powerful V4 Granturismo engine and cutting-edge technology, it offers an unparalleled riding experience. Its bold design and premium features make it a standout in the cruiser world.
+                </p>
+            </div>
+            <div class="color-options-content">
+                <div class="color-options">
+                    <div class="color-square red selected" data-color="red" onclick="changeColor('red')"></div>
+                    <div class="color-square black" data-color="black" onclick="changeColor('black')"></div>
+                </div>
+                <div class="price-section">
+                    <p class="price">€25 000</p>
+                    <button class="add-to-cart-btn" 
+                        data-id="xdiavelv4" 
+                        data-name="XDiavel V4" 
+                        data-price="25000" 
+                        data-image="/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp" 
+                        data-color="red">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="bike-specs">
+            <h2 class="bike-specs-title">Bike Specs</h2>
+            <div class="specs-container">
+                <div class="specs-image">
+                    <img src="/Motor-bikes/Slike/Diavel_bently/graf.png" alt="Diavel Bently Specs Image">
+                </div>
+                <div class="specs-text">
+                    <ul>
+                        <li>Displacement: 1,158 cc</li>
+                        <li>Power: 168 hp (124 kW) @ 10,750 rpm</li>
+                        <li>Torque: 126 Nm @ 7,500 rpm</li>
+                        <li>Seat Height: 770 mm</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="dare-to-astonish">
+            <h2><strong>A Ducati creation for cruiser lovers.</strong></h2>
+            <p>
+                The XDiavel V4 combines a bold design with cutting-edge technology, a bike that has been completely revamped in every aspect with a strong focus on ergonomics and comfort. A true marriage of sensual beauty and sophisticated technology, thanks to Ducati's unmistakable DNA.
+            </p>
+        </div>
+
+        <section class="gallery-section">
+            <h2 class="gallery-title">Gallery</h2>
+            <p class="gallery-description">Explore the stunning visuals of the XDiavel V4. Check out the images below to see the bike from every angle.</p>
+        </section>
+        <section class="additional-images">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/1.jpg" alt="Image 1">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/2.jpg" alt="Image 2">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/3.jpg" alt="Image 3">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/4.jpg" alt="Image 4">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/5.jpg" alt="Image 5">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/6.jpg" alt="Image 6">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/7.jpg" alt="Image 7">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/8.jpg" alt="Image 8">
+            <img src="/Motor-bikes/Slike/XDiavel_V4/9.jpg" alt="Image 9">
+        </section>
+        <div id="newsletter-placeholder"></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script>
+        function selectImage(img) {
+            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
+            img.classList.add('selected');
+            document.getElementById('selected-image').src = img.src;
+        }
+
+        function changeColor(color) {
+            const bikeImage = document.getElementById('bike-color-image');
+            const addToCartButton = document.querySelector('.add-to-cart-btn');
+
+            if (color === 'red') {
+                bikeImage.src = '/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp'; // Image for red option
+                addToCartButton.dataset.image = '/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp';
+                addToCartButton.dataset.color = 'red';
+            } else if (color === 'black') {
+                bikeImage.src = '/Motor-bikes/Slike/XDiavel_V4/black.webp'; // Image for black option
+                addToCartButton.dataset.image = '/Motor-bikes/Slike/XDiavel_V4/black.webp';
+                addToCartButton.dataset.color = 'black';
+            }
+
+            document.querySelectorAll('.color-square').forEach(square => square.classList.remove('selected'));
+            document.querySelector(`.color-square[data-color="${color}"]`).classList.add('selected');
+        }
+    </script>
+</body>
+</html>

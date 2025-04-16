@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesertX Discovery</title>
+    <link rel="stylesheet" href="DesertX Discovery.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script defer src="/Cart/cart-functions.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="app">
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline poster="/Slike/fallbackimage.png">
+                <source src="/Motor-bikes/Slike/DesertX/Video.mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-text">
+                <h1>DesertX Discovery</h1>
+                <h2>DREAM Wilder. Discover</h2>
+            </div>
+        </section>
+        <section class="description-section">
+            <h2>DREAM Wilder. Discover</h2>
+            <p>Exploration. Fun. Performance.
+                A true off-road spirit that invites you to leave the ordinary behind and chase the horizon. The DesertX isn't just a bike — it's a call to adventure. Designed to conquer new terrains and built to withstand the unknown, it sparks a craving for discovery with every glance. Its bold design and rugged performance promise more than just a ride — they promise a journey. With the DesertX trim, you're not limited by maps or paved roads. You’re free to carve your own path, to venture where few have gone, and to write your own story in the dust of the unexplored. No boundaries. No limits. Just pure, unfiltered adventure.</p>
+        </section>
+        <section class="model-options">
+            <ul>
+                <li><a href="DesertX.html#bike-details-container">DesertX</a></li>
+                <li class="selected"><a href="DesertX Discovery.html#bike-details-container">DesertX Discovery</a></li>
+                <li><a href="DesertX Rally.html#bike-details-container">DesertX Rally</a></li>
+            </ul>
+        </section>
+        <section id="bike-details-container" class="bike-details-container">
+            <div class="image-gallery">
+                <div class="main-image">
+                    <img id="selected-image" src="/Motor-bikes/Slike/DesertX Discovery/Slika 1.webp" alt="DesertX">
+                </div>
+                <div class="thumbnail-images">
+                    <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 1.webp" alt="Thumbnail 1" onclick="selectImage(this)" class="selected">
+                    <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 2.webp" alt="Thumbnail 2" onclick="selectImage(this)">
+                    <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 3.webp" alt="Thumbnail 3" onclick="selectImage(this)">
+                    <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 4.webp" alt="Thumbnail 4" onclick="selectImage(this)">
+                </div>
+            </div>
+            <div class="bike-details">
+                <p>The DesertX Discovery trim includes a dedicated Thrilling Black and Ducati Red livery created with adhesive graphics to protect surfaces from scratches and a comprehensive package of standard accessories to make it even better suited to exploration.</p>
+                <div class="price-and-button">
+                    <p class="price">Price: 20 000€</p>
+                    <button class="add-to-cart-btn" 
+                        data-id="desertx-discovery" 
+                        data-name="DesertX Discovery" 
+                        data-price="20000" 
+                        data-image="/Motor-bikes/Slike/DesertX Discovery/Slika 1.webp">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+        <section class="tech-specs" style="background-image: url('/Motor-bikes/Slike/DesertX/tech-specs.jpg');">
+            <div class="tech-specs-content">
+                <h3>Tech Specs</h3>
+                <p>All the off-road attitude of DesertX and a comprehensive package of standard accessories dedicated to exploration in the purest sense.</p>
+                <a href="/Motor-bikes/DesertX/specs.html" class="btn">Learn More</a>
+            </div>
+        </section>
+        <section class="gallery-section">
+            <h2 class="gallery-title">Gallery</h2>
+            <p class="gallery-description">Explore the stunning visuals of the DesertX in action. Check out the images below to see the bike from every angle.</p>
+        </section>
+        <section class="additional-images">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 16.jpg" alt="Tall Image" class="grid-item1">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 11.jpg" alt="Small Image Below Tall" class="grid-item2">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 5.jpg" alt="Small Image Top Second Column" class="grid-item3">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 12.jpg" alt="Tall Image Second Column" class="grid-item4">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 10.jpg" alt="Small Image Top Third Column" class="grid-item5">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 14.jpg" alt="Small Image Middle Third Column" class="grid-item6">
+            <img src="/Motor-bikes/Slike/DesertX Discovery/Slika 31.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
+        </section>
+        <div id="newsletter-placeholder"></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script>
+        function selectImage(img) {
+            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
+            img.classList.add('selected');
+            document.getElementById('selected-image').src = img.src;
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.location.hash === "#bike-details-container") {
+                document.querySelector("#bike-details-container").scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    </script>
+</body>
+</html>
+``` 
+
+

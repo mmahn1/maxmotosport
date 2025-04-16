@@ -1,0 +1,502 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    
+}
+
+a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use inherited text color */
+}
+
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/Motor-bikes/Slike/Diavel_V4/Landing image.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-image {
+    display: none; /* Hide the <picture> element since the background image is now applied via CSS */
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for perfect centering */
+    text-align: center; /* Center text */
+    color: #fff; /* Ensure text is visible */
+    z-index: 2; /* Ensure it appears above the video */
+    max-width: 600px; /* Limit text width for better readability */
+}
+
+.hero-text h1 {
+    font-size: 2.5rem; /* Reduce font size slightly */
+    margin-bottom: 50px; /* Increase space below the title */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Improve text visibility */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Ensure no overflow */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Improve text visibility */
+}
+
+.hero-text .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    position: relative; /* Ensure button is positioned correctly */
+    top: 20px;
+}
+
+.hero-text .btn:hover {
+    background-color: #c00;
+}
+
+.hero-text h1 {
+    margin-bottom: 0; /* Remove space between h1 and h3 */
+}
+
+.hero-text h3 {
+    margin-top: 0; /* Ensure no extra margin above h3 */
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 2; /* Ensure the video is on top of other elements */
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1; /* Ensure it appears above the video */
+    background-color: transparent; /* Remove any background color */
+    box-shadow: none; /* Remove any shadow that might appear as an overlay */
+}
+
+.hero-content h1 {
+    font-size: 3rem; /* Increase font size by 20% */
+    margin-bottom: 12px; /* Adjust spacing */
+}
+
+.hero-content p {
+    font-size: 1.44rem; /* Increase font size by 20% */
+    margin-bottom: 24px; /* Adjust spacing */
+}
+
+.hero-content .btn {
+    display: inline-block;
+    padding: 12px 24px; /* Adjust padding */
+    
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1.2rem; /* Increase font size by 20% */
+    transition: background-color 0.3s;
+}
+
+
+
+.customer-testimonials {
+    background-color: #f8f8f8; /* Match background color */
+    padding: 80px 0; /* Adjust padding */
+    text-align: center;
+}
+
+.customer-testimonials h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.customer-testimonials .section-intro {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.testimonials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px; /* Adjust gap */
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.testimonial {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: white;
+    box-shadow: var(--card-shadow);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial .quote-icon {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.testimonial .quote {
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.testimonial .author {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.testimonial .author .name {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.testimonial .author .bike {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.about-us-button-container {
+    margin-top: 20px;
+    text-align: center; /* Center the button */
+}
+
+.about-us-button-container .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.about-us-button-container .btn:hover {
+    background-color: #c00;
+}
+
+.limited-edition-description {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.limited-edition-description h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.limited-edition-description p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.special-offer-title {
+    text-align: center;
+    padding: 20px;
+    
+    color: #fff;
+}
+
+.special-offer-title h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Updated bike details section */
+.bike-details-section {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text for contrast */
+    padding: 40px 20px;
+}
+
+.bike-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bike-image img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.bike-info {
+    text-align: left;
+}
+
+.bike-info h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #e00; /* Highlighted title in red */
+}
+
+.bike-info p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #fff; /* White text for description */
+}
+
+.bike-info .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff; /* White text for price */
+}
+
+.bike-info .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.bike-info .btn:hover {
+    background-color: #c00;
+}
+
+/* General Section Styling */
+section {
+    padding: 60px 20px;
+    margin-bottom: 40px;
+    
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+section h2 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+/* Product Section */
+.product-section {
+    background-color: #fff; /* White background */
+}
+
+/* Product Section Button */
+.product-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.product-button-container .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.product-button-container .btn:hover {
+    background-color: #c00;
+}
+
+/* Scrollable Image Section */
+.additional-images.scrollable {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+    padding: 10px 0; /* Add some padding */
+    scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
+    scrollbar-color: #e00 #f5f5f5; /* For Firefox: red thumb, light gray track */
+}
+
+.additional-images.scrollable .scroll-container {
+    display: inline-flex; /* Align images in a single row */
+    gap: 20px; /* Add spacing between images */
+}
+
+.additional-images.scrollable img {
+    width: auto; /* Maintain aspect ratio */
+    height: 400px; /* Set a larger consistent height */
+    object-fit: contain; /* Ensure the entire image fits within the container */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    cursor: pointer; /* Indicate interactivity */
+    transition: transform 0.3s; /* Smooth scaling effect */
+}
+
+.additional-images.scrollable img:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Edge, Safari) */
+.additional-images.scrollable::-webkit-scrollbar {
+    height: 8px; /* Adjust scrollbar height */
+}
+
+.additional-images.scrollable::-webkit-scrollbar-thumb {
+    background-color: #e00; /* Red scrollbar thumb */
+    border-radius: 10px; /* Rounded scrollbar thumb */
+}
+
+.additional-images.scrollable::-webkit-scrollbar-track {
+    background-color: #f5f5f5; /* Light gray scrollbar track */
+    border-radius: 10px; /* Rounded scrollbar track */
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #fff; /* White background */
+    text-align: center;
+}
+
+.contact-section form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-section input,
+.contact-section textarea {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.contact-section input:focus,
+.contact-section textarea:focus {
+    border-color: #e00;
+}
+
+.contact-section button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-section button:hover {
+    background-color: #c00;
+}
+
+/* Services Section */
+.services-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.services-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.services-text {
+    text-align: left;
+}
+
+.services-text h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.services-text p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.services-button-container {
+    margin-top: 20px;
+    text-align: center; /* Center the button */
+}
+
+.services-button-container .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.services-button-container .btn:hover {
+    background-color: #c00;
+}
+

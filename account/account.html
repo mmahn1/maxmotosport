@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data:;
+    connect-src 'self' http://localhost:3000;">
+    <title>Account - Login / Register</title>
+    <link rel="stylesheet" href="account.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="account-container">
+        <h2>Welcome to MaX Motosport</h2>
+        
+        <div class="toggle-buttons">
+            <button id="showLogin" class="active">Login</button>
+            <button id="showRegister">Register</button>
+        </div>
+
+        <div id="loginForm" class="form-container">
+            <h3>Login</h3>
+            <form onsubmit="event.preventDefault(); login();">
+                <input type="text" id="loginUsername" placeholder="Username" required autocomplete="username">
+                <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit">Login</button>
+            </form>
+            <p class="form-text">Forgot your password? <a href="#" id="forgotPassword">Reset it here</a></p>
+        </div>
+
+        <div id="registerForm" class="form-container hidden">
+            <h3>Register</h3>
+            <form onsubmit="event.preventDefault(); register();">
+                <input type="text" id="registerUsername" placeholder="Username" required>
+                <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
+                <input type="password" id="registerPassword" placeholder="Password" required autocomplete="new-password">
+                <div class="password-requirements">
+                    <p>Password must contain:</p>
+                    <ul>
+                        <li>At least 8 characters</li>
+                        <li>At least one uppercase letter</li>
+                        <li>At least one number</li>
+                    </ul>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        
+        <div id="message-container" class="message" style="display: none;"></div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    
+    <script src="/header-footer/header-footer.js"></script>
+    <script defer src="account.js"></script> 
+</body>
+</html>

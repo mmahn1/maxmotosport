@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | MaX Motosport</title>
+    <link rel="stylesheet" href="/header-footer/header-footer.css">
+    <link rel="stylesheet" href="/account/account.css">
+    <style>
+        .account-container {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .button-link {
+            display: inline-block;
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        
+        .button-link:hover {
+            background-color: #d60000;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="account-container">
+        <h1>My Account</h1>
+        
+        <div class="section">
+            <h2>Account Information</h2>
+            <p>Manage your personal information and password.</p>
+            <a href="/user-dashboard/dashboard.html" class="button-link">Go to Dashboard</a>
+        </div>
+        
+        <div class="section">
+            <h2>Orders</h2>
+            <p>View your order history and track current orders.</p>
+            <a href="/user-dashboard/dashboard.html#orders" class="button-link">View Orders</a>
+        </div>
+        
+        <div class="section">
+            <h2>Maintenance Services</h2>
+            <p>Schedule maintenance services and view your service history.</p>
+            <a href="/user-dashboard/dashboard.html#maintenance" class="button-link">Maintenance Services</a>
+        </div>
+        
+        <div class="section">
+            <h2>Newsletter</h2>
+            <p>Manage your newsletter subscription.</p>
+            <a href="/user-dashboard/dashboard.html#newsletter" class="button-link">Newsletter Settings</a>
+        </div>
+        
+        <div class="section">
+            <button id="logout-btn" class="button-link" style="border: none; cursor: pointer;">Logout</button>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    
+    <script src="/header-footer/header-footer.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('role');
+            localStorage.removeItem('userId');
+            
+            window.location.href = '/account/account.html';
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/account/account.html';
+            }
+        });
+    </script>
+</body>
+</html>

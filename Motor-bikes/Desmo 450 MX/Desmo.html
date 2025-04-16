@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desmo MX 450</title>
+    <link rel="stylesheet" href="Desmo.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script defer src="/Motor-bikes/Desmo 450 MX/Desmo.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="app">
+        <section class="hero">
+            <video class="hero-video" autoplay muted loop playsinline poster="/Slike/fallbackimage.png">
+                <source src="/Motor-bikes/Slike/Desmo MX 450/Landing video.mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-text">
+                <h2>New Ducati</h2>
+                <h1>Desmo450 MX</h1>
+                
+            </div>
+        </section>
+        <section class="description-section">
+            <h2>The dawn of a new era: the first Ducati motocross bike</h2>
+            <p>Born to compete, developed on track. The Desmo450 MX is the first Ducati motocross bike with desmodromic timing designed to carry Borgo Panigale racing DNA off-road. Lightweight, powerful, essential, it combines advanced technology and maximum performance to ensure speed, control and pure adrenaline.</p>
+        </section>
+
+        <section class="bike-details-container">
+            <div class="image-gallery">
+                <div class="main-image">
+                    <img id="selected-image" src="/Motor-bikes/Slike/Desmo MX 450/main.png" alt="Desmo450 MX">
+                </div>
+                
+            </div>
+            <div class="bike-details">
+                <div>
+                    <h3>Developed on the racetrack, in the Ducati tradition.</h3>
+                    <p>The Desmo450 MX was born out of a desire to expand and engage new enthusiasts. Launched in 2021, it fully embodies Ducati's development philosophy: to experiment and refine in competitions solutions intended later for production motorcycles.</p>
+                </div>
+                <div class="price-and-button">
+                    <p class="price">Price: N/A</p>
+                    <button class="add-to-cart">Coming Soon</button>
+                </div>
+            </div>
+        </section>
+        <section class="desertx-sound-section">
+            <div class="desertx-sound-content">
+                <h3>Play sound! Listen to the sound of the Desmo450 MX</h3>
+                <p>The first motocross bike with desmodromic timing. Enjoy the sound of the Desmo450 MX, Ducati’s first foray into the off-road world.</p>
+                <button id="play-pause-button" type="button" class="play-button">▶</button>
+                <audio id="desertx-audio" preload="auto" controls style="display: none;">
+                    <source src="/Motor-bikes/Slike/Desmo MX 450/sound.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </section>
+        <section class="bike-specs">
+            <h2 class="bike-specs-title">Bike Specs</h2>
+            <div class="specs-container">
+                <div class="specs-image">
+                    <img src="/Motor-bikes/Slike/Diavel_bently/graf.png" alt="Diavel Bently Specs Image">
+                </div>
+                <div class="specs-text">
+                    <ul>
+                        <li>Displacement: 1,158 cc</li>
+                        <li>Power: 168 hp (124 kW) @ 10,750 rpm</li>
+                        <li>Torque: 126 Nm @ 7,500 rpm</li>
+                        <li>Seat Height: 770 mm</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section class="gallery-section">
+            <h2 class="gallery-title">Gallery</h2>
+            <p class="gallery-description">Explore the stunning visuals of the Desmo450 MX in action. Check out the images below to see the bike from every angle.</p>
+        </section>
+        <section class="additional-images scrollable">
+            <div class="scroll-container">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/1.jpg" alt="Tall Image">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/2.jpg" alt="Small Image Below Tall">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/3.jpg" alt="Small Image Top Second Column">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/4.jpg" alt="Tall Image Second Column">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/5.jpg" alt="Small Image Top Third Column">
+                <img src="/Motor-bikes/Slike/Desmo MX 450/6.jpg" alt="Small Image Middle Third Column">
+            </div>
+        </section>
+        <div id="newsletter-placeholder"></div>
+    </div>
+    <div id="footer-placeholder"></div>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script>
+        function selectImage(img) {
+            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
+            img.classList.add('selected');
+            document.getElementById('selected-image').src = img.src;
+        }
+        document.getElementById('desertx-audio').load();
+    </script>
+</body>
+</html>
+
+

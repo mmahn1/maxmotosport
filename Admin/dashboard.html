@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | MaX Motosport</title>
+    <link rel="stylesheet" href="/header-footer/header-footer.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="nav-menu">
+                <li class="active" data-page="orders"><i class="icon-orders"></i> Maintenance Orders</li>
+                <li data-page="products"><i class="icon-products"></i> Manage Products</li>
+                <li data-page="newsletter"><i class="icon-newsletter"></i> Newsletter</li>
+                <li data-page="users"><i class="icon-users"></i> User Management</li>
+            </ul>
+            <div class="admin-info">
+                <span id="admin-name">Loading...</span>
+                <button id="logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="orders-page" class="dashboard-page active">
+                <h1>Maintenance Orders</h1>
+                <div class="filter-controls">
+                    <select id="status-filter">
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="date" id="date-filter">
+                    <button id="clear-filters">Clear Filters</button>
+                </div>
+                <div class="order-list" id="order-container">
+                    <div class="loading">Loading orders...</div>
+                </div>
+            </div>
+            
+            <div id="products-page" class="dashboard-page">
+                <h1>Manage Products</h1>
+                <button id="add-product-btn" class="primary-btn">Add New Product</button>
+                <div id="product-list">
+                    <div class="loading">Loading products...</div>
+                </div>
+            </div>
+            
+            <div id="newsletter-page" class="dashboard-page">
+                <h1>Newsletter</h1>
+                <div class="newsletter-container">
+                    <div class="newsletter-form">
+                        <h2>Send Newsletter</h2>
+                        <form id="newsletter-form">
+                            <div class="form-group">
+                                <label for="subject">Subject:</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Content:</label>
+                                <textarea id="content" name="content" rows="10" required></textarea>
+                                <div class="editor-buttons">
+                                    <button type="button" onclick="formatText('bold')">Bold</button>
+                                    <button type="button" onclick="formatText('italic')">Italic</button>
+                                    <button type="button" onclick="formatText('link')">Link</button>
+                                    <button type="button" onclick="formatText('h2')">Heading</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn primary-btn">Send Newsletter</button>
+                            </div>
+                        </form>
+                        <div id="send-status"></div>
+                    </div>
+                    
+                    <div class="subscribers-panel">
+                        <h2>Subscribers</h2>
+                        <div class="subscriber-count">Loading subscriber count...</div>
+                        <div class="subscriber-list">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Subscribed Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subscribers-table-body">
+                                    <tr>
+                                        <td colspan="2">Loading subscribers...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="users-page" class="dashboard-page">
+                <h1>User Management</h1>
+                <div class="user-list" id="users-container">
+                    <div class="loading">Loading users...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    
+    <script src="/header-footer/header-footer.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

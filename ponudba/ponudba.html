@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="ponudba.css">
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/header-footer/header-footer.js"></script>
+    <script defer src="/Newsletter/newsletter.js"></script>
+    <script defer src="ponudba.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div id="app">
+        <div id="header-placeholder"></div> <!-- Header will be inserted dynamically -->
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Explore Our Exclusive Ducati Collection</h1>
+            <p>Discover the perfect ride for every adventure.</p>
+            <a href="#page-title"><button class="cta-btn">Shop Now</button></a>
+        </div>
+
+        <!-- Section Divider -->
+        <div class="section-divider"></div>
+
+        <div class="main-content">
+        <h1 id="page-title">Our Products</h1>  
+
+        <!-- Bikes Section -->
+        <h2 class="section-title">Bikes</h2>
+        <div id="bikes-container"></div> <!-- Bikes list -->
+
+        <!-- Preview Section -->
+        <div id="preview-section" class="preview-section" style="display: none;">
+            <div class="preview-header">
+                <h2 id="preview-title">Select an item</h2>
+                <span class="close-btn" onclick="closePreview()">&times;</span>
+            </div>
+
+            <div class="tab-container" id="tab-container"></div> <!-- Tabs for Overview, Specs, etc. -->
+            
+            <div class="preview-content">
+                <img id="preview-image" class="preview-img" src="" alt="">
+                <div id="preview-text" class="preview-text" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- Accessories Section -->
+        <h2 class="section-title">Accessories</h2>
+        <div id="accessories-container"></div> <!-- Accessories list -->
+        </div>
+
+        <!-- Section Divider -->
+        <div class="section-divider"></div>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <div class="container">
+                <h2>Our customers' opinions</h2>
+                <p class="section-intro">What our satisfied customers say about their experiences with Max MotoSport</p>
+                
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <p class="quote">The team at Max MotoSport don't just sell motorcycles - they sell passion and experience. Their knowledge and dedication are unmatched.</p>
+                        <div class="author">
+                            <p class="name">Andrej K.</p>
+                            <p class="bike">Ducati Panigale V2 owner</p>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <p class="quote">The service at Max MotoSport is always top notch. My Panigale is always in the best hands when I bring it here.</p>
+                        <div class="author">
+                            <p class="name">Maja P.</p>
+                            <p class="bike">Owner of the Ducati Panigale V4</p>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <p class="quote">As a beginner in the world of Ducati, I received invaluable advice and support. They listen and understand the needs of their customers.</p>
+                        <div class="author">
+                            <p class="name">Luka B.</p>
+                            <p class="bike">Ducati DesertX Rally owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <div id="newsletter-placeholder"></div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script defer src="/Newsletter/newsletter.js"></script>
+</body>
+</html>

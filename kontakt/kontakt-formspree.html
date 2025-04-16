@@ -1,0 +1,38 @@
+
+<form id="contact-form" class="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
+    <div class="form-group">
+        <label for="name">Ime in priimek *</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="email">E-pošta *</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="phone">Telefonska številka</label>
+        <input type="tel" id="phone" name="phone">
+    </div>
+    
+    <div class="form-group">
+        <label for="subject">Zadeva *</label>
+        <input type="text" id="subject" name="subject" required>
+    </div>
+    
+    <div class="form-group full-width">
+        <label for="message">Sporočilo *</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+    
+    <div class="form-group full-width">
+        <div class="checkbox-group">
+            <input type="checkbox" id="privacy" name="privacy" required>
+            <label for="privacy">Strinjam se s <a href="/privacy-policy">politiko zasebnosti</a> in dovolim uporabo mojih podatkov za obdelavo povpraševanja. *</label>
+        </div>
+    </div>
+    
+    <div class="form-group full-width">
+        <button type="submit" class="btn-submit" id="submit-button">Pošlji sporočilo</button>
+    </div>
+</form>

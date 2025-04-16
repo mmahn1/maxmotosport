@@ -1,0 +1,693 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use inherited text color */
+}
+
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('/Motor-bikes/Slike/Diavel_V4/Landing image.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-image {
+    display: none; /* Hide the <picture> element since the background image is now applied via CSS */
+}
+
+.hero-text {
+    position: absolute;
+    color: white;
+    text-align: left; /* Align text to the left */
+    z-index: 1;
+    left: 10%; /* Keep the text slightly to the left */
+    bottom: 20%; /* Move text higher from the bottom */
+    transform: translateY(50%); /* Adjust for vertical alignment */
+    padding-bottom: 450px;
+}
+
+.hero-text h1 {
+    margin-bottom: 0; /* Remove space between h1 and h3 */
+}
+
+.hero-text h3 {
+    margin-top: 0; /* Ensure no extra margin above h3 */
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: 2; /* Ensure the video is on top of other elements */
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    z-index: 1; /* Ensure it appears above the video */
+    background-color: transparent; /* Remove any background color */
+    box-shadow: none; /* Remove any shadow that might appear as an overlay */
+}
+
+.hero-content h1 {
+    font-size: 3rem; /* Increase font size by 20% */
+    margin-bottom: 12px; /* Adjust spacing */
+}
+
+.hero-content p {
+    font-size: 1.44rem; /* Increase font size by 20% */
+    margin-bottom: 24px; /* Adjust spacing */
+}
+
+.hero-content .btn {
+    display: inline-block;
+    padding: 12px 24px; /* Adjust padding */
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 1.2rem; /* Increase font size by 20% */
+    transition: background-color 0.3s;
+}
+
+.hero-content .btn:hover {
+    background-color: #c00;
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 60px; /* Move text further up */
+    left: 60px; /* Move text further to the right */
+    color: #fff; /* White text for contrast */
+    font-size: 2.4rem; /* Increase font size by 20% */
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add text shadow for better visibility */
+    z-index: 2; /* Ensure it appears above the video and hero-content */
+    background-color: transparent; /* Remove any background color */
+}
+
+.background-image {
+    background-image: url('/Motor-bikes/Slike/Diavel_bently/background.jpg');
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.model-image {
+    display: block;
+    margin: 0 auto; /* Remove extra margin */
+    max-width: 100%;
+    position: relative;
+    top: -420px; /* Adjusted to move it slightly higher */
+    z-index: 1;
+}
+
+.description-section {
+    text-align: center;
+    padding: 40px;
+    border-radius: 10px; /* Keep rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Keep subtle shadow */
+    background-color: transparent; /* Remove white background */
+}
+
+.description-section h2 {
+    color: #e00;
+    font-size: 2.5rem; /* Increase font size */
+    margin-bottom: 20px; /* Add more spacing */
+}
+
+.description-section p {
+    color: #555;
+    font-size: 1.2rem; /* Increase font size */
+    line-height: 1.8; /* Improve readability */
+    margin: 0 auto;
+    max-width: 800px; /* Limit text width */
+}
+
+.image-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Add spacing between thumbnails and main image */
+    padding: 20px;
+    background-color: #fff;
+}
+
+.thumbnail-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add spacing between thumbnails */
+    margin-top: 20px; /* Add spacing above thumbnails */
+}
+
+.thumbnail-images img {
+    width: 100px; /* Increase thumbnail size */
+    height: 100px; /* Increase thumbnail size */
+    border: 2px solid transparent; /* Remove red outline */
+    border-radius: 5px;
+    transition: transform 0.3s, border 0.3s;
+    cursor: pointer;
+    object-fit: cover; /* Ensure the image fits properly without distortion */
+    image-rendering: auto; /* Ensure proper rendering for high-quality images */
+    filter: blur(0); /* Ensure thumbnails are not blurry */
+}
+
+.thumbnail-images img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    border-color: #e00; /* Add a red border on hover */
+}
+
+.thumbnail-images img.selected {
+    border-color: #e00; /* Highlight selected thumbnail */
+}
+
+.bike-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bike-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px;
+    max-width: 1200px;
+    position: relative;
+    top: -500px; /* Move the section up by 400px */
+    padding: 20px;
+    align-items: center;
+}
+
+.bike-description {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.8;
+}
+
+.bike-description h2 {
+    font-size: 2rem;
+    color: #e00;
+    margin-bottom: 10px;
+}
+
+.color-options-content {
+    text-align: left;
+}
+
+.color-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.color-square {
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.color-square.red {
+    background-color: #6B0000; /* Blazing Red */
+}
+
+.color-square.black {
+    background-color: #352F36; /* Black Lava */
+}
+
+.color-square.selected {
+    border-color: #000;
+    transform: scale(1.1);
+}
+
+.price-section {
+    margin-top: 10px;
+}
+
+.price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.add-to-cart-btn {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #c00;
+    transform: scale(1.05);
+}
+
+.bike-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns side by side */
+    gap: 20px; /* Add spacing between columns */
+    align-items: start; /* Align items at the top */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: transparent; /* Remove white background */
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.bike-description {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-square {
+    width: 30px;
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.color-square.red {
+    background-color: #6B0000; /* Blazing Red */
+}
+
+.color-square.black {
+    background-color: #352F36; /* Black Lava */
+}
+
+.color-square.selected {
+    border-color: #000;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e00;
+}
+
+.add-to-cart {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #c00;
+}
+
+.additional-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    grid-template-rows: repeat(3, auto); /* Three rows */
+    gap: 10px; /* Add spacing between grid items */
+    padding: 20px;
+    background-color: transparent; /* Remove white background */
+    max-width: 1200px; /* Limit the width of the grid */
+    margin: 0 auto; /* Center the grid */
+}
+
+.additional-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.additional-images-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.grid-item1 {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 1 / 3; /* Spans two rows (Tall image) */
+}
+
+.grid-item2 {
+    grid-column: 1 / 2; /* First column */
+    grid-row: 3 / 4; /* Below the tall image */
+}
+
+.grid-item3 {
+    grid-column: 2 / 3; /* Second column */
+    grid-row: 1 / 2; /* Top of the second column */
+}
+
+.grid-item4 {
+    grid-column: 2 / 3; /* Second column */
+    grid-row: 2 / 4; /* Spans two rows (Tall image) */
+}
+
+.grid-item5 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 1 / 2; /* Top of the third column */
+}
+
+.grid-item6 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 2 / 3; /* Middle of the third column */
+}
+
+.grid-item7 {
+    grid-column: 3 / 4; /* Third column */
+    grid-row: 3 / 4; /* Bottom of the third column */
+}
+
+.tech-specs {
+    background-color: #000 !important; /* Force background to black */
+    color: #fff; /* Ensure text is white for contrast */
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.tech-specs-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+    align-items: center;
+}
+
+.tech-specs-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tech-specs-details h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #e00; /* Highlighted title in red */
+}
+
+.tech-specs-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.tech-specs-details ul li {
+    margin-bottom: 10px;
+}
+
+.tech-specs-content {
+    position: absolute; /* Position the content over the background */
+    top: 50%; /* Center vertically */
+    left: 20px; /* Add space from the left */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    max-width: 40%; /* Limit the width of the text content */
+    text-align: left; /* Align text to the left */
+}
+
+.tech-specs-content h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.tech-specs-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.tech-specs-content .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.tech-specs-content .btn:hover {
+    background-color: #c00;
+}
+
+.gallery-section {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 20px;
+    background-color: transparent; /* Remove white background */
+}
+
+.gallery-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.gallery-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Add contrast between sections */
+section {
+    padding: 40px 20px;
+    margin-bottom: 20px;
+}
+
+section:nth-child(odd) {
+    background-color: #f5f5f5; /* Light gray for odd sections */
+}
+
+section:nth-child(even) {
+    background-color: #fff; /* White for even sections */
+}
+
+.bike-specs {
+    padding: 20px 20px; /* Reduce padding */
+    background-color: #fff;
+    margin-top: -370px; /* Move the section higher to eliminate blank space */
+}
+
+.bike-specs-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #555; /* Dark grey color */
+    margin-bottom: 20px;
+}
+
+.specs-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.specs-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.specs-text {
+    text-align: left;
+}
+
+.specs-text h2 {
+    font-size: 2rem;
+    color: #e00;
+    margin-bottom: 20px;
+}
+
+.specs-text ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.specs-text ul li {
+    margin-bottom: 10px;
+}
+
+.dare-to-astonish {
+    text-align: left; /* Align text to the left */
+    max-width: 800px; /* Limit the width of the section */
+    margin: 40px auto; /* Center the section horizontally with spacing above and below */
+    padding: 0 20px; /* Add padding for better spacing */
+}
+
+.dare-to-astonish h2 {
+    font-size: 2.5rem; /* Match the font size in the image */
+    font-weight: bold; /* Make the text bold */
+    color: #000; /* Black color for the title */
+    margin-bottom: 20px; /* Add spacing below the title */
+}
+
+.dare-to-astonish p {
+    font-size: 1.2rem; /* Match the font size in the image */
+    color: #333; /* Dark gray for the paragraph text */
+    line-height: 1.8; /* Improve readability */
+}
+
+.color-options-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.bike-image-container {
+    position: absolute;
+    top: -440px; /* Adjust as needed to overlap the background image */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Ensure it appears above the background image */
+}
+
+.bike-image-container {
+    flex: 1;
+    position: relative;
+    text-align: center;
+}
+
+.color-bike-image {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    z-index: 3;
+}
+
+.color-options-content {
+    flex: 1;
+    text-align: left;
+    padding-left: 40px;
+}
+
+.color-description h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.color-description p {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.color-options {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.color-square {
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.color-square.red {
+    background-color: #6B0000; /* Blazing Red */
+}
+
+.color-square.black {
+    background-color: #352F36; /* Black Lava */
+}
+
+.color-square.selected {
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+.price-section {
+    margin-top: 20px;
+}
+
+.price {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.add-to-cart {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #c00;
+    transform: scale(1.05);
+}
+
+
+

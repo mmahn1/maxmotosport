@@ -1,0 +1,40 @@
+{
+  "name": "max-motosport",
+  "version": "1.0.0",
+  "description": "MaX Motosport website with admin dashboard and e-commerce features",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "init-db": "node server/init-db.js",
+    "fix-deps": "node fix-vulnerabilities.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.13.0",
+    "nodemailer": "^6.9.5",
+    "sqlite": "^4.2.1",
+    "sqlite3": "^5.1.6"
+  },
+  "overrides": {
+    "semver": "^7.5.4",
+    "word-wrap": "^1.2.4",
+    "eslint-plugin-es": "^4.1.0",
+    "postcss": "^8.4.31",
+    "simple-update-notifier": {
+      "semver": "^7.5.4"
+    }
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

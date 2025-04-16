@@ -1,0 +1,107 @@
+.newsletter {
+    padding: 60px 0;
+    margin-top: 40px;
+   
+}
+
+.newsletter-container {
+    max-width: 800px; 
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    
+    border-top: 2px solid #e00;
+}
+
+.newsletter-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center; 
+}
+
+.newsletter-content h2 {
+    color: #222;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.newsletter-container h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.newsletter-content p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.newsletter-form {
+    display: flex;
+    margin-bottom: 15px;
+    max-width: 500px; 
+    margin: 0 auto 15px; 
+}
+
+#newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+#newsletter-form input[type="email"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+}
+
+.newsletter-form input:focus {
+    border-color: #ff4500;
+}
+
+.newsletter-form .btn {
+    border-radius: 0 4px 4px 0;
+    padding: 12px 25px;
+    font-size: 16px;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+#newsletter-form button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#newsletter-form button:hover {
+    background-color: #c00;
+}
+
+.newsletter-disclaimer {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+}

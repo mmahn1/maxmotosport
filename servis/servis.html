@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service and maintenance | MaX Motosport</title>
+    <link rel="stylesheet" href="/header-footer/header-footer.css">
+    <link rel="stylesheet" href="servis.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="/header-footer/header-footer.js"></script>
+    <script src="servis.js"></script>
+    <link rel="stylesheet" href="/Newsletter/newsletter.css">
+    <script defer src="/Newsletter/newsletter.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <main class="main-content">
+        <div class="service-hero">
+            <h1>Service and maintenance</h1>
+            <p>Professional service for your engine</p>
+        </div>
+
+        <div class="service-content">
+            <section class="service-intro">
+                <div class="service-text">
+                    <h2>Authorized Ducati service</h2>
+                    <p>MaX Motosport is an authorized Ducati motorcycle repair shop in Slovenia. Our technicians are trained and certified by Ducati, ensuring the highest quality service and maintenance for your motorcycle.</p>
+                    <p>Using genuine parts and the latest diagnostic equipment, we ensure that your Ducati is always in top condition and ready for the road.</p>
+                </div>
+                <div class="service-image">
+                    <img src="/Slike/ducati-service-hero.jpg" alt="Pooblaščeni servis Ducati" class="rounded-image">
+                </div>
+            </section>
+
+            <section class="services-offered">
+                <h2>Our services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-tools"></i></div>
+                        <h3>Regular services</h3>
+                        <p>Regular service checks according to manufacturer specifications to maintain warranty and optimal performance.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-oil-can"></i></div>
+                        <h3>Oil and filter change</h3>
+                        <p>High-quality oils and original filters for a long life for your engine.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-cogs"></i></div>
+                        <h3>Diagnostics</h3>
+                        <p>State-of-the-art computer diagnostics for accurate detection and repair of errors.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <h3>Performance setting</h3>
+                        <p>Optimizing engine performance for more power and better responsiveness.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-clock"></i></div>
+                        <h3>Preparing for the season</h3>
+                        <p>Proper preparation of the engine for the start of the motorcycle season after winter rest.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-battery-full"></i></div>
+                        <h3>Battery maintenance</h3>
+                        <p>Testing, charging and changing batteries for reliable ignition at all times.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="service-booking">
+                <h2>Book an appointment</h2>
+                <p>To book a service, please fill out the form below or call us at <strong>+386 1 234 5678</strong>.</p>
+                
+                <form id="service-form" class="service-form" action="/api/service-booking" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name and surname *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telephone number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="model">Engine model *</label>
+                        <input type="text" id="model" name="model" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service-type">Type of service *</label>
+                        <select id="service-type" name="service_type" required>
+                            <option value="Redni servis" selected>Regular service</option>
+                            <option value="Menjava olja in filtrov">Oil and filter change</option>
+                            <option value="Diagnostika">Diagnostics</option>
+                            <option value="Nastavitev zmogljivosti">Performance settings</option>
+                            <option value="Priprava na sezono">Preparing for the season</option>
+                            <option value="Drugo">Other (describe in message)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Desired date *</label>
+                        <input type="date" id="date" name="requested_date" required>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <div class="submission-status" id="submission-status"></div>
+                        <button type="submit" class="btn-submit">Send an inquiry</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="service-faq">
+                <h2>Frequently asked questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How often does a Ducati engine need to be serviced?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ducati recommends regular servicing every 12,000 km or 12 months, depending on the model. For exact intervals, please check your motorcycle's service booklet or contact us.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I have a non-Ducati motorcycle serviced by you?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we service all brands of motorcycles. Our technicians have extensive knowledge and experience with various brands, but we specialize in Ducati.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long does the service take?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Regular service usually takes 1-2 business days, depending on the scope of work and the busyness of the service. For larger interventions, we will inform you of the estimated time when we receive the engine.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you also offer home pickup of the motorcycle?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, for an additional fee we offer a service of picking up and delivering the motorcycle to your home or desired location. Contact us for more information.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div id="newsletter-placeholder"></div>
+    <div id="footer-placeholder"></div>
+    
+    
+    
+</body>
+</html>

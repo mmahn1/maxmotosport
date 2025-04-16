@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Verify Your Email</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="padding: 20px 0;">
+            <tr>
+                <td align="center" valign="top">
+                    <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border: 1px solid #dddddd; border-radius: 3px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);">
+                        <!-- Header -->
+                        <tr>
+                            <td align="center" valign="top" style="background-color: #4CAF50; padding: 20px; color: #ffffff; border-radius: 3px 3px 0 0;">
+                                <h1 style="margin: 0; font-size: 24px; font-weight: bold;">Please Verify Your Email</h1>
+                            </td>
+                        </tr>
+                        <!-- Body -->
+                        <tr>
+                            <td align="left" valign="top" style="padding: 30px;">
+                                <p style="margin-top: 0; color: #555555;">Hello {{username}},</p>
+                                <p style="color: #555555;">Thank you for subscribing to the MaxMotoSport Shop newsletter. To complete your subscription, please verify your email address by clicking the button below:</p>
+                                
+                                <!-- Verification Button -->
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0;">
+                                    <tr>
+                                        <td align="center">
+                                            <table border="0" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td align="center" bgcolor="#4CAF50" style="border-radius: 40px;">
+                                                        <a href="{{verificationLink}}" target="_blank" style="font-size: 18px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 15px 40px; border-radius: 40px; display: inline-block; font-weight: bold;">
+                                                            VERIFY EMAIL
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                <p style="color: #555555;">If the button above doesn't work, please copy and paste the following link into your web browser:</p>
+                                <p style="background-color: #f8f8f8; padding: 12px; border: 1px solid #eeeeee; color: #555555; word-break: break-all;">{{verificationLink}}</p>
+                                
+                                <p style="color: #555555;">If you did not sign up for our newsletter, you can safely ignore this email.</p>
+                                
+                                <p style="color: #555555; margin-bottom: 0;">Best regards,<br />MaxMotoSport Shop Team</p>
+                            </td>
+                        </tr>
+                        <!-- Footer -->
+                        <tr>
+                            <td align="center" valign="top" style="padding: 20px; border-top: 1px solid #eeeeee; color: #999999; font-size: 12px;">
+                                <p style="margin: 0;">© 2023 MaxMotoSport Shop. All rights reserved.</p>
+                                <p style="margin: 5px 0 0 0;">This is an automated message. Please do not reply.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
