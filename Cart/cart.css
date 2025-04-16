@@ -7,7 +7,9 @@ body {
     color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 1000vh;
+    margin-top: 600px; /* Blank space above the table */
+    margin-bottom: 600px; 
 }
 
 .main-content {
@@ -30,9 +32,9 @@ h1 {
 
 /* Minimalistic Cart Table */
 #cart-table {
+    /* Blank space below the table */
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
     font-size: 16px;
     color: #333;
 }
@@ -100,34 +102,34 @@ h1 {
     margin-bottom: 10px;
 }
 
-#checkout-btn {
-    padding: 10px 20px;
-    background: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 5px;
+/* Common button styling */
+button, #checkout-btn {
+    background-color: #ff0000; /* Consistent red color */
+    color: #fff;
+    border: 2px solid #ff0000; /* Consistent outline */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+button {
+    background-color: #ff0000; /* Ducati Red */
+    color: #fff;
+    border: 2px solid #ff0000;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Add padding for better spacing */
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-#checkout-btn:hover {
-    background: #cc0000;
-}
-
-/* Actions Buttons */
-button {
-    padding: 8px 12px;
-    background: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-    background: #cc0000;
+    background-color: #cc0000; /* Darker red on hover */
+    border-color: #cc0000;
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+button:hover, #checkout-btn:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    border-color: #cc0000;
 }
 
 /* Back to Top Button */

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const timelineContainer = document.querySelector('.vertical-timeline');
             if (timelineContainer) {
                 timelineContainer.innerHTML = 
-                    '<div class="error">Oprostite, prišlo je do napake pri nalaganju podatkov.</div>';
+                    '<div class="error">Sorry, there was an error loading the data.</div>';
             }
         });
 
@@ -43,111 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         testImg.src = '../Slike/ducati-showroom.jpg';
     }
 
-    function handleMapError() {
-        const mapElement = document.getElementById('interactive-map');
-        if (mapElement) {
-            mapElement.innerHTML = `
-                <div class="map-fallback">
-                    <div class="map-fallback-text">Interaktivni zemljevid trenutno ni na voljo</div>
-                    <div class="map-fallback-address">
-                        <i class="fas fa-map-marker-alt"></i> Kotnikova ulica 5, 1000 Ljubljana
-                    </div>
-                    <img src="../Slike/location-map.png" alt="Lokacija trgovine" 
-                         onerror="this.onerror=null; this.src='../Slike/static-map.jpg'; this.onerror=function(){this.style.display='none'; this.parentElement.innerHTML += '<p>Slika zemljevida ni na voljo</p>';}">
-                    <a href="https://goo.gl/maps/AyBKqpAfPARuQnYj6" target="_blank" rel="noopener noreferrer" class="map-link">
-                        <i class="fas fa-external-link-alt"></i> Odpri v Google Maps
-                    </a>
-                </div>
-            `;
-        }
-    }
-
-    function handleMapScriptError() {
-        console.warn('Failed to load Google Maps API script');
-        handleMapError();
-    }
-    
-    let map;
-    function initMap() {
-        try {
-            if (!window.google || !window.google.maps) {
-                console.warn('Google Maps API not available');
-                handleMapError();
-                return;
-            }
-            
-            const scriptElements = document.querySelectorAll('script');
-            let apiKeyIssue = false;
-            
-            for (const script of scriptElements) {
-                if (script.src && script.src.includes('maps.googleapis.com')) {
-                    if (script.src.includes('REPLACE_WITH_YOUR_ACTUAL_API_KEY') || 
-                        script.src.includes('YOUR_API_KEY')) {
-                        console.warn('Google Maps API key not provided. Using fallback display instead.');
-                        apiKeyIssue = true;
-                        break;
-                    }
-                }
-            }
-            
-            if (apiKeyIssue) {
-                handleMapError();
-                return;
-            }
-                        const storeLocation = { lat: 46.054208, lng: 14.509716 };
-            
-            const mapElement = document.getElementById("interactive-map");
-            if (!mapElement) {
-                console.error('Map element not found');
-                return;
-            }
-            
-            map = new google.maps.Map(mapElement, {
-                zoom: 16,
-                center: storeLocation,
-                mapTypeControl: true,
-                streetViewControl: true,
-                fullscreenControl: true,
-                zoomControl: true,
-            });
-            
-            const marker = new google.maps.Marker({
-                position: storeLocation,
-                map: map,
-                title: "Max MotoSport",
-                animation: google.maps.Animation.DROP,
-            });
-            
-            const infoContent = `
-                <div class="map-info-window">
-                    <h3>Max MotoSport</h3>
-                    <p>Uradni Ducati prodajalec</p>
-                    <p><strong>Odpiralni čas:</strong><br>
-                    Pon - Pet: 9:00 - 18:00<br>
-                    Sob: 9:00 - 13:00</p>
-                    <p><strong>Telefon:</strong> +386 1 234 5678</p>
-                </div>
-            `;
-            
-            const infoWindow = new google.maps.InfoWindow({
-                content: infoContent,
-            });
-            
-            marker.addListener("click", () => {
-                infoWindow.open(map, marker);
-            });
-            
-            infoWindow.open(map, marker);
-        } catch (error) {
-            console.error('Error initializing Google Map:', error);
-            handleMapError();
-        }
-    }
-    
-    window.initMap = initMap;
-    
-    window.gm_authFailure = handleMapError;
-
     document.querySelectorAll('.member-image img').forEach(img => {
         img.onload = function() {
             if (this.naturalHeight > this.naturalWidth) {
@@ -161,25 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
-    function handleMapError() {
-        const mapElement = document.getElementById('interactive-map');
-        if (mapElement) {
-            mapElement.innerHTML = `
-                <div class="map-fallback">
-                    <div class="map-fallback-text">Interaktivni zemljevid trenutno ni na voljo</div>
-                    <div class="map-fallback-address">
-                        <i class="fas fa-map-marker-alt"></i> Kotnikova ulica 5, 1000 Ljubljana
-                    </div>
-                    <img src="../Slike/static-map.jpg" alt="Lokacija trgovine" 
-                         onerror="this.style.display='none'">
-                    <a href="https://goo.gl/maps/1BkqFwSvjTrqeCLu6" target="_blank" rel="noopener noreferrer" class="map-link">
-                        <i class="fas fa-external-link-alt"></i> Odpri v Google Maps
-                    </a>
-                </div>
-            `;
-        }
-    }
 
     (function() {
         emailjs.init("YOUR_EMAILJS_USER_ID"); 
@@ -292,9 +168,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactForm.innerHTML = `
                     <div class="form-success">
                         <i class="fas fa-check-circle"></i>
-                        <h3>Hvala za vaše sporočilo!</h3>
-                        <p>Odgovorili vam bomo v najkrajšem možnem času.</p>
-                        <button type="button" class="close-success-btn">Zapri</button>
+                        <h3>Thank you for your message!</h3>
+                        <p>We will respond as soon as possible.</p>
+                        <button type="button" class="close-success-btn">Close</button>
                     </div>
                 `;
                 
@@ -313,9 +189,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactForm.innerHTML = `
                     <div class="form-success">
                         <i class="fas fa-times-circle" style="color: #d32f2f;"></i>
-                        <h3>Napaka pri pošiljanju sporočila</h3>
-                        <p>Prišlo je do napake. Prosimo, poskusite znova ali nas kontaktirajte neposredno na maxmotosport.shop@gmail.com.</p>
-                        <button type="button" class="close-success-btn">Zapri</button>
+                        <h3>Error sending message</h3>
+                        <p>An error occurred. Please try again or contact us directly at maxmotosport.shop@gmail.com.</p>
+                        <button type="button" class="close-success-btn">Close</button>
                     </div>
                 `;
                 
@@ -375,29 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-if (typeof window.initMap !== 'function') {
-    window.initMap = function() {
-        const mapElement = document.getElementById('interactive-map');
-        if (mapElement && mapElement.innerHTML.trim() === '') {
-            const handleMapError = function() {
-                mapElement.innerHTML = `
-                    <div class="map-fallback">
-                        <div class="placeholder-img">
-                            <span>Interaktivni zemljevid trenutno ni na voljo</span>
-                            <p>Nahajamo se na Ljubljanska cesta 123, 1000 Ljubljana</p>
-                        </div>
-                        <a href="https://goo.gl/maps/WZYpzSdEMDpES31S6" target="_blank" class="map-link">
-                            <i class="fas fa-external-link-alt"></i> Odpri v Google Maps
-                        </a>
-                    </div>
-                `;
-            };
-            
-            handleMapError();
-        }
-    };
-}
-
 function setupDetailOverlayListeners() {
     const overlay = document.getElementById('timelineDetailOverlay');
     const closeDetailBtn = document.querySelector('.close-detail');
@@ -440,7 +293,7 @@ function initializeTimelineControls() {
         timelineContent.classList.toggle('minimized');
         
         if (timelineContent.classList.contains('minimized')) {
-            toggleBtn.textContent = 'Razširi časovnico';
+            toggleBtn.textContent = 'Expand timeline';
             const activeFilter = document.querySelector('.filter-btn.active');
             const filter = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
             
@@ -451,7 +304,7 @@ function initializeTimelineControls() {
                 })
                 .catch(() => {}); 
         } else {
-            toggleBtn.textContent = 'Minimiziraj časovnico';
+            toggleBtn.textContent = 'Minimize timeline';
             const showMoreBtn = document.querySelector('.timeline-show-more');
             if (showMoreBtn) showMoreBtn.remove();
         }
@@ -469,9 +322,9 @@ function initializeTimelineControls() {
             });
         }
         
-        skipBtn.textContent = 'Preskočeno!';
+        skipBtn.textContent = 'Skipped!';
         setTimeout(() => {
-            skipBtn.textContent = 'Preskoči časovnico';
+            skipBtn.textContent = 'Skip timeline';
         }, 2000);
     });
 
@@ -519,7 +372,7 @@ function initializeTimelineControls() {
             const endYear = endYearSelect.value;
             
             if (parseInt(startYear) > parseInt(endYear)) {
-                alert('Začetno leto ne more biti večje od končnega leta.');
+                alert('The starting year cannot be greater than the ending year.');
                 return;
             }
             
@@ -612,7 +465,7 @@ function displayTimeline(data, filter) {
     filteredData = [...filteredData].sort((a, b) => parseInt(a.releaseDate.from) - parseInt(b.releaseDate.from));
     
     if (filteredData.length === 0) {
-        container.innerHTML = '<div class="no-results">Ni najdenih modelov za izbrane filtre.</div>';
+        container.innerHTML = '<div class="no-results">No models found for the selected filters.</div>';
         return;
     }
     
@@ -622,13 +475,13 @@ function displayTimeline(data, filter) {
         const showMoreContainer = document.createElement('div');
         showMoreContainer.className = 'timeline-show-more';
         showMoreContainer.innerHTML = `
-            <button class="show-more-btn">Prikaži vse modele</button>
+            <button class="show-more-btn">Show all models</button>
         `;
         
         showMoreContainer.querySelector('.show-more-btn').addEventListener('click', function() {
             timelineContent.classList.remove('minimized');
             const toggleBtn = document.getElementById('toggleTimelineBtn');
-            if (toggleBtn) toggleBtn.textContent = 'Minimiziraj časovnico';
+            if (toggleBtn) toggleBtn.textContent = 'Minimize timeline';
             
             this.parentElement.remove();
             
@@ -648,37 +501,37 @@ function displayTimelineItems(items, container) {
     const eras = [
         { 
             year: 1950, 
-            label: '1950-te', 
-            title: '1950-te: Začetki Ducati motociklov',
-            description: 'V tem obdobju so se majhni in lahki motocikli Ducati začeli uveljavljati po drugi svetovni vojni. Podjetje se je preusmerilo iz izdelave radijskih komponent v proizvodnjo motociklov. Leta 1946 se je pojavil prvi Ducati motocikel Cucciolo ("mladič") - v bistvu motor, ki se je lahko pritrdil na kolo. Obdobje je zaznamoval razvoj majhnih enocilindrskih motorjev in ustanovitev Ducatija kot proizvajalca kakovostnih motociklov.',
+            label: '1950s', 
+            title: '1950s: The beginnings of Ducati motorcycles',
+            description: "During this period, Ducati's small, lightweight motorcycles began to gain popularity after World War II. The company shifted from manufacturing radio components to producing motorcycles. In 1946, the first Ducati motorcycle, the Cucciolo (little boy), appeared - essentially a motorcycle that could be attached to a bicycle. The period was marked by the development of small single-cylinder engines and the establishment of Ducati as a manufacturer of quality motorcycles.",
             image: '../Slike/timeLine/cucciolo.jpg'
         },
         { 
             year: 1960, 
-            label: '1960-te', 
-            title: '1960-te: Razvoj in širitev modelov',
-            description: 'V šestdesetih letih prejšnjega stoletja je Ducati razširil svojo ponudbo z raznolikimi modeli, od majhnih skuterjev do zmogljivejših enocilindrskih motorjev. Leta 1968 je Ducati predstavil legendarni Ducati Mark 3 Desmo s 350 kubičnimi centimetri, ki je bil prvi serijski motor z revolucionarnim desmodromičnim sistemom ventilov. To desetletje je zaznamoval tudi Ducati Apollo, ambiciozen vendar nikoli dokončan projekt za ustvarjanje motocikla z V4 motorjem s prostornino 1260cc.',
+            label: '1960s', 
+            title: '1960s: Development and expansion of models',
+            description: 'In the 1960s, Ducati expanded its range with a variety of models, from small scooters to more powerful single-cylinder engines. In 1968, Ducati introduced the legendary 350cc Ducati Mark 3 Desmo, the first production motorcycle to feature the revolutionary Desmodromic valve system. The decade was also marked by the Ducati Apollo, an ambitious but never-completed project to create a 1260cc V4 motorcycle.',
             image: '../Slike/timeLine/desmo.jpg'
         },
         { 
             year: 1970, 
-            label: '1970-te', 
-            title: '1970-te: Klasično obdobje in L-twin motorji',
-            description: 'Sedemdeseta leta prejšnjega stoletja so pomenila revolucijo za Ducati z razvojem legendarnih L-twin motorjev, kjer sta valja razporejena pod kotom 90 stopinj. Ti motorji so zagotavljali boljše uravnoteženje in postali sinonim za zvok in občutek pravih Ducati motociklov. V tem obdobju se je uveljavila tudi znamenita blagovna znamka 750 GT, ki velja za eno najbolj ikoničnih klasičnih motornih koles. Ta čas je zaznamoval tudi inženir Fabio Taglioni in njegov revolucionarni desmodromični sistem ventilov.',
+            label: '1970s', 
+            title: '1970s: The Classic Era and L-twin Engines',
+            description: 'The 1970s were a revolution for Ducati with the development of the legendary L-twin engines, with the cylinders arranged at an angle of 90 degrees. These engines provided better balance and became synonymous with the sound and feel of a true Ducati motorcycle. This period also saw the rise of the famous 750 GT brand, considered one of the most iconic classic motorcycles. This era was also marked by engineer Fabio Taglioni and his revolutionary desmodromic valve system.',
             image: '../Slike/timeLine/750.jpg'
         },
         { 
             year: 1990, 
-            label: '1990-te', 
-            title: '1990-te: Moderna era in dominacija v dirkanju',
-            description: 'Devetdeseta leta so prinesla Ducatijev vzpon v svetu dirkanja in oblikovanja. Leta 1994 se je pojavil revolucionarni Ducati 916, ki ga je oblikoval Massimo Tamburini in velja za enega najlepših motociklov vseh časov. Ducati je v tem času začel dominirati v World Superbike prvenstvih, s čimer si je utrdil sloves vrhunske zmogljivosti in tehnološke naprednosti. Leta 1993 je bil predstavljen tudi model Monster, ki je postal eden najbolj prepoznavnih in prodajnih Ducatijevih modelov.',
+            label: '1990s', 
+            title: '1990s: The modern era and dominance in racing',
+            description: "The 1990s saw Ducati's rise in the world of racing and design. In 1994, the revolutionary Ducati 916, designed by Massimo Tamburini and considered one of the most beautiful motorcycles of all time, appeared. During this time, Ducati began to dominate the World Superbike championships, cementing its reputation for superior performance and technological advancement. In 1993, the Monster model was also introduced, which became one of Ducati's most recognizable and best-selling models.",
             image: '../Slike/timeLine/916.jpg'
         },
         { 
             year: 2010, 
             label: '2010+', 
-            title: '2010 in naprej: Sodobni Ducati',
-            description: 'Obdobje po letu 2010 predstavlja Ducatijev vzpon pod vodstvom skupine Audi AG (od 2012), ki je del skupine Volkswagen. Ducati je v tem času razvil inovativne modele kot so Panigale V4 (prvi serijski motocikel Ducati z V4 motorjem), Multistrada V4, Streetfighter V4 in ostale, ki združujejo italijansko oblikovanje, tehnološko naprednost in dirkaško DNK. Sodobni Ducati motocikli slovijo po izjemni zmogljivosti, napredni elektroniki in prepoznavnem karakterju.',
+            title: '2010 and beyond: Modern Ducati',
+            description: "The period after 2010 represents Ducati's rise under the leadership of Audi AG (since 2012), part of the Volkswagen Group. During this time, Ducati developed innovative models such as the Panigale V4 (the first production Ducati motorcycle with a V4 engine), the Multistrada V4, the Streetfighter V4 and others, which combine Italian design, technological advancement and racing DNA. Modern Ducati motorcycles are renowned for their exceptional performance, advanced electronics and distinctive character.",
             image: '../Slike/timeLine/panigale.jpg'
         }
     ];
@@ -894,7 +747,7 @@ function displayTimelineByYearRange(data, startYear, endYear) {
     container.innerHTML = '';
     
     if (filteredData.length === 0) {
-        container.innerHTML = '<div class="no-results">Ni najdenih modelov za izbrano obdobje.</div>';
+        container.innerHTML = '<div class="no-results">No models found for the selected period.</div>';
         return;
     }
     
@@ -1068,195 +921,3 @@ function showEraInfo(eraData) {
     
     overlay.classList.add('active');
 }
-
-let map;
-function initMap() {
-    try {
-        if (!window.google || !window.google.maps) {
-            console.warn('Google Maps API not available');
-            handleMapError();
-            return;
-        }
-        
-        const scriptElements = document.querySelectorAll('script');
-        let apiKeyIssue = false;
-        
-        for (const script of scriptElements) {
-            if (script.src && script.src.includes('maps.googleapis.com')) {
-                if (script.src.includes('REPLACE_WITH_YOUR_ACTUAL_API_KEY') || 
-                    script.src.includes('YOUR_API_KEY')) {
-                    console.warn('Google Maps API key not provided. Using fallback display instead.');
-                    apiKeyIssue = true;
-                    break;
-                }
-            }
-        }
-        
-        if (apiKeyIssue) {
-            handleMapError();
-            return;
-        }
-        
-        const storeLocation = { lat: 46.054208, lng: 14.509716 };
-        
-        const mapElement = document.getElementById("interactive-map");
-        if (!mapElement) {
-            console.error('Map element not found');
-            return;
-        }
-        
-        map = new google.maps.Map(mapElement, {
-            zoom: 16,
-            center: storeLocation,
-            mapTypeControl: true,
-            streetViewControl: true,
-            fullscreenControl: true,
-            zoomControl: true,
-        });
-
-        if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
-            const markerView = new google.maps.marker.AdvancedMarkerElement({
-                map: map,
-                position: storeLocation,
-                title: "Max MotoSport"
-            });
-            
-            const infoContent = `
-                <div class="map-info-window">
-                    <h3>Max MotoSport</h3>
-                    <p>Uradni Ducati prodajalec</p>
-                    <p><strong>Odpiralni čas:</strong><br>
-                    Pon - Pet: 9:00 - 18:00<br>
-                    Sob: 9:00 - 13:00</p>
-                    <p><strong>Telefon:</strong> +386 1 234 5678</p>
-                </div>
-            `;
-            
-            const infoWindow = new google.maps.InfoWindow({
-                content: infoContent,
-            });
-            
-            markerView.addListener("click", () => {
-                infoWindow.open(map, markerView);
-            });
-            
-            infoWindow.open(map, markerView);
-        } else {
-            console.warn('AdvancedMarkerElement not available, falling back to deprecated Marker class');
-            
-            const marker = new google.maps.Marker({
-                position: storeLocation,
-                map: map,
-                title: "Max MotoSport",
-                animation: google.maps.Animation.DROP,
-            });
-            
-            const infoContent = `
-                <div class="map-info-window">
-                    <h3>Max MotoSport</h3>
-                    <p>Uradni Ducati prodajalec</p>
-                    <p><strong>Odpiralni čas:</strong><br>
-                    Pon - Pet: 9:00 - 18:00<br>
-                    Sob: 9:00 - 13:00</p>
-                    <p><strong>Telefon:</strong> +386 1 234 5678</p>
-                </div>
-            `;
-            
-            const infoWindow = new google.maps.InfoWindow({
-                content: infoContent,
-            });
-            
-            marker.addListener("click", () => {
-                infoWindow.open(map, marker);
-            });
-            
-            infoWindow.open(map, marker);
-        }
-    } catch (error) {
-        console.error('Error initializing Google Map:', error);
-        handleMapError();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    
-    const showContactBtn = document.getElementById('showContactForm');
-    const cancelContactBtn = document.getElementById('cancelContactForm');
-    const contactFormContainer = document.getElementById('contactFormContainer');
-    const contactForm = document.getElementById('contactForm');
-    
-    if (showContactBtn && contactFormContainer) {
-        showContactBtn.addEventListener('click', function() {
-            contactFormContainer.classList.add('active');
-            contactFormContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    }
-    
-    if (cancelContactBtn && contactFormContainer) {
-        cancelContactBtn.addEventListener('click', function() {
-            contactFormContainer.classList.remove('active');
-        });
-    }
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = 'Pošiljanje...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
-                };
-                
-                console.log('Form submitted:', formData);
-                
-                contactForm.innerHTML = `
-                    <div class="form-success">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Hvala za vaše sporočilo!</h3>
-                        <p>Odgovorili vam bomo v najkrajšem možnem času.</p>
-                        <button type="button" class="close-success-btn">Zapri</button>
-                    </div>
-                `;
-                
-                const closeSuccessBtn = contactForm.querySelector('.close-success-btn');
-                if (closeSuccessBtn) {
-                    closeSuccessBtn.addEventListener('click', function() {
-                        contactFormContainer.classList.remove('active');
-                        setTimeout(() => {
-                            contactForm.reset();
-                            contactForm.innerHTML = originalContactForm;
-                        }, 300);
-                    });
-                }
-            }, 1500);
-        });
-        
-        const originalContactForm = contactForm.innerHTML;
-    }
-});
-
-function handleMapError() {
-    const mapElement = document.getElementById('interactive-map');
-    if (mapElement) {
-        mapElement.innerHTML = `
-            <div class="map-fallback">
-                <img src="../Slike/location-map.jpg" alt="Lokacija trgovine" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'placeholder-img\\'>Zemljevid ni na voljo</div>'">
-                <a href="https://goo.gl/maps/WZYpzSdEMDpES31S6" target="_blank" class="map-link">
-                    <i class="fas fa-external-link-alt"></i> Odpri v Google Maps
-                </a>
-            </div>
-        `;
-    }
-}
-
-
-window.gm_authFailure = handleMapError;

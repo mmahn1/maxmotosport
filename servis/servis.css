@@ -218,6 +218,20 @@
     box-shadow: 0 0 0 3px rgba(238, 0, 0, 0.1);
 }
 
+/* Common button styling */
+.btn {
+    background-color: #ff0000; /* Consistent red color */
+    color: #fff;
+    border: 2px solid #ff0000; /* Consistent outline */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    border-color: #cc0000;
+}
+
+/* Apply the common button class to existing buttons */
 .btn-submit {
     background-color: #e00;
     color: white;
@@ -350,6 +364,12 @@
 .faq-item.active .faq-answer {
     padding: 20px;
     max-height: 500px; 
+}
+
+.main-content {
+    padding-top: 60px; /* Add padding to account for fixed header height */
+    margin-bottom: 0; /* Let the footer handle its own spacing */
+    min-height: calc(100vh - 60px - 200px); /* Viewport height minus header and footer */
 }
 
 @media (max-width: 768px) {

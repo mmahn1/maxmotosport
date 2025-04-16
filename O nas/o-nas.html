@@ -10,10 +10,6 @@
     <script defer src="/header-footer/header-footer.js"></script>
     <script defer src="/Newsletter/newsletter.js"></script>
     <script src="./o-nas.js"></script>
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU&callback=initMap&loading=async&libraries=marker"
-        onerror="handleMapScriptError()">
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
@@ -108,7 +104,7 @@
                     <p>Today, Ducati is considered one of the most prestigious motorcycle manufacturers in the world, known for its high-performance models, innovative technological solutions and timeless design that combines tradition and modernity.</p>
                     </div>
                     <div class="history-image">
-                        <img src="../Slike/Ducati-factory.jpg" alt="Tovarna Ducati" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'placeholder-img\'>Slika tovarne ni na voljo</div>'">
+                        <img src="/Motor-bikes/Slike/Desmo MX 450/4.jpg" alt="Tovarna Ducati" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'placeholder-img\'>Slika tovarne ni na voljo</div>'">
                     </div>
                 </div>
             </div>
@@ -165,7 +161,7 @@
                         <button id="showContactForm" class="contact-btn">Book an appointment</button>
                     </div>
                     <div class="visit-map">
-                        <div id="interactive-map"></div>
+                        <img src="/Slike/map.png" alt="Store location">
                         <p class="map-caption">We are located in the center of Ljubljana, with easy access and parking for customers.</p>
                     </div>
                 </div>
@@ -281,6 +277,7 @@
                         <div class="detail-years">
                             <strong>Production period:</strong> <span id="detail-years"></span>
                         </div>
+                        <hr>
                         <div class="detail-description">
                             <h3>Description</h3>
                             <p id="detail-description"></p>
@@ -295,8 +292,7 @@
                             </ul>
                         </div>
                         <div class="detail-price">
-                            <h3>Price</h3>
-                            <p id="detail-price"></p>
+                            <p id="detail-price"><strong>Price:</strong> €</p>
                         </div>
                     </div>
                 </div>
