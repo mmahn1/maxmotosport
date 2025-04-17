@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 const PORT = 3000;
-const JSON_FILE = __dirname + "/ponudba/izdelki.json";
+const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); // Corrected path
 
 // Check if running in production (Railway / Hostinger)
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
