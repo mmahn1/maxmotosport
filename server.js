@@ -149,7 +149,7 @@ app.post("/login", (req, res) => {
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));
 app.use("/Slike", express.static(__dirname + "/Slike"));
-app.use("/Landing page", express.static(__dirname + "/Landing page"));
+app.use("/Landing_page", express.static(__dirname + "/Landing_page"));
 app.use("/account", express.static(__dirname + "/account"));
 app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
 
@@ -297,19 +297,19 @@ app.post("/api/newsletter/subscribe", (req, res) => {
 
 // Routes for Landing page with spaces in URL
 app.get('/', (req, res) => {
-    res.redirect('/Landing page/');
+    res.redirect('/Landing_page/');
 });
 
-app.get('/Landing page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing page', 'index.html'));
+app.get('/Landing_page', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
 });
 
-app.get('/Landing page/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing page', 'index.html'));
+app.get('/Landing_page/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
 });
 
-app.get('/Landing page/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing page', 'index.html'));
+app.get('/Landing_page/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
 });
 
 // API Endpoint to Load Products

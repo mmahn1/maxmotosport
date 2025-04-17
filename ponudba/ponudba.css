@@ -256,7 +256,7 @@ body {
 
 /* 🌟 Hero Section */
 .hero-section {
-    background: url('/Slike/Shop banner.jpg') no-repeat center center/cover;
+    background: url('/Slike/Shop_banner.jpg') no-repeat center center/cover;
     color: white;
     text-align: left; /* Align text to the left */
     height: 100vh; /* Full viewport height */

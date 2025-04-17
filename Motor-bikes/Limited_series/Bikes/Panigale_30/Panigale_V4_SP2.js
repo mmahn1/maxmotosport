@@ -1,36 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log('DOM fully loaded and parsed.');
-
-    const thumbnails = document.querySelectorAll('.thumbnail-images img');
-    const mainImage = document.getElementById('selected-image');
-    const bikeName = document.getElementById('bike-name');
-    const colorButtons = document.querySelectorAll('.color-option');
-    const colorSquares = document.querySelectorAll('.color-square');
-
-    const sharedStyleImages = [
-        "/Motor-bikes/Slike/Diavel_bently/s1.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s2.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s3.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s4.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s5.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s6.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s7.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s8.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s9.webp",
-        "/Motor-bikes/Slike/Diavel_bently/s10.webp"
-        
-    ];
-
-    let currentImageIndex = 0;
-    const sharedStyleImageElement = document.getElementById("shared-style-image");
-
-    function switchSharedStyleImage() {
-        currentImageIndex = (currentImageIndex + 1) % sharedStyleImages.length;
-        sharedStyleImageElement.src = sharedStyleImages[currentImageIndex];
-    }
-
-    setInterval(switchSharedStyleImage, 5000); // Switch image every 5 seconds
-
+    
     const aids = [
         {
             category: "Safety",
@@ -143,63 +113,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize with the first aid
     updateAidContent(currentAidIndex);
-
-    const apparelItems = [
-        {
-            title: "Technical leather jacket",
-            description: "Designed for those who want to add to the style of Diavel for Bentley, this jacket combines refined materials and a standout design.",
-            image: "/Motor-bikes/Slike/Diavel_bently/jacket.jpg"
-        },
-        {
-            title: "Jet Helmet",
-            description: "A state-of-the-art helmet offering maximum safety and comfort, featuring a design inspired by the Diavel for Bentley.",
-            image: "/Motor-bikes/Slike/Diavel_bently/helmet.jpg"
-        }
-    ];
-
-    let currentApparelIndex = 0;
-
-    const apparelImage = document.getElementById("apparel-image");
-    const apparelTitle = document.getElementById("apparel-title");
-    const apparelDescription = document.getElementById("apparel-description");
-
-    const tab1 = document.getElementById("tab1");
-    const tab2 = document.getElementById("tab2");
-    const prevApparel = document.getElementById("prev-apparel");
-    const nextApparel = document.getElementById("next-apparel");
-
-    function updateApparelContent(index) {
-        const item = apparelItems[index];
-        apparelImage.src = item.image;
-        apparelImage.alt = item.title;
-        apparelTitle.textContent = item.title;
-        apparelDescription.textContent = item.description;
-
-        // Update active tab
-        tab1.classList.toggle("active", index === 0);
-        tab2.classList.toggle("active", index === 1);
-    }
-
-    tab1.addEventListener("click", function () {
-        currentApparelIndex = 0;
-        updateApparelContent(currentApparelIndex);
-    });
-
-    tab2.addEventListener("click", function () {
-        currentApparelIndex = 1;
-        updateApparelContent(currentApparelIndex);
-    });
-
-    prevApparel.addEventListener("click", function () {
-        currentApparelIndex = (currentApparelIndex - 1 + apparelItems.length) % apparelItems.length;
-        updateApparelContent(currentApparelIndex);
-    });
-
-    nextApparel.addEventListener("click", function () {
-        currentApparelIndex = (currentApparelIndex + 1) % apparelItems.length;
-        updateApparelContent(currentApparelIndex);
-    });
-
-    // Initialize with the first item
-    updateApparelContent(currentApparelIndex);
 });

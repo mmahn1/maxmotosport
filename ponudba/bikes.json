@@ -1,11 +1,11 @@
 [
     {
         "name": "DesertX",
-        "image": "/Motor-bikes/Slike/DesertX Rally/bike.png",
+        "image": "/Motor-bikes/Slike/DesertX_Rally/bike.png",
         "versions": [
             {
                 "name": "DesertX",
-                "image": "/Motor-bikes/Slike/DesertX/bike.webp",
+                "image": "/Motor-bikes/Slike/DesertX/Slika 1.webp",
                 "power": "110hp",
                 "torque": "68 Nm",
                 "weight": "210kg",
@@ -13,19 +13,19 @@
             },
             {
                 "name": "DesertX Discovery",
-                "image": "/Motor-bikes/Slike/DesertX Discovery/bike.webp",
+                "image": "/Motor-bikes/Slike/DesertX_Discovery/Slika 1.webp",
                 "power": "110 hp",
                 "torque": "92 Nm",
                 "weight": "210kg",
-                "button": "/Motor-bikes/DesertX/DesertX Discovery.html"
+                "button": "/Motor-bikes/DesertX/DesertX_Discovery.html"
             },
             {
                 "name": "DesertX Rally",
-                "image": "/Motor-bikes/Slike/DesertX Rally/bike.png",
+                "image": "/Motor-bikes/Slike/DesertX_Rally/bike.png",
                 "power": "110hp",
                 "torque": "92Nm",
                 "weight": "211kg",
-                "button": "/Motor-bikes/DesertX/DesertX Rally.html"
+                "button": "/Motor-bikes/DesertX/DesertX_Rally.html"
             }
         ]
     },
@@ -73,11 +73,11 @@
             },
             {
                 "name": "V2 Superquadro Final Edition",
-                "image": "/Motor-bikes/Slike/Limited series/Superquadro/bike.png",
+                "image": "/Motor-bikes/Slike/Limited_series/Superquadro/bike.png",
                 "power": "155 hp",
                 "torque": "104 Nm",
                 "weight": "190 kg",
-                "button": "/Motor-bikes/Limited series/Bikes/Superquadro/Ducati_Panigale_V2_Superquadro.html"
+                "button": "/Motor-bikes/Limited_series/Bikes/Superquadro/Ducati_Panigale_V2_Superquadro.html"
             },
             {
                 "name": "Panigale V4",
@@ -89,11 +89,11 @@
             },
             {
                 "name": "Panigale V4 Tricolore",
-                "image": "/Slike/Ponudba/Vsi motorji/Panigale/Panigale V4 Tricolore.png",
+                "image": "/Motor-bikes/Slike/Limited_series/Tricolore/bike.png",
                 "power": "216 hp",
                 "torque": "121 Nm",
                 "weight": "188 kg",
-                "button": "/Motor-bikes/Limited series/Bikes/Tricolore/Tricolore.html"
+                "button": "/Motor-bikes/Limited_series/Bikes/Tricolore/Tricolore.html"
             }
         ]
     },
@@ -119,45 +119,45 @@
             },
             {
                 "name": "Ducati Streetfighter V4 Lamborghini",
-                "image": "/Motor-bikes/Slike/Limited series/streatfighter lambo/bike.png",
+                "image": "/Motor-bikes/Slike/Limited_series/streatfighter_lambo/bike.png",
                 "power": "208 hp",
                 "torque": "123 Nm",
                 "weight": "191 kg",
-                "button": "/Motor-bikes/Limited series/Bikes/streatfighter lambo/Streetfighter_labmo.html"
+                "button": "/Motor-bikes/Limited_series/Bikes/streatfighter_lambo/Streetfighter_labmo.html"
             },
             {
                 "name": "Ducati Streetfighter V4 Supreme®",
-                "image": "/Motor-bikes/Slike/Limited series/Supreme/bike.png",
+                "image": "/Motor-bikes/Slike/Limited_series/Supreme/bike.png",
                 "power": "208 hp",
                 "torque": "123 Nm",
                 "weight": "193 kg",
-                "button": "/Motor-bikes/Limited series/Bikes/Supreme/Streat_Fighter_Supreme.html"
+                "button": "/Motor-bikes/Limited_series/Bikes/Supreme/Streat_Fighter_Supreme.html"
             }
         ]
     },
     {
         "name": "Desmo450 MX",
-        "image": "/Motor-bikes/Slike/Desmo MX 450/main.png",
+        "image": "/Motor-bikes/Slike/Desmo_MX_450/main.png",
         "versions": [
             {
                 "name": "Desmo 450 MX",
-                "image": "/Motor-bikes/Slike/Desmo MX 450/main.png",
+                "image": "/Motor-bikes/Slike/Desmo_MX_450/main.png",
                 "power": "63,5 hp",
                 "torque": "53,5 Nm",
                 "weight": "104,8 kg",
-                "button": "/Motor-bikes/Desmo 450 MX/Desmo.html" 
+                "button": "/Motor-bikes/Desmo_450_MX/Desmo.html" 
             }
         ]
     },
     {
         "name": "Limited series",
-        "image": "/Motor-bikes/Slike/Limited series/Tricolore/bike.png",
+        "image": "/Motor-bikes/Slike/Limited_series/Tricolore/bike.png",
         "versions": [
             {
                 "name": "Ducati Speciale",
-                "image": "/Motor-bikes/Slike/Limited series/Tricolore/bike.png",
+                "image": "/Motor-bikes/Slike/Limited_series/Tricolore/bike.png",
                 "description": "The Ducati Speciale is a group of limited edition motorcycles that combine cutting-edge technology with exclusive design elements. It features powerful engines, advanced aerodynamics, and premium materials, making them a true collector's item.",
-                "button": "/Motor-bikes/Limited series/Limited series.html"
+                "button": "/Motor-bikes/Limited_series/Limited_series.html"
             }
         ]
     }
