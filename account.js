@@ -8,6 +8,10 @@ const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app"; // ← Repl
 // ✅ Dynamically choose the backend URL based on the toggle
 const serverUrl = useCustomDomain ? CUSTOM_DOMAIN : DEV_DOMAIN;
 
+// Ensure username and password are defined
+const username = document.getElementById("username").value;
+const password = document.getElementById("password").value;
+
 // Updated fetch for login
 fetch(`${serverUrl}/login`, {
   method: "POST",
@@ -31,6 +35,3 @@ fetch(`${serverUrl}/login`, {
     console.error("❌ Login failed:", error);
     alert("❌ Login failed: " + error);
   });
-
-// Example for register (if applicable)
-// fetch(`${serverUrl}/register`, { ... });
