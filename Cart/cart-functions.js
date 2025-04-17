@@ -21,14 +21,6 @@ function addToCart(product) {
     showCustomAlert(`${product.name} added to cart!`); // Display only the product name
 }
 
-// Function to update the cart count
-function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
-    const cartCountElement = document.getElementById("cart-count");
-    if (cartCountElement) cartCountElement.textContent = cartCount;
-}
-
 // Function to display a custom alert
 function showCustomAlert(message) {
     const alertBox = document.createElement("div");
