@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script defer src="/header-footer/header-footer.js"></script>
     <script defer src="cart.js"></script>
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU&callback=initMap&loading=async&libraries=marker"
-        onerror="handleMapScriptError()">
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
@@ -33,7 +29,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <img src="path-to-image.jpg" alt="Product Image"> <!-- Ensure image is displayed -->
+                        <img src="/Cart/path-to-image.jpg" alt="Cart Image" onerror="console.error('Image not found.')">
                         Product Name
                     </td>
                     <td>€100.00</td>

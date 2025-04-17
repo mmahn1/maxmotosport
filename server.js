@@ -24,7 +24,7 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  database: process.env.DB_NAME, 
   port: process.env.DB_PORT
 });
 
@@ -260,6 +260,7 @@ app.use("/Slike", express.static(__dirname + "/Slike"));
 app.use("/Landing_page", express.static(__dirname + "/Landing_page"));
 app.use("/account", express.static(__dirname + "/account"));
 app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
+app.use("/Cart", express.static(__dirname + "/Cart"));
 
 // Email configuration
 const emailTransporter = nodemailer.createTransport({

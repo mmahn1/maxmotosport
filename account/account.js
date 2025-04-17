@@ -71,9 +71,9 @@ async function login() {
 
             setTimeout(() => {
                 if (data.role === "admin") {
-                    window.location.href = "/Admin/dashboard.html";
+                    window.location.href = "/Landing_page/index.html";
                 } else {
-                    window.location.href = "/user-dashboard/dashboard.html";
+                    window.location.href = "/Landing_page/index.html";
                 }
             }, 1000);
         } else {
