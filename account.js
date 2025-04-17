@@ -1,12 +1,12 @@
-// ✅ SET THIS TO true when the real domain is live
-const useCustomDomain = false; // Set to true to use the custom domain
+// ✅ SET THIS TO true to use CUSTOM_DOMAIN_1 (e.g., your current development domain)
+const useCustomDomain1 = true; // Switch between CUSTOM_DOMAIN_1 and CUSTOM_DOMAIN_2
 
-// 🌐 Both backend domains
-const CUSTOM_DOMAIN = "https://maxmotosport.eu";
-const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app"; // Removed trailing slash
+// 🌐 Both custom domains
+const CUSTOM_DOMAIN_1 = "https://maxmotosport-production.up.railway.app"; // Current domain
+const CUSTOM_DOMAIN_2 = "https://maxmotosport.eu"; // Future published domain
 
 // ✅ Dynamically choose the backend URL based on the toggle
-const serverUrl = useCustomDomain ? CUSTOM_DOMAIN : DEV_DOMAIN;
+const serverUrl = useCustomDomain1 ? CUSTOM_DOMAIN_1 : CUSTOM_DOMAIN_2;
 
 // Login function
 function login() {
