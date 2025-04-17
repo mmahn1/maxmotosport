@@ -165,6 +165,74 @@ app.get("/api/profile", authenticateToken, (req, res) => {
     res.json({ message: `Hello ${req.user.id}, you are logged in as ${req.user.role}` });
 });
 
+// Create a new order from cart data
+app.post("/api/orders", authenticateToken, (req, res) => {
+    const { cart } = req.body;
+
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        return res.status(400).json({ error: "Cart is empty or invalid" });
+    }
+
+    // Read products from the JSON file
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
+        if (err) {
+            console.error("❌ Error reading products JSON file:", err);
+            return res.status(500).json({ error: "Server error" });
+        }
+
+        const products = JSON.parse(data);
+        let totalPrice = 0;
+        const productDetails = [];
+
+        // Validate cart items and calculate total price
+        for (const item of cart) {
+            const product = products.find(p => p.id === item.product_id);
+            if (!product) {
+                return res.status(400).json({ error: `Product with ID ${item.product_id} not found` });
+            }
+
+            const itemTotalPrice = product.price * item.quantity;
+            totalPrice += itemTotalPrice;
+
+            productDetails.push({
+                name: product.name,
+                price: product.price,
+                quantity: item.quantity,
+                total_price: itemTotalPrice
+            });
+        }
+
+        // Insert the order into the database
+        const query = `
+            INSERT INTO orders (user_id, product_details, total_price)
+            VALUES (?, ?, ?)
+        `;
+        db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
+            if (err) {
+                console.error("❌ Error creating order:", err);
+                return res.status(500).json({ error: "Server error" });
+            }
+            res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
+        });
+    });
+});
+
+// Get all orders for the logged-in user
+app.get("/api/orders", authenticateToken, (req, res) => {
+    const query = `
+        SELECT id, product_details, total_price, order_date, status
+        FROM orders
+        WHERE user_id = ?
+    `;
+    db.query(query, [req.user.id], (err, results) => {
+        if (err) {
+            console.error("❌ Error fetching orders:", err);
+            return res.status(500).json({ error: "Server error" });
+        }
+        res.json({ success: true, orders: results });
+    });
+});
+
 // Serve static files - Place this AFTER API routes
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));

@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");
     const cartTotal = document.getElementById("cart-total");
+    const checkoutButton = document.getElementById("checkout-btn");
 
     function renderCart() {
         cartTableBody.innerHTML = "";
@@ -45,6 +46,43 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartCount(); // Update cart count
     }
 
+    // Send cart data to the backend
+    function checkout() {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        // Prepare cart data for the backend
+        const cartData = cart.map(item => ({
+            product_id: item.id, // Use the product ID from the JSON file
+            quantity: item.quantity
+        }));
+
+        fetch(`${serverUrl}/api/orders`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}` // Include JWT token
+            },
+            body: JSON.stringify({ cart: cartData })
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert("✅ Order placed successfully!");
+                    localStorage.removeItem("cart"); // Clear the cart
+                    renderCart(); // Re-render the cart
+                } else {
+                    alert("❌ " + (result.message || result.error));
+                }
+            })
+            .catch(error => {
+                console.error("❌ Checkout failed:", error);
+                alert("❌ Checkout failed: " + error);
+            });
+    }
+
     cartTableBody.addEventListener("input", (e) => {
         if (e.target.classList.contains("quantity-input")) {
             const index = e.target.dataset.index;
@@ -59,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
             removeItem(index);
         }
     });
+
+    checkoutButton.addEventListener("click", checkout);
 
     renderCart();
 });
