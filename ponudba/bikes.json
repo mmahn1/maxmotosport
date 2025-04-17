@@ -31,11 +31,11 @@
     },
     {
         "name": "Diavel",
-        "image": "/Motor-bikes/Slike/Diavel_V4/Red/opcija1.png",
+        "image": "/Motor-bikes/Slike/Diavel_V4/Opcija1.png",
         "versions": [
             {
                 "name": "Diavel V4",
-                "image": "/Motor-bikes/Slike/Diavel_V4/Red/opcija1.png",
+                "image": "/Motor-bikes/Slike/Diavel_V4Opcija1.png",
                 "power": "168 hp",
                 "torque": "93 Nm",
                 "weight": "223kg",
