@@ -74,11 +74,15 @@ input:focus {
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
 }
 
-/* Common button styling */
+/* Style for login and register buttons */
 button {
     background-color: #ff0000; /* Consistent red color */
     color: #fff;
     border: 2px solid #ff0000; /* Consistent outline */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
 }
 

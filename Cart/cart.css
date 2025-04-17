@@ -102,15 +102,8 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Common button styling */
-button, #checkout-btn {
-    background-color: #ff0000; /* Consistent red color */
-    color: #fff;
-    border: 2px solid #ff0000; /* Consistent outline */
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-button {
+/* General Button Styling */
+button, #checkout-btn, .bike-details-section .btn, .back-to-top {
     background-color: #ff0000; /* Ducati Red */
     color: #fff;
     border: 2px solid #ff0000;
@@ -121,61 +114,28 @@ button {
     transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
 }
 
-button:hover {
+button:hover, #checkout-btn:hover, .bike-details-section .btn:hover, .back-to-top:hover {
     background-color: #cc0000; /* Darker red on hover */
     border-color: #cc0000;
     transform: scale(1.05); /* Slight zoom effect */
 }
 
-button:hover, #checkout-btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
-    border-color: #cc0000;
-}
-
-/* Back to Top Button */
+/* Specific Styling for Back to Top Button */
 .back-to-top {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #ff0000; /* Ducati Red */
-    color: white;
-    border: none;
-    border-radius: 50%;
     width: 50px;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.back-to-top:hover {
-    background: #cc0000; /* Darker Red */
-    transform: scale(1.1);
-}
-
 .back-to-top i {
     font-size: 20px;
-}
-
-/* Bike Details Button Styling */
-.bike-details-section .btn {
-    background-color: #ff0000; /* Ducati Red */
-    color: #fff;
-    border: 2px solid #ff0000;
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Add padding for better spacing */
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
-}
-
-.bike-details-section .btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
-    border-color: #cc0000;
-    transform: scale(1.05); /* Slight zoom effect */
 }
 
 /* Responsive Design */
