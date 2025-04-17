@@ -233,6 +233,26 @@ app.get("/api/orders", authenticateToken, (req, res) => {
     });
 });
 
+// Admin-only route to fetch all orders
+app.get("/api/admin/orders", authenticateToken, (req, res) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+    }
+
+    const query = `
+        SELECT id, user_id, product_details, total_price, order_date, status
+        FROM orders
+        ORDER BY order_date DESC
+    `;
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error("❌ Error fetching all orders:", err);
+            return res.status(500).json({ error: "Server error" });
+        }
+        res.json({ success: true, orders: results });
+    });
+});
+
 // Serve static files - Place this AFTER API routes
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));

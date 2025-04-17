@@ -31,7 +31,7 @@
     },
     {
         "name": "Diavel",
-        "image": "/Motor-bikes/Slike/Diavel_V4/opcija1.png",
+        "image": "/Motor-bikes/Slike/Diavel_bently/model.png",
         "versions": [
             {
                 "name": "Diavel V4",
@@ -72,7 +72,7 @@
                 "button": "/Motor-bikes/Panigale/Panigale_V2/Panigale_V2.html"
             },
             {
-                "name": "V2 Superquadro Final Edition",
+                "name": "/Motor-bikes/Slike/Limited_series/Superquadro/bike.png",
                 "image": "/Motor-bikes/Slike/Limited_series/Superquadro/bike.png",
                 "power": "155 hp",
                 "torque": "104 Nm",
