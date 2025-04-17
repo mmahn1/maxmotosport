@@ -74,8 +74,10 @@ input:focus {
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
 }
 
-/* Style for login and register buttons */
+/* Center the login and register buttons */
 button {
+    display: block;
+    margin: 0 auto; /* Center horizontally */
     background-color: #ff0000; /* Consistent red color */
     color: #fff;
     border: 2px solid #ff0000; /* Consistent outline */

@@ -10,6 +10,8 @@ const path = require("path");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { exec } = require('child_process');
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -19,11 +21,11 @@ const JSON_FILE = __dirname + "/ponudba/izdelki.json";
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
 
 const db = mysql.createConnection({
-  host: isProduction ? process.env.DB_HOST : 'localhost',
-  user: isProduction ? process.env.DB_USER : 'root',
-  password: isProduction ? process.env.DB_PASS : '', // or your local MySQL password
-  database: isProduction ? process.env.DB_NAME : 'users_db',
-  port: isProduction ? process.env.DB_PORT || 3306 : 3306
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 db.connect(err => {
@@ -50,7 +52,7 @@ const usersRoutes = require('./server/routes/users');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: true,
+    origin: '*', // Replace '*' with 'https://yourfrontend.railway.app' in production
     credentials: true
 }));
 app.use(session({
@@ -145,6 +147,24 @@ app.post("/login", (req, res) => {
     });
 });
 
+// JWT Authentication Middleware
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, "your_jwt_secret_key", (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+}
+
+// Example protected route
+app.get("/api/profile", authenticateToken, (req, res) => {
+    res.json({ message: `Hello ${req.user.id}, you are logged in as ${req.user.role}` });
+});
+
 // Serve static files - Place this AFTER API routes
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));
@@ -162,182 +182,6 @@ const emailTransporter = nodemailer.createTransport({
         user: 'maxmotosport.shop@gmail.com',
         pass: 'gmir ejjf outo whkm'
     }
-});
-
-// Generate verification token
-function generateToken() {
-    return crypto.randomBytes(32).toString('hex');
-}
-
-// Send verification email
-async function sendVerificationEmail(email, token) {
-    const yourLocalIP = "172.20.10.6";
-    const localVerificationUrl = `http://localhost:${PORT}/api/newsletter/verify/${token}`;
-    const networkVerificationUrl = `http://${yourLocalIP}:${PORT}/api/newsletter/verify/${token}`;
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(networkVerificationUrl)}`;
-    
-    const mailOptions = {
-        from: '"MaxMotoSport Shop" <maxmotosport.shop@gmail.com>',
-        to: email,
-        subject: 'Please Verify Your Email Address',
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;">
-                <div style="background-color: #333; color: white; padding: 20px; text-align: center;">
-                    <h1>Email Verification</h1>
-                </div>
-                <div style="padding: 20px;">
-                    <p>Hello,</p>
-                    <p>Thank you for subscribing to MaxMotoSport Shop newsletter.</p>
-                    <p>Please click the button below to verify your email address:</p>
-                    
-                    <div style="text-align: center; margin: 30px 0;">
-                        <a href="${localVerificationUrl}" style="background-color: #333; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px;">Verify Email Address</a>
-                    </div>
-                    
-                    <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-                    <p>${localVerificationUrl}</p>
-                    
-                    <p>If you're on a mobile device, scan this QR code or use this link:</p>
-                    <div style="text-align: center;">
-                        <img src="${qrCodeUrl}" alt="Verification QR Code" style="max-width: 150px; height: auto;">
-                        <p><a href="${networkVerificationUrl}">${networkVerificationUrl}</a></p>
-                    </div>
-                    
-                    <p>If you didn't subscribe to our newsletter, you can safely ignore this email.</p>
-                    
-                    <p>Best regards,<br>MaxMotoSport Shop Team</p>
-                </div>
-            </div>
-        `
-    };
-    
-    return emailTransporter.sendMail(mailOptions);
-}
-
-// Send admin notification
-async function sendAdminNotification(email) {
-    const mailOptions = {
-        from: '"MaxMotoSport Shop" <maxmotosport.shop@gmail.com>',
-        to: 'mahnicen@gmail.com',
-        subject: 'New Newsletter Subscription',
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd;">
-                <div style="background-color: #333; color: white; padding: 10px 20px; text-align: center;">
-                    <h2>New Newsletter Subscription</h2>
-                </div>
-                <div style="padding: 20px;">
-                    <p>Hello Admin,</p>
-                    <p>A new user has subscribed to your newsletter:</p>
-                    <ul>
-                        <li><strong>Email:</strong> ${email}</li>
-                        <li><strong>Date:</strong> ${new Date().toLocaleString()}</li>
-                    </ul>
-                    <p>They need to verify their email to complete the subscription.</p>
-                    <p>Best regards,<br>MaxMotoSport System</p>
-                </div>
-            </div>
-        `
-    };
-    
-    return emailTransporter.sendMail(mailOptions);
-}
-
-// Newsletter API endpoints
-app.post("/api/newsletter/subscribe", (req, res) => {
-    const { email } = req.body;
-    
-    if (!email) {
-        return res.status(400).json({ 
-            success: false,
-            message: "Email address is required."
-        });
-    }
-    
-    db.query('SELECT * FROM newsletter WHERE email = ?', [email], async (err, results) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ 
-                success: false,
-                message: "Failed to process your request. Please try again later." 
-            });
-        }
-
-        if (results.length > 0 && results[0].verified) {
-            return res.status(400).json({ 
-                success: false,
-                message: "This email is already subscribed to our newsletter." 
-            });
-        }
-        
-        const token = generateToken();
-        
-        try {
-            if (results.length > 0) {
-                db.query('UPDATE newsletter SET verification_token = ? WHERE id = ?', [token, results[0].id]);
-            } else {
-                db.query('INSERT INTO newsletter (email, verified, verification_token) VALUES (?, FALSE, ?)', [email, token]);
-            }
-            
-            await sendVerificationEmail(email, token);
-            await sendAdminNotification(email);
-            
-            return res.json({
-                success: true,
-                message: "Please check your email to verify your subscription."
-            });
-        } catch (error) {
-            console.error("Error:", error);
-            return res.status(500).json({ 
-                success: false,
-                message: "Failed to process your request. Please try again later."
-            });
-        }
-    });
-});
-
-// Routes for Landing page with spaces in URL
-app.get('/', (req, res) => {
-    res.redirect('/Landing_page/');
-});
-
-app.get('/Landing_page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
-});
-
-app.get('/Landing_page/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
-});
-
-app.get('/Landing_page/index.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
-});
-
-// API Endpoint to Load Products
-app.get("/api/products", (req, res) => {
-    fs.readFile(JSON_FILE, "utf8", (err, data) => {
-        if (err) {
-            console.error("Failed to read JSON:", err);
-            return res.status(500).json({ error: "Failed to read products." });
-        }
-        res.json(JSON.parse(data));
-    });
-});
-
-// API Endpoint to Add New Product
-app.post("/api/products", (req, res) => {
-    const newProduct = req.body;
-
-    fs.readFile(JSON_FILE, "utf8", (err, data) => {
-        if (err) return res.status(500).json({ error: "Failed to read products." });
-
-        let products = JSON.parse(data);
-        products.push(newProduct);
-
-        fs.writeFile(JSON_FILE, JSON.stringify(products, null, 2), (err) => {
-            if (err) return res.status(500).json({ error: "Failed to save product." });
-            res.json({ message: "Product added successfully!", product: newProduct });
-        });
-    });
 });
 
 // Start the server
