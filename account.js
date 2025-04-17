@@ -3,7 +3,7 @@ const useCustomDomain = false;
 
 // 🌐 Both backend domains
 const CUSTOM_DOMAIN = "https://maxmotosport.eu";
-const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app"; // ← Replace with actual Railway domain
+const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app/"; // Use localhost for local testing
 
 // ✅ Dynamically choose the backend URL based on the toggle
 const serverUrl = useCustomDomain ? CUSTOM_DOMAIN : DEV_DOMAIN;

@@ -52,7 +52,7 @@ const usersRoutes = require('./server/routes/users');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'maxmotosport-production.up.railway.app', // Replace '*' with 'https://yourfrontend.railway.app' in production
+    origin: ['https://maxmotosport.eu', 'https://maxmotosport-production.up.railway.app'], // Allow both production domains
     credentials: true
 }));
 app.use(session({

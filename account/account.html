@@ -9,28 +9,9 @@
     style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
     img-src 'self' data:;
-    connect-src 'self' https://maxmotosport-production.up.railway.app https://maxmotosport.eu;">
+    connect-src 'self' https://maxmotosport.eu https://maxmotosport-production.up.railway.app/;">
     <title>Account - Login / Register</title>
     <link rel="stylesheet" href="account.css">
-    <script>
-        // Dynamically set the Content-Security-Policy for connect-src
-        const useCustomDomain = false; // Set to true for production
-        const CUSTOM_DOMAIN = "https://maxmotosport.eu";
-        const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app";
-        const connectSrc = `'self' ${CUSTOM_DOMAIN} ${DEV_DOMAIN}`;
-
-        document.querySelector('meta[http-equiv="Content-Security-Policy"]').setAttribute(
-            "content",
-            `
-            default-src 'self';
-            script-src 'self' 'unsafe-inline' 'unsafe-eval';
-            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
-            font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
-            img-src 'self' data:;
-            connect-src ${connectSrc};
-            `
-        );
-    </script>
 </head>
 <body>
     <div id="header-placeholder"></div>
