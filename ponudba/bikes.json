@@ -31,11 +31,11 @@
     },
     {
         "name": "Diavel",
-        "image": "/Motor-bikes/Slike/Diavel_bently/model.png",
+        "image": "/Motor-bikes/Slike/Diavel_V4/Red/opcija1.png",
         "versions": [
             {
                 "name": "Diavel V4",
-                "image": "/Motor-bikes/Slike/Diavel_V4/opcija1.png",
+                "image": "/Motor-bikes/Slike/Diavel_V4/Red/opcija1.png",
                 "power": "168 hp",
                 "torque": "93 Nm",
                 "weight": "223kg",
@@ -61,7 +61,7 @@
     },
     {
         "name": "Panigale",
-        "image": "/Motor-bikes/Slike/Panigale_V2/bike.webp",
+        "image": "/Motor-bikes/Slike/Panigale_V4/bike.png",
         "versions": [
             {
                 "name": "Panigale V2",
@@ -72,7 +72,7 @@
                 "button": "/Motor-bikes/Panigale/Panigale_V2/Panigale_V2.html"
             },
             {
-                "name": "/Motor-bikes/Slike/Limited_series/Superquadro/bike.png",
+                "name": "Ducati Panigale V2 Superquadro",
                 "image": "/Motor-bikes/Slike/Limited_series/Superquadro/bike.png",
                 "power": "155 hp",
                 "torque": "104 Nm",
