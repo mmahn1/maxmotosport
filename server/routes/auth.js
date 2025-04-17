@@ -94,7 +94,8 @@ router.post(
       }
 
       // Verify password
-      const isMatch = await bcrypt.compare(password, user.password_hash);
+     // const isMatch = await bcrypt.compare(password, user.password_hash);
+      const isMatch = await db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
       if (!isMatch) {
         return res.status(400).json({ error: 'Invalid credentials' });
       }

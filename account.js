@@ -3,10 +3,9 @@ const useCustomDomain1 = true; // Switch between CUSTOM_DOMAIN_1 and CUSTOM_DOMA
 
 // 🌐 Both custom domains
 const CUSTOM_DOMAIN_1 = "https://maxmotosport-production.up.railway.app"; // Current domain
-const CUSTOM_DOMAIN_2 = "https://maxmotosport.eu"; // Future published domain
 
 // ✅ Dynamically choose the backend URL based on the toggle
-const serverUrl = useCustomDomain1 ? CUSTOM_DOMAIN_1 : CUSTOM_DOMAIN_2;
+const serverUrl =CUSTOM_DOMAIN_1;
 
 // Login function
 function login() {
