@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (token) {
         if (role === "admin") {
-            window.location.href = "/Admin/dashboard.html";
+            window.location.href = "/Admin/admin-dashboard.html";
         } else {
-            window.location.href = "/user-dashboard/dashboard.html";
+            window.location.href = "/Landing_page/index.html";
         }
         return;
     }
