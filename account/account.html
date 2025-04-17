@@ -38,16 +38,8 @@
             <h3>Register</h3>
             <form onsubmit="event.preventDefault(); register();">
                 <input type="text" id="registerUsername" placeholder="Username" required>
-                <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
-                <input type="password" id="registerPassword" placeholder="Password" required autocomplete="new-password">
-                <div class="password-requirements">
-                    <p>Password must contain:</p>
-                    <ul>
-                        <li>At least 8 characters</li>
-                        <li>At least one uppercase letter</li>
-                        <li>At least one number</li>
-                    </ul>
-                </div>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
                 <button type="submit">Register</button>
             </form>
         </div>

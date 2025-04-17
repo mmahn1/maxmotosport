@@ -1,3 +1,5 @@
+const serverUrl = "https://maxmotosport-production.up.railway.app"; // Replace with your actual server URL
+
 document.addEventListener("DOMContentLoaded", function () {
     loadHeader();
     loadFooter();

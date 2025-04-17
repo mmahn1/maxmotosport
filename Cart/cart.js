@@ -1,3 +1,5 @@
+const serverUrl = "https://maxmotosport-production.up.railway.app"; // Replace with your actual server URL
+
 document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
         const cartCountElement = document.getElementById("cart-count");
         if (cartCountElement) cartCountElement.textContent = cartCount;
@@ -105,7 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    checkoutButton.addEventListener("click", checkout);
+    checkoutButton.addEventListener("click", () => {
+        checkout();
+        updateCartCount(); // Reset cart count only after checkout
+    });
 
     updateCartCount(); // Update cart count on page load
     renderCart();

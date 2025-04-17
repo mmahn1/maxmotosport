@@ -18,44 +18,26 @@ router.post(
   [
     body('username').not().isEmpty().withMessage('Username is required'),
     body('email').isEmail().withMessage('Please include a valid email'),
-    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
-    body('role').optional().isIn(['user', 'admin']).withMessage('Invalid role')
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
   ],
   async (req, res) => {
-    // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: errors.array()[0].msg });
     }
 
-    const { username, email, password, role = 'user' } = req.body;
+    const { username, email, password } = req.body;
 
     try {
-      // Check if user already exists
       const existingUser = await db.get('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
       if (existingUser) {
-        if (existingUser.username === username) {
-          return res.status(400).json({ error: 'Username already exists' });
-        } else {
-          return res.status(400).json({ error: 'Email already exists' });
-        }
+        return res.status(400).json({ error: 'Username or email already exists' });
       }
 
-      // Hash password
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(password, salt);
-
-      // Insert new user
-      const result = await db.run(
-        'INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)',
-        [username, email, passwordHash, role]
-      );
-
-      // Log activity
-      const userId = result.lastID;
+      const hashedPassword = await bcrypt.hash(password, 10);
       await db.run(
-        'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
-        [userId, 'account', 'Account created']
+        'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+        [username, email, hashedPassword]
       );
 
       res.status(201).json({ success: true, message: 'Registration successful' });

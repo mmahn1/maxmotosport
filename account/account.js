@@ -107,29 +107,24 @@ async function register() {
     }
 
     try {
-        console.log("🔹 Sending registration data:", { username, email, password }); // Log outgoing data
-
-        const response = await fetch("https://maxmotosport-production.up.railway.app/register", {
+        const response = await fetch(`${serverUrl}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password })
         });
 
         const data = await response.json();
-        console.log("🔹 Response from server:", data); // Log server response
-
         if (response.ok) {
             showMessage("Registration successful! You can now log in.", "success");
-
             setTimeout(() => {
-                document.getElementById("showLogin").click(); // Switch to login tab
+                document.getElementById("showLogin").click();
                 document.getElementById("loginUsername").value = username;
             }, 1500);
         } else {
             showMessage(data.error || "Registration failed.", "error");
         }
     } catch (error) {
-        console.error("❌ Registration failed:", error);
+        console.error("Registration failed:", error);
         showMessage("An error occurred. Please try again later.", "error");
     } finally {
         registerButton.disabled = false;
