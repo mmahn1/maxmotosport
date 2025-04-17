@@ -17,68 +17,73 @@ document.addEventListener("DOMContentLoaded", function () {
             category: "Safety",
             title: "Cornering ABS",
             text: "An anti-lock braking system is a safety system that prevents a vehicle’s wheels from locking during heavy braking. Essentially, the ABS regulates the braking pressure on the wheel, allowing it to continuously have traction on the riding surface. There are different ABS intervention levels, depending on the selected Riding Mode.",
-            image: "/Motor-bikes/Slike/DesertX specs/ABS.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/ABS.png"
         },
         {
             category: "Comfort",
             title: "Cruise Control",
             text: "Electronic system introduced by Ducati for the first time in 2014 on the Multistrada 1200 that allows you to automatically maintain the speed set by the rider without twisting the throttle.",
-            image: "/Motor-bikes/Slike/DesertX specs/Cruise control.png"
-        },
-        {
-            category: "Safety",
-            title: "Ducati Brake Light (DBL)",
-            text: "In the event of sudden braking, automatically activates the flashing of the rear light to alert the following vehicles, a solution that further improves rider’s safety.",
-            image: "/Motor-bikes/Slike/DesertX specs/dbl.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/Cruise control.png"
         },
         {
             category: "Performance",
             title: "Ducati Multimedia System (DMS)",
             text: "The bike is ready for this infotainment system for connecting the smartphone to the bike via Bluetooth, which allows the rider to manage the main multimedia functions of the mobile phone",
-            image: "/Motor-bikes/Slike/DesertX specs/DMS.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DMS.png"
+        },
+        {
+            category: "Performance",
+            title: "Ducati Power Launch (DPL)",
+            text: "System that guarantees lightning-fast starts allowing the rider to concentrate only on managing the clutch release.",
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DPL.png"
         },
         {
             category: "Comfort",
             title: "Ducati Quick Shifter (DQS)",
             text: "Electronic system derived from racing that allows you to change gears without using the clutch and without closing the throttle when shifting to a higher gear.",
-            image: "/Motor-bikes/Slike/DesertX specs/DQS.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DQS.png"
         },
         {
             category: "Safety",
             title: "Daytime Running Light (DRL)",
             text: "These are the daytime running lights that are used to comply with the obligation to use dipped headlights during the day.",
-            image: "/Motor-bikes/Slike/DesertX specs/DRL.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DRL.png"
         },
         {
             category: "Performance",
             title: "Ducati Traction Control (DTC)",
             text: "Traction control is a system that prevents (or limits) spin of the rear wheel under acceleration. Gently manages engine clearance recovery, modulating the torque delivered and avoiding the peak that can occur when clearance recovery is complete, so as to make it even easier and more predictable. acceleration out of corners.",
-            image: "/Motor-bikes/Slike/DesertX specs/DTC.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DTC.png"
         },
         {
             category: "Safety",
             title: "Ducati Wheelie Control (DWC)",
             text: "System that controls the wheelie and allows you to achieve maximum acceleration performance with ease and safety.",
-            image: "/Motor-bikes/Slike/DesertX specs/DWC.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid system/DWC.png"
         },
         {
             category: "Safety",
             title: "Engine Brake Control (EBC)",
             text: "The EBC helps riders to optimize the stability of the bike in extreme cornering conditions, balancing the forces to which the rear tire is subjected in conditions of intensive application of the engine brake.",
-            image: "/Motor-bikes/Slike/DesertX specs/EBC.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/EBC.png"
+        },
+        {
+            category: "Comfort",
+            title: "Extended Cylinder Deactivation (ECD)",
+            text: "Shutting off the rear cylinders at idle when the bike is stationary, and the deactivation strategy extends to the entire rear bank even at low speeds, when the engine speed and torque demand from the accelerator are low.",
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/ECD.png"
         },
         {
             category: "Performance",
             title: "Ride-by-Wire system",
             text: "Also known as electronic accelerator, it is a system that electronically manages the opening and closing of the throttle (s).",
-            image: "/Motor-bikes/Slike/DesertX specs/RWS.png"
-        }
-        ,
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/RWS.png"
+        },
         {
             category: "Comfort",
             title: "Turn-by-Turn GPS",
             text: "Connect your smartphone to the bike via Bluetooth and visualise directions directly on your dashboard, without using external accessories or having to stop to consult your phone.",
-            image: "/Motor-bikes/Slike/DesertX specs/GPS.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/GPS.png"
         }
         
     ];
@@ -125,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "SEAT HEIGHT: 875 mm",
                 "FUEL TANK CAPACITY: 19 l"
             ],
-            graph: "/Motor-bikes/Slike/DesertX specs/graf1.png",
+            graph: "/Motor-bikes/Slike/DesertX_specs/graf1.png",
             backLink: "/Motor-bikes/DesertX/DesertX.html"
         },
         DESERTX_DISCOVERY: {
@@ -137,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "SEAT HEIGHT: 875 mm",
                 "FUEL TANK CAPACITY: 19 l"
             ],
-            graph: "/Motor-bikes/Slike/DesertX specs/graf2.png",
-            backLink: "/Motor-bikes/DesertX/DesertX Discovery.html"
+            graph: "/Motor-bikes/Slike/DesertX_specs/graf2.png",
+            backLink: "/Motor-bikes/DesertX/DesertX_Discovery.html"
         },
         DESERTX_RALLY: {
             title: "DesertX_Rally", // Matches the text in the <a> element
@@ -149,8 +154,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "SEAT HEIGHT: 910 mm",
                 "FUEL TANK CAPACITY: 21 l"
             ],
-            graph: "/Motor-bikes/Slike/DesertX specs/graf3.png",
-            backLink: "/Motor-bikes/DesertX/DesertX Rally.html"
+            graph: "/Motor-bikes/Slike/DesertX_specs/graf3.png",
+            backLink: "/Motor-bikes/DesertX/DesertX_Rally.html"
         }
     };
 

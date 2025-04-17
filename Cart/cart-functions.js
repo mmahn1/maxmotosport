@@ -2,7 +2,7 @@
 function addToCart(product) {
     if (!product.id || !product.name || !product.price) {
         console.error("Invalid product data:", product);
-        alert("Failed to add product to cart. Please try again.");
+        showCustomAlert("Failed to add product to cart. Please try again.");
         return;
     }
 
@@ -18,7 +18,31 @@ function addToCart(product) {
 
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount(); // Update cart count
-    alert(`${product.name} (${product.color}) added to cart!`);
+    showCustomAlert(`${product.name} added to cart!`); // Display only the product name
+}
+
+// Function to display a custom alert
+function showCustomAlert(message) {
+    const alertBox = document.createElement("div");
+    alertBox.textContent = message;
+    alertBox.style.position = "fixed";
+    alertBox.style.top = "20px";
+    alertBox.style.left = "50%";
+    alertBox.style.transform = "translateX(-50%)"; // Center horizontally
+    alertBox.style.backgroundColor = "lightgreen";
+    alertBox.style.color = "green";
+    alertBox.style.border = "2px solid green";
+    alertBox.style.padding = "10px 20px";
+    alertBox.style.borderRadius = "5px";
+    alertBox.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+    alertBox.style.zIndex = "1000";
+    alertBox.style.fontSize = "16px";
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 3000); // Remove alert after 3 seconds
 }
 
 // Attach the addToCart function to buttons

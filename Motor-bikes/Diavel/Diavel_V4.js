@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Update main image and thumbnails
         if (color === 'Red') {
-            mainImage.src = '/Motor-bikes/Slike/Diavel_V4/Opcija 1.png';
-            thumbnails[0].src = '/Motor-bikes/Slike/Diavel_V4/Opcija 1.png';
-            thumbnails[1].src = '/Motor-bikes/Slike/Diavel_V4/opcija 2.webp';
+            mainImage.src = '/Motor-bikes/Slike/Diavel_V4/Opcija1.png';
+            thumbnails[0].src = '/Motor-bikes/Slike/Diavel_V4/Opcija1.png';
+            thumbnails[1].src = '/Motor-bikes/Slike/Diavel_V4/opcija2.webp';
         } else if (color === 'Black') {
-            mainImage.src = '/Motor-bikes/Slike/Diavel_V4/opcija 2.webp';
-            thumbnails[0].src = '/Motor-bikes/Slike/Diavel_V4/opcija 2.webp';
-            thumbnails[1].src = '/Motor-bikes/Slike/Diavel_V4/Opcija 1.png';
+            mainImage.src = '/Motor-bikes/Slike/Diavel_V4/opcija2.webp';
+            thumbnails[0].src = '/Motor-bikes/Slike/Diavel_V4/opcija2.webp';
+            thumbnails[1].src = '/Motor-bikes/Slike/Diavel_V4/Opcija1.png';
         }
 
         // Update selected color square

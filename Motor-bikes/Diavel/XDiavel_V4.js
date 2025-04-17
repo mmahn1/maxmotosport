@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const colorImages = {
         red: '/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp',
-        black: '/Motor-bikes/Slike/XDiavel_V4/black lava.webp'
+        black: '/Motor-bikes/Slike/XDiavel_V4/black_lava.webp'
     };
 
     colorSquares.forEach(square => {

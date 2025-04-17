@@ -256,7 +256,7 @@ a {
 }
 
 .bike-info {
-    text-align: left;
+    text-align: center; /* Center the content, including the link */
 }
 
 .bike-info h2 {
@@ -284,6 +284,30 @@ a {
     font-size: 1rem;
     transition: background-color 0.3s;
 }
+
+/* Styling for #bike-detail-link */
+#bike-detail-link {
+    display: inline-block; /* Ensure proper alignment */
+    margin-top: 20px; /* Add spacing above the button */
+    background-color: #ff0000; /* Ducati Red */
+    color: #fff;
+    border: 2px solid #ff0000;
+    border-radius: 10px; /* Softer edges */
+    padding: 10px 20px; /* Add padding for better spacing */
+    font-size: 16px;
+    text-decoration: none; /* Remove underline */
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
+}
+
+#bike-detail-link:hover {
+    background-color: #cc0000; /* Darker red on hover */
+    border-color: #cc0000;
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
 /* General Section Styling */
 section {
     padding: 60px 20px;

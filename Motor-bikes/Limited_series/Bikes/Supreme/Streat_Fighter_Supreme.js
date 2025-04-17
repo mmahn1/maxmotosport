@@ -14,12 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
             image: "/Motor-bikes/Slike/Limited_series/Aid_system/Cruise control.png"
         },
         {
-            category: "Safety",
-            title: "Ducati Brake Light (DBL)",
-            text: "In the event of sudden braking, automatically activates the flashing of the rear light to alert the following vehicles, a solution that further improves rider’s safety.",
-            image: "/Motor-bikes/Slike/Limited_series/Aid_system/dbl.png"
-        },
-        {
             category: "Performance",
             title: "Ducati Multimedia System (DMS)",
             text: "The bike is ready for this infotainment system for connecting the smartphone to the bike via Bluetooth, which allows the rider to manage the main multimedia functions of the mobile phone",

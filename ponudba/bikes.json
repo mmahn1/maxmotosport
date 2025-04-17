@@ -5,7 +5,7 @@
         "versions": [
             {
                 "name": "DesertX",
-                "image": "/Motor-bikes/Slike/DesertX/Slika 1.webp",
+                "image": "/Motor-bikes/Slike/DesertX/Slika1.webp",
                 "power": "110hp",
                 "torque": "68 Nm",
                 "weight": "210kg",
@@ -13,7 +13,7 @@
             },
             {
                 "name": "DesertX Discovery",
-                "image": "/Motor-bikes/Slike/DesertX_Discovery/Slika 1.webp",
+                "image": "/Motor-bikes/Slike/DesertX_Discovery/Slika1.webp",
                 "power": "110 hp",
                 "torque": "92 Nm",
                 "weight": "210kg",
@@ -31,11 +31,11 @@
     },
     {
         "name": "Diavel",
-        "image": "/Motor-bikes/Slike/Diavel_V4/opcija 1.png",
+        "image": "/Motor-bikes/Slike/Diavel_V4/opcija1.png",
         "versions": [
             {
                 "name": "Diavel V4",
-                "image": "/Motor-bikes/Slike/Diavel_V4/opcija 1.png",
+                "image": "/Motor-bikes/Slike/Diavel_V4/opcija1.png",
                 "power": "168 hp",
                 "torque": "93 Nm",
                 "weight": "223kg",

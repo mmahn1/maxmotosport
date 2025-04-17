@@ -16,8 +16,8 @@
     <div id="app">
         <section class="hero">
             <picture class="hero-image">
-                <source srcset="/Motor-bikes/Slike/Diavel_V4/Landing image.jpg" type="image/jpg">
-                <img src="/Motor-bikes/Slike/Diavel_V4/Landing image.jpg" alt="DesertX" loading="lazy">
+                <source srcset="/Motor-bikes/Slike/Diavel_V4/Landing_image.jpg" type="image/jpg">
+                <img src="/Motor-bikes/Slike/Diavel_V4/landing.jpg" alt="DesertX" loading="lazy">
             </picture>
             <div class="hero-text">
                 <h1>Diavel V4</h1>
@@ -32,11 +32,11 @@
         <section class="bike-details-container">
             <div class="image-gallery">
                 <div class="main-image">
-                    <img id="selected-image" src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija 1.png" alt="Diavel V4 Red">
+                    <img id="selected-image" src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija1.png" alt="Diavel V4 Red">
                 </div>
                 <div class="thumbnail-images">
-                    <img src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija 1.png" alt="Thumbnail 1" onclick="selectImage(this)" class="selected">
-                    <img src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija 2.webp" alt="Thumbnail 2" onclick="selectImage(this)">
+                    <img src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija1.png" alt="Thumbnail 1" onclick="selectImage(this)" class="selected">
+                    <img src="/Motor-bikes/Slike/Diavel_V4/Red/Opcija2.webp" alt="Thumbnail 2" onclick="selectImage(this)">
                 </div>
             </div>
             <div class="bike-details">
@@ -88,13 +88,13 @@
             <p class="gallery-description">Explore the stunning visuals of the DesertX in action. Check out the images below to see the bike from every angle.</p>
         </section>
         <section class="additional-images">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 10.jpg" alt="Tall Image" class="grid-item1">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 6.jpg" alt="Small Image Below Tall" class="grid-item2">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 8.jpg" alt="Small Image Top Second Column" class="grid-item3">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 9.jpg" alt="Tall Image Second Column" class="grid-item4">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 11.jpg" alt="Small Image Top Third Column" class="grid-item5">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 12.jpg" alt="Small Image Middle Third Column" class="grid-item6">
-            <img src="/Motor-bikes/Slike/Diavel_V4/slika 13.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika10.jpg" alt="Tall Image" class="grid-item1">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika6.jpg" alt="Small Image Below Tall" class="grid-item2">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika8.jpg" alt="Small Image Top Second Column" class="grid-item3">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika9.jpg" alt="Tall Image Second Column" class="grid-item4">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika11.jpg" alt="Small Image Top Third Column" class="grid-item5">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika12.jpg" alt="Small Image Middle Third Column" class="grid-item6">
+            <img src="/Motor-bikes/Slike/Diavel_V4/slika13.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
         </section>
         <div id="newsletter-placeholder"></div>
     </div>
@@ -113,12 +113,12 @@
             const addToCartButton = document.querySelector('.add-to-cart-btn');
 
             if (color === 'red') {
-                bikeImage.src = '/Motor-bikes/Slike/Diavel_V4/Red/Opcija 1.png'; // Image for red option
-                addToCartButton.dataset.image = '/Motor-bikes/Slike/Diavel_V4/Red/Opcija 1.png';
+                bikeImage.src = '/Motor-bikes/Slike/Diavel_V4/Red/Opcija1.png'; // Image for red option
+                addToCartButton.dataset.image = '/Motor-bikes/Slike/Diavel_V4/Red/Opcija1.png';
                 addToCartButton.dataset.color = 'red';
             } else if (color === 'black') {
-                bikeImage.src = '/Motor-bikes/Slike/Diavel_V4/Black/Opcija 1.png'; // Image for black option
-                addToCartButton.dataset.image = '/Motor-bikes/Slike/Diavel_V4/Black/Opcija 1.png';
+                bikeImage.src = '/Motor-bikes/Slike/Diavel_V4/Black/Opcija1.png'; // Image for black option
+                addToCartButton.dataset.image = '/Motor-bikes/Slike/Diavel_V4/Black/Opcija1.png';
                 addToCartButton.dataset.color = 'black';
             }
 

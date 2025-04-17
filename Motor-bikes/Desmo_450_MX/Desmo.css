@@ -495,3 +495,66 @@ section:nth-child(even) {
     margin-bottom: 10px;
 }
 
+.bike-details-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.image-gallery {
+    flex: 1;
+    text-align: center;
+}
+
+.bike-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.bike-details h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.bike-details p {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.price-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.price-and-button .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e00;
+}
+
+.price-and-button .add-to-cart {
+    background-color: #ccc; /* Change to grey */
+    color: #666; /* Dark grey text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: not-allowed; /* Indicate it's unclickable */
+    opacity: 1; /* Ensure full visibility */
+    transition: none; /* Remove hover effects */
+}
+
