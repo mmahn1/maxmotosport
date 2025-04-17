@@ -1,9 +1,9 @@
 // ✅ SET THIS TO true when the real domain is live
-const useCustomDomain = false;
+const useCustomDomain = false; // Set to true to use the custom domain
 
 // 🌐 Both backend domains
 const CUSTOM_DOMAIN = "https://maxmotosport.eu";
-const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app/"; // Use localhost for local testing
+const DEV_DOMAIN = "https://maxmotosport-production.up.railway.app"; // Removed trailing slash
 
 // ✅ Dynamically choose the backend URL based on the toggle
 const serverUrl = useCustomDomain ? CUSTOM_DOMAIN : DEV_DOMAIN;
