@@ -32,6 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
         cartTotal.textContent = `€${total.toFixed(2)}`;
     }
 
+    function updateCartCount() {
+        const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
+        const cartCountElement = document.getElementById("cart-count");
+        if (cartCountElement) cartCountElement.textContent = cartCount;
+    }
+
     function updateQuantity(index, quantity) {
         cart[index].quantity = quantity;
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -73,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert("✅ Order placed successfully!");
                     localStorage.removeItem("cart"); // Clear the cart
                     renderCart(); // Re-render the cart
+                    updateCartCount(); // Reset cart count
                 } else {
                     alert("❌ " + (result.message || result.error));
                 }
@@ -100,5 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     checkoutButton.addEventListener("click", checkout);
 
+    updateCartCount(); // Update cart count on page load
     renderCart();
 });

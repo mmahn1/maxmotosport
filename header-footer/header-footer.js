@@ -75,9 +75,16 @@ function updateCartCount() {
     const cartCountElement = document.getElementById("cart-count");
     if (cartCountElement) {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountElement.textContent = totalItems;
+        cartCountElement.textContent = totalItems; // Update the cart count
     }
 }
+
+// Ensure the cart count updates dynamically when the cart changes
+window.addEventListener("storage", (event) => {
+    if (event.key === "cart") {
+        updateCartCount(); // Update cart count when localStorage changes
+    }
+});
 
 function updateUserDisplay() {
     const userLink = document.getElementById("userLink");

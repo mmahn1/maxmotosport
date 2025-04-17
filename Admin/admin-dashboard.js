@@ -1,3 +1,5 @@
+const serverUrl = "https://example.com"; // Replace with your actual server URL
+
 document.addEventListener("DOMContentLoaded", () => {
     const ordersTableBody = document.querySelector("#orders-table tbody");
 
