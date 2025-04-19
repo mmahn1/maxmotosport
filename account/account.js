@@ -35,6 +35,26 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("❌ Elements not found: Ensure login/register buttons exist.");
     }
+
+    const logoutSection = document.getElementById("logoutSection");
+    const logoutButton = document.getElementById("logoutButton");
+    const loggedInUsername = document.getElementById("loggedInUsername");
+
+    const username = localStorage.getItem("username");
+
+    if (token && username) {
+        logoutSection.classList.remove("hidden");
+        loggedInUsername.textContent = username;
+
+        logoutButton.addEventListener("click", function () {
+            if (confirm("Are you sure you want to log out?")) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                localStorage.removeItem("role");
+                window.location.href = "/account/account.html";
+            }
+        });
+    }
 });
 
 async function login() {
