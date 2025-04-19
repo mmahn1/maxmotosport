@@ -70,6 +70,11 @@ app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', usersRoutes);
 
+// Endpoint to expose server configuration
+app.get('/api/config', (req, res) => {
+    res.json({ SERVER_URL: process.env.SERVER_URL });
+});
+
 // Authentication Routes
 app.post("/register", async (req, res) => {
     console.log("Register endpoint hit with data:", req.body); // Log incoming data

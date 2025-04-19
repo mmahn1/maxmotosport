@@ -1,19 +1,32 @@
-const serverUrl = "https://maxmotosport-production.up.railway.app"; // Replace with your actual server URL
+let serverUrl;
+
+// Fetch the server URL from the backend
+fetch('/api/config')
+    .then(response => response.json())
+    .then(config => {
+        serverUrl = config.SERVER_URL;
+        console.log('Server URL:', serverUrl);
+
+        // Initialize functions that depend on serverUrl
+        loadHeader();
+        loadFooter();
+        loadNewsletter();
+        adjustFooterPosition();
+        updateCartCount();
+    })
+    .catch(error => {
+        console.error('❌ Error fetching server URL:', error);
+    });
 
 document.addEventListener("DOMContentLoaded", function () {
-    loadHeader();
-    loadFooter();
-    loadNewsletter(); // Add this line to load the newsletter
-    adjustFooterPosition();
     window.addEventListener("resize", adjustFooterPosition);
     window.addEventListener("scroll", handleHeaderScroll);
-    updateCartCount(); // Call updateCartCount on page load
 });
 
-document.addEventListener('click', function(e) {
-  if (e.target.tagName === 'A') {
-    console.log('Link clicked:', e.target.href);
-  }
+document.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+        console.log('Link clicked:', e.target.href);
+    }
 });
 
 function loadHeader() {
