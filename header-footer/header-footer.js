@@ -100,12 +100,20 @@ function updateUserDisplay() {
 
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
+    const role = localStorage.getItem("role");
 
     if (token && username) {
         userText.textContent = username;
         userIcon.classList.remove("hidden");
         userLink.href = "#";
         userLink.title = "Logged in as " + username;
+
+        // Change icon based on role
+        if (role === "admin") {
+            userIcon.className = "fas fa-crown"; // Crown icon for admin
+        } else {
+            userIcon.className = "fas fa-user-circle"; // User profile icon for normal users
+        }
 
         userLink.addEventListener("click", function (event) {
             event.preventDefault();
@@ -149,8 +157,7 @@ function updateUserDisplay() {
         });
     } else {
         userText.textContent = "Login / Register";
-        userText.classList.remove("hidden");
-        userIcon.classList.remove("hidden");
+        userIcon.className = "fas fa-user"; // Default user icon
         userLink.href = "/account/account.html";
         userLink.title = "Login or create an account";
         const newUserLink = userLink.cloneNode(true);
