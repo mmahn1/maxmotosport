@@ -92,8 +92,11 @@ function updateUserDisplay() {
     const userLink = document.getElementById("userLink");
     const userText = document.getElementById("userText");
     const userIcon = document.getElementById("userIcon");
+    const logoutSection = document.getElementById("logoutSection");
+    const loggedInUsername = document.getElementById("loggedInUsername");
+    const logoutButton = document.getElementById("logoutButton");
 
-    if (!userLink || !userText || !userIcon) {
+    if (!userLink || !userText || !userIcon || !logoutSection || !loggedInUsername || !logoutButton) {
         console.error("❌ User elements not found in header.");
         return;
     }
@@ -115,53 +118,26 @@ function updateUserDisplay() {
             userIcon.className = "fas fa-user-circle"; // User profile icon for normal users
         }
 
-        userLink.addEventListener("click", function (event) {
-            event.preventDefault();
-            const existingDropdown = document.getElementById("user-dropdown");
-            if (existingDropdown) {
-                existingDropdown.classList.toggle("show-dropdown");
-                return;
+        // Show logout section
+        logoutSection.classList.remove("hidden");
+        loggedInUsername.textContent = username;
+
+        logoutButton.addEventListener("click", function () {
+            if (confirm("Do you want to log out?")) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                localStorage.removeItem("role");
+                window.location.href = "/account/account.html";
             }
-            const dropdown = document.createElement("div");
-            dropdown.id = "user-dropdown";
-            dropdown.className = "user-dropdown";
-            const profileLink = document.createElement("a");
-            profileLink.href = "/account/profile.html";
-            profileLink.innerHTML = '<i class="fas fa-id-card"></i> My Profile';
-            const ordersLink = document.createElement("a");
-            ordersLink.href = "/account/orders.html";
-            ordersLink.innerHTML = '<i class="fas fa-box"></i> My Orders';
-            const logoutLink = document.createElement("a");
-            logoutLink.href = "#";
-            logoutLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-            logoutLink.addEventListener("click", function (e) {
-                e.preventDefault();
-                if (confirm("Do you want to log out?")) {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("username");
-                    localStorage.removeItem("role");
-                    window.location.href = "/account/account.html";
-                }
-            });
-            dropdown.appendChild(profileLink);
-            dropdown.appendChild(ordersLink);
-            dropdown.appendChild(logoutLink);
-            userLink.parentNode.appendChild(dropdown);
-            dropdown.classList.add("show-dropdown");
-            document.addEventListener("click", function closeDropdown(e) {
-                if (!userLink.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.remove("show-dropdown");
-                    document.removeEventListener("click", closeDropdown);
-                }
-            });
         });
     } else {
         userText.textContent = "Login / Register";
         userIcon.className = "fas fa-user"; // Default user icon
         userLink.href = "/account/account.html";
         userLink.title = "Login or create an account";
-        const newUserLink = userLink.cloneNode(true);
-        userLink.parentNode.replaceChild(newUserLink, userLink);
+
+        // Hide logout section
+        logoutSection.classList.add("hidden");
     }
 }
 
