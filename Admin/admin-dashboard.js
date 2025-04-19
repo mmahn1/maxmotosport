@@ -1,4 +1,4 @@
-const serverUrl = "https://example.com"; // Replace with your actual server URL
+const serverUrl = "https://maxmotosport-production.up.railway.app/"; 
 
 document.addEventListener("DOMContentLoaded", () => {
     const ordersTableBody = document.querySelector("#orders-table tbody");
