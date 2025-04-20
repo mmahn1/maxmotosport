@@ -4,14 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    if (token) {
+    /*if (token) {
         if (role === "admin") {
             window.location.href = "/Admin/admin-dashboard.html";
         } else {
             window.location.href = "/Landing_page/index.html";
         }
         return;
-    }
+    }*/
 
     const showLogin = document.getElementById("showLogin");
     const showRegister = document.getElementById("showRegister");
