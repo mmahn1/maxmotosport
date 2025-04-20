@@ -73,7 +73,7 @@
     "id": 3,
     "name": "Ducati Monster",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/monster.jpg",
+    "imageUrl": "/Slike/timeLine/m0onster.jpg",
     "releaseDate": {
       "from": "1933",
       "to": "present"

@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent page refresh
             
             const emailInput = document.getElementById('email');
             const email = emailInput.value.trim();
