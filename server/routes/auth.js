@@ -75,14 +75,13 @@ router.post(
         return res.status(400).json({ error: 'Invalid credentials' });
       }
 
-      // Verify password
-     // const isMatch = await bcrypt.compare(password, user.password_hash);
-      const isMatch = await db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
+      // Verify password using bcrypt
+      const isMatch = await bcrypt.compare(password, user.password_hash);
       if (!isMatch) {
         return res.status(400).json({ error: 'Invalid credentials' });
       }
 
-      // Create and sign JWT token - ENSURE USER ID IS INCLUDED
+      // Create and sign JWT token
       const payload = {
         id: user.id,
         username: user.username,
