@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
  */
 router.get('/subscribers', [auth, adminCheck], async (req, res) => {
   try {
-    const subscribers = await db.all('SELECT email, subscribed_at FROM newsletter_subscribers ORDER BY subscribed_at DESC');
+    const subscribers = await db.all('SELECT email, subscribed_at FROM newsletter ORDER BY subscribed_at DESC');
     res.json({ success: true, subscribers });
   } catch (error) {
     console.error('Error fetching subscribers:', error);
@@ -46,7 +46,7 @@ router.get('/status', auth, async (req, res) => {
     }
     
     const subscriber = await db.get(
-      'SELECT * FROM newsletter_subscribers WHERE email = ? OR user_id = ?',
+      'SELECT * FROM newsletter WHERE email = ? OR user_id = ?',
       [userEmail.email, userId]
     );
     
@@ -69,36 +69,39 @@ router.post('/subscribe', auth, async (req, res) => {
   try {
     const userId = req.user.id;
     const userInfo = await db.get('SELECT email FROM users WHERE id = ?', [userId]);
-    
+
     if (!userInfo) {
+      console.error('Error: User not found for ID:', userId);
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-    
+
     // Check if already subscribed
     const existingSubscription = await db.get(
-      'SELECT * FROM newsletter_subscribers WHERE email = ? OR user_id = ?',
+      'SELECT * FROM newsletter WHERE email = ? OR user_id = ?',
       [userInfo.email, userId]
     );
-    
+
     if (existingSubscription) {
+      console.log('User already subscribed:', userInfo.email);
       return res.json({ success: true, message: 'Already subscribed to newsletter' });
     }
-    
+
     // Add subscription
     await db.run(
-      'INSERT INTO newsletter_subscribers (email, user_id) VALUES (?, ?)',
+      'INSERT INTO newsletter (email, user_id) VALUES (?, ?)',
       [userInfo.email, userId]
     );
-    
+
     // Log activity
     await db.run(
       'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
       [userId, 'newsletter', 'Subscribed to newsletter']
     );
-    
+
+    console.log('Subscription successful for user ID:', userId);
     res.json({ success: true, message: 'Successfully subscribed to newsletter' });
   } catch (error) {
-    console.error('Error subscribing to newsletter:', error);
+    console.error('Error subscribing to newsletter:', error); // Log the error
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
@@ -119,7 +122,7 @@ router.post('/unsubscribe', auth, async (req, res) => {
     
     // Delete subscription
     await db.run(
-      'DELETE FROM newsletter_subscribers WHERE email = ? OR user_id = ?',
+      'DELETE FROM newsletter WHERE email = ? OR user_id = ?',
       [userInfo.email, userId]
     );
     
@@ -206,7 +209,7 @@ router.post(
 
     try {
       // Get all subscribers
-      const subscribers = await db.all('SELECT email FROM newsletter_subscribers');
+      const subscribers = await db.all('SELECT email FROM newsletter');
       
       if (subscribers.length === 0) {
         return res.status(400).json({ success: false, message: 'No subscribers to send newsletter to' });
