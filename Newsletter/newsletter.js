@@ -23,15 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const emailInput = form.querySelector('#email');
             const email = emailInput.value.trim();
-            const token = localStorage.getItem('token'); // Retrieve the token
 
             if (!email || !isValidEmail(email)) {
                 showMessage('Please enter a valid email address.', 'error');
-                return;
-            }
-
-            if (!token) {
-                showMessage('You must be logged in to subscribe to the newsletter.', 'error');
                 return;
             }
 
@@ -42,8 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch('/api/newsletter/subscribe', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Add the token
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email })
             })
@@ -77,6 +70,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const form = document.getElementById('newsletter-form');
         form.parentNode.insertBefore(messageContainer, form.nextSibling);
+
+        // Add styles for colorful alerts
+        messageContainer.style.padding = '10px';
+        messageContainer.style.marginTop = '10px';
+        messageContainer.style.borderRadius = '5px';
+        messageContainer.style.color = '#fff';
+        messageContainer.style.fontWeight = 'bold';
+        messageContainer.style.textAlign = 'center';
+        messageContainer.style.backgroundColor = type === 'success' ? '#28a745' : '#dc3545';
 
         setTimeout(() => {
             messageContainer.remove();

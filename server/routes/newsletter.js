@@ -63,45 +63,32 @@ router.get('/status', auth, async (req, res) => {
 /**
  * @route   POST /api/newsletter/subscribe
  * @desc    Subscribe to newsletter
- * @access  Private
+ * @access  Public
  */
-router.post('/subscribe', auth, async (req, res) => {
+router.post('/subscribe', async (req, res) => {
   try {
-    const userId = req.user.id;
-    const userInfo = await db.get('SELECT email FROM users WHERE id = ?', [userId]);
+    const { email } = req.body;
 
-    if (!userInfo) {
-      console.error('Error: User not found for ID:', userId);
-      return res.status(404).json({ success: false, message: 'User not found' });
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ success: false, message: 'Invalid email address' });
     }
 
     // Check if already subscribed
-    const existingSubscription = await db.get(
-      'SELECT * FROM newsletter WHERE email = ? OR user_id = ?',
-      [userInfo.email, userId]
-    );
+    const existingSubscription = await db.get('SELECT * FROM newsletter WHERE email = ?', [email]);
 
     if (existingSubscription) {
-      console.log('User already subscribed:', userInfo.email);
-      return res.json({ success: true, message: 'Already subscribed to newsletter' });
+      return res.json({ success: true, message: 'You are already subscribed to the newsletter.' });
     }
 
     // Add subscription
     await db.run(
-      'INSERT INTO newsletter (email, user_id) VALUES (?, ?)',
-      [userInfo.email, userId]
+      'INSERT INTO newsletter (email) VALUES (?)',
+      [email]
     );
 
-    // Log activity
-    await db.run(
-      'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
-      [userId, 'newsletter', 'Subscribed to newsletter']
-    );
-
-    console.log('Subscription successful for user ID:', userId);
-    res.json({ success: true, message: 'Successfully subscribed to newsletter' });
+    res.json({ success: true, message: 'Successfully subscribed to the newsletter.' });
   } catch (error) {
-    console.error('Error subscribing to newsletter:', error); // Log the error
+    console.error('Error subscribing to newsletter:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
