@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch(error => {
                     console.error('Newsletter subscription error:', error);
-                    showMessage('An error occurred while subscribing. Please try again later.', 'error');
+                    showMessage(error.message || 'An error occurred while subscribing. Please try again later.', 'error');
                 })
                 .finally(() => {
                     submitBtn.disabled = false;
