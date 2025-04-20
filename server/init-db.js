@@ -32,6 +32,15 @@ async function initDb() {
     await db.exec(schemaSQL);
     console.log('Database schema created');
     
+    // Ensure newsletter table exists
+    await db.run(`
+        CREATE TABLE IF NOT EXISTS newsletter (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT NULL UNIQUE,
+            subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+    
     // Create default admin user
     const salt = await bcrypt.genSalt(10);
     const adminPasswordHash = await bcrypt.hash('amin123', salt);

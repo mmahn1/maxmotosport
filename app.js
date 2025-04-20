@@ -8,7 +8,7 @@ const os = require('os');
 const db = require('./api/database');
 
 // Import routes
-const newsletterRoutes = require('./routes/newsletter');
+const newsletterRoutes = require('./api/newsletter');
 
 // Try to load admin routes
 try {

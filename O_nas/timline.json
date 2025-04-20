@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Ducati Monster",
     "description": "Ducati Monster je razred naked motornih koles, ki jih je Ducati predstavil leta 1993. Od takrat je postal eden največjih uspehov Ducatija in pomemben del njihove prodajne linije. Monster je bil zasnovan kot gol motocikel z vidnim motorjem in minimalnim ohišjem, z močnim izraznim značajem.",
-    "imageUrl": "/Slike/timeLine/monster.jpg",
+    "imageUrl": "/Slike/timeLine/Monster.jpg",
     "releaseDate": {
       "from": "1993",
       "to": "present"
@@ -55,7 +55,7 @@
     "id": 2,
     "name": "Ducati Diavel",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/diavel.jpg",
+    "imageUrl": "/Slike/timeLine/Diavel.jpg",
     "releaseDate": {
       "from": "2010",
       "to": "present"
@@ -163,7 +163,7 @@
     "id": 8,
     "name": "Ducati DesertX",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/desertX.jpg",
+    "imageUrl": "/Slike/timeLine/desertx.jpg",
     "releaseDate": {
       "from": "2023",
       "to": "present"
@@ -883,7 +883,7 @@
     "id": 48,
     "name": "Ducati Apollo",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/apollo.jpg",
+    "imageUrl": "/Slike/timeLine/Apollo.jpg",
     "releaseDate": {
       "from": "1964",
       "to": "1965"
@@ -1135,7 +1135,7 @@
     "id": 62,
     "name": "Ducati Paso",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/paso.jpg",
+    "imageUrl": "/Slike/timeLine/Paso.jpg",
     "releaseDate": {
       "from": "1986",
       "to": "1992"
