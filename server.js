@@ -1,4 +1,5 @@
-//redeploy trigger 
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require("express");
 const fs = require("fs");
 const mysql = require("mysql2");
@@ -10,8 +11,6 @@ const path = require("path");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { exec } = require('child_process');
-const dotenv = require("dotenv");
-dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -122,7 +121,7 @@ app.post("/login", (req, res) => {
 
         if (results.length === 0) {
             console.log("❌ User not found:", username);
-            return res.status(401).json({ error: 'Invalid username or password' });
+            return res.status(401).json({ error: 'Invalid credentials' });
         }
 
         const user = results[0];
@@ -133,10 +132,11 @@ app.post("/login", (req, res) => {
             console.log("🔹 Password valid:", isPasswordValid);
 
             if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid username or password' });
+                return res.status(401).json({ error: 'Invalid credentials' });
             }
 
-            const token = jwt.sign({ id: user.id, role: user.role }, "your_jwt_secret_key", { expiresIn: '1h' });
+            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
+            const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
             res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
         } catch (compareError) {
             console.error("❌ Error comparing passwords:", compareError);
@@ -151,7 +151,8 @@ function authenticateToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, "your_jwt_secret_key", (err, user) => {
+    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
+    jwt.verify(token, jwtSecret, (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
         next();
