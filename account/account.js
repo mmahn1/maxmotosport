@@ -61,6 +61,8 @@ async function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
 
+    console.log("Login attempt:", { username, password }); // Debugging log
+
     const loginButton = document.querySelector("#loginForm button");
     const originalButtonText = loginButton.textContent;
     loginButton.disabled = true;
@@ -81,6 +83,8 @@ async function login() {
         });
 
         const data = await response.json();
+        console.log("Server response:", data); // Debugging log
+
         if (response.ok) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.username);
