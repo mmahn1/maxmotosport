@@ -103,7 +103,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    console.log("🔹 Incoming login request:", req.body); // Log the incoming request body
+    console.log("🔹 Incoming login request:", req.body);
 
     const { username, password } = req.body;
 
@@ -128,8 +128,10 @@ app.post("/login", (req, res) => {
         console.log("🔹 User found:", user);
 
         try {
-            console.log("🔹 Comparing passwords...");
-            const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare with password_hash column
+            console.log("🔹 Password received:", password);
+            console.log("🔹 Hashed password from DB:", user.password_hash);
+
+            const isPasswordValid = await bcrypt.compare(password, user.password_hash);
             console.log("🔹 Password comparison result:", isPasswordValid);
 
             if (!isPasswordValid) {
@@ -137,7 +139,7 @@ app.post("/login", (req, res) => {
                 return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
             }
 
-            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
+            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
             const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
             console.log("✅ Login successful for user:", username);
             res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
