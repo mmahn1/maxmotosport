@@ -95,8 +95,6 @@ app.post("/register", async (req, res) => {
                 return res.status(500).json({ error: 'Server error' });
             }
 
-            console.log("🔹 Email check results:", results); // Log the results of the email check
-
             if (results.length > 0) {
                 console.log("❌ Email already exists:", email);
                 return res.status(400).json({ error: 'The email address is already registered. Please use a different email or log in.' });
@@ -104,12 +102,10 @@ app.post("/register", async (req, res) => {
 
             // Proceed with registration
             const hashedPassword = await bcrypt.hash(password, 10);
-            const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-            console.log("Executing query:", query, [username, email, hashedPassword]); // Log query
-
+            const query = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)'; // Use password_hash column
             db.query(query, [username, email, hashedPassword], (err, result) => {
                 if (err) {
-                    console.error("❌ Database error during registration:", err); // Log the full error object
+                    console.error("❌ Database error during registration:", err);
                     return res.status(500).json({ error: 'Server error' });
                 }
                 console.log("✅ User registered successfully:", { username, email });
@@ -117,7 +113,7 @@ app.post("/register", async (req, res) => {
             });
         });
     } catch (error) {
-        console.error("❌ Server error:", error); // Log server error
+        console.error("❌ Server error:", error);
         res.status(500).json({ error: 'Server error' });
     }
 });
@@ -141,7 +137,7 @@ app.post("/login", (req, res) => {
         }
 
         const user = results[0];
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare password with hash
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare with password_hash column
 
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid username or password' });
