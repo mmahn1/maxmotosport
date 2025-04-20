@@ -109,38 +109,41 @@ app.post("/login", (req, res) => {
 
     if (!username || !password) {
         console.log("❌ Missing username or password");
-        return res.status(400).json({ error: 'All fields are required' });
+        return res.status(400).json({ error: 'All fields are required', source: 'server' });
     }
 
     const query = 'SELECT * FROM users WHERE username = ?';
     db.query(query, [username], async (err, results) => {
         if (err) {
             console.error("❌ Database error:", err);
-            return res.status(500).json({ error: 'Server error' });
+            return res.status(500).json({ error: 'Server error', source: 'server' });
         }
 
         if (results.length === 0) {
             console.log("❌ User not found:", username);
-            return res.status(401).json({ error: 'Invalid credentials' });
+            return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
         }
 
         const user = results[0];
         console.log("🔹 User found:", user);
 
         try {
+            console.log("🔹 Comparing passwords...");
             const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare with password_hash column
-            console.log("🔹 Password valid:", isPasswordValid);
+            console.log("🔹 Password comparison result:", isPasswordValid);
 
             if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid credentials' });
+                console.log("❌ Password mismatch");
+                return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
             }
 
             const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
             const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+            console.log("✅ Login successful for user:", username);
             res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
         } catch (compareError) {
             console.error("❌ Error comparing passwords:", compareError);
-            res.status(500).json({ error: 'Server error' });
+            res.status(500).json({ error: 'Server error', source: 'server' });
         }
     });
 });

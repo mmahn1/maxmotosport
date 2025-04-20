@@ -58,12 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 async function login() {
-    const username = document.getElementById("loginUsername").value;
-    const password = document.getElementById("loginPassword").value;
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
 
     console.log("🔹 Login attempt:", { username, password }); // Debugging log
 
     if (!username || !password) {
+        console.error("❌ Missing username or password (client-side)");
         showMessage("Please enter both username and password.", "error");
         return;
     }
@@ -79,16 +80,18 @@ async function login() {
         console.log("🔹 Server response:", data); // Debugging log
 
         if (response.ok) {
+            console.log("✅ Login successful (client-side)");
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.username);
             localStorage.setItem("role", data.role);
             showMessage("Login successful! Redirecting...", "success");
             setTimeout(() => window.location.href = "/Landing_page/index.html", 1000);
         } else {
+            console.error(`❌ Login failed (server-side): ${data.error}`);
             showMessage(data.error || "Login failed. Please check your credentials.", "error");
         }
     } catch (error) {
-        console.error("❌ Login failed:", error);
+        console.error("❌ Login failed (client-side):", error);
         showMessage("An error occurred. Please try again later.", "error");
     }
 }
