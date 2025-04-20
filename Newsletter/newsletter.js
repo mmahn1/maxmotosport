@@ -23,9 +23,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const emailInput = form.querySelector('#email');
             const email = emailInput.value.trim();
+            const token = localStorage.getItem('token'); // Retrieve the token
 
             if (!email || !isValidEmail(email)) {
                 showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (!token) {
+                showMessage('You must be logged in to subscribe to the newsletter.', 'error');
                 return;
             }
 
@@ -36,7 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch('/api/newsletter/subscribe', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Add the token
                 },
                 body: JSON.stringify({ email })
             })

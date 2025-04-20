@@ -3,12 +3,13 @@ const router = express.Router();
 const crypto = require('crypto');
 const { sendVerificationEmail, sendAdminNotification } = require('../services/email-service');
 const db = require('../api/database');
+const auth = require('../middleware/auth');
 
 function generateVerificationToken() {
   return crypto.randomBytes(32).toString('hex');
 }
 
-router.post('/subscribe', async (req, res) => {
+router.post('/subscribe', auth, async (req, res) => {
     const { email } = req.body;
 
     console.log('Received subscription request:', email); // Log the email
@@ -28,7 +29,7 @@ router.post('/subscribe', async (req, res) => {
     }
 });
 
-router.post('/subscribe', async (req, res) => {
+router.post('/subscribe', auth, async (req, res) => {
   console.log('Newsletter subscription request received:', req.body);
   
   try {
