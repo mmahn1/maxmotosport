@@ -11,15 +11,19 @@ function generateVerificationToken() {
 router.post('/subscribe', async (req, res) => {
     const { email } = req.body;
 
+    console.log('Received subscription request:', email); // Log the email
+
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        console.log('Invalid email address:', email); // Log invalid email
         return res.status(400).json({ success: false, message: 'Invalid email address' });
     }
 
     try {
         await db.run('INSERT INTO newsletter (email) VALUES (?)', [email]);
+        console.log('Email successfully added to newsletter:', email); // Log success
         res.json({ success: true });
     } catch (error) {
-        console.error('Database error:', error);
+        console.error('Database error:', error); // Log database error
         res.status(500).json({ success: false, message: 'Failed to subscribe' });
     }
 });
