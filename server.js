@@ -77,8 +77,6 @@ app.get('/api/config', (req, res) => {
 
 // Authentication Routes
 app.post("/register", async (req, res) => {
-    console.log("Register endpoint hit with data:", req.body); // Log incoming data
-
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
@@ -87,30 +85,17 @@ app.post("/register", async (req, res) => {
     }
 
     try {
-        // Check if the email already exists
-        const emailCheckQuery = 'SELECT * FROM users WHERE email = ?';
-        db.query(emailCheckQuery, [email], async (err, results) => {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log("🔹 Hashed password:", hashedPassword);
+
+        const query = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
+        db.query(query, [username, email, hashedPassword], (err, result) => {
             if (err) {
-                console.error("❌ Database error during email check:", err);
+                console.error("❌ Database error during registration:", err);
                 return res.status(500).json({ error: 'Server error' });
             }
-
-            if (results.length > 0) {
-                console.log("❌ Email already exists:", email);
-                return res.status(400).json({ error: 'The email address is already registered. Please use a different email or log in.' });
-            }
-
-            // Proceed with registration
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const query = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)'; // Use password_hash column
-            db.query(query, [username, email, hashedPassword], (err, result) => {
-                if (err) {
-                    console.error("❌ Database error during registration:", err);
-                    return res.status(500).json({ error: 'Server error' });
-                }
-                console.log("✅ User registered successfully:", { username, email });
-                res.status(201).json({ success: true, message: 'User registered successfully' });
-            });
+            console.log("✅ User registered successfully:", { username, email });
+            res.status(201).json({ success: true, message: 'User registered successfully' });
         });
     } catch (error) {
         console.error("❌ Server error:", error);
@@ -119,32 +104,44 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+    console.log("🔹 Incoming login request:", req.body); // Log the incoming request body
+
     const { username, password } = req.body;
 
     if (!username || !password) {
+        console.log("❌ Missing username or password");
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     const query = 'SELECT * FROM users WHERE username = ?';
     db.query(query, [username], async (err, results) => {
         if (err) {
-            console.error("Database error:", err);
+            console.error("❌ Database error:", err);
             return res.status(500).json({ error: 'Server error' });
         }
 
         if (results.length === 0) {
+            console.log("❌ User not found:", username);
             return res.status(401).json({ error: 'Invalid username or password' });
         }
 
         const user = results[0];
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare with password_hash column
+        console.log("🔹 User found:", user);
 
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid username or password' });
+        try {
+            const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare with password_hash column
+            console.log("🔹 Password valid:", isPasswordValid);
+
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: 'Invalid username or password' });
+            }
+
+            const token = jwt.sign({ id: user.id, role: user.role }, "your_jwt_secret_key", { expiresIn: '1h' });
+            res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
+        } catch (compareError) {
+            console.error("❌ Error comparing passwords:", compareError);
+            res.status(500).json({ error: 'Server error' });
         }
-
-        const token = jwt.sign({ id: user.id, role: user.role }, "your_jwt_secret_key", { expiresIn: '1h' });
-        res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
     });
 });
 

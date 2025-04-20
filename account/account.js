@@ -61,17 +61,10 @@ async function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
 
-    console.log("Login attempt:", { username, password }); // Debugging log
-
-    const loginButton = document.querySelector("#loginForm button");
-    const originalButtonText = loginButton.textContent;
-    loginButton.disabled = true;
-    loginButton.textContent = "Logging in...";
+    console.log("🔹 Login attempt:", { username, password }); // Debugging log
 
     if (!username || !password) {
         showMessage("Please enter both username and password.", "error");
-        loginButton.disabled = false;
-        loginButton.textContent = originalButtonText;
         return;
     }
 
@@ -83,33 +76,20 @@ async function login() {
         });
 
         const data = await response.json();
-        console.log("Server response:", data); // Debugging log
+        console.log("🔹 Server response:", data); // Debugging log
 
         if (response.ok) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.username);
             localStorage.setItem("role", data.role);
-            localStorage.setItem("userId", data.id);
-
             showMessage("Login successful! Redirecting...", "success");
-
-            setTimeout(() => {
-                if (data.role === "admin") {
-                    window.location.href = "/Landing_page/index.html";
-                } else {
-                    window.location.href = "/Landing_page/index.html";
-                }
-            }, 1000);
+            setTimeout(() => window.location.href = "/Landing_page/index.html", 1000);
         } else {
             showMessage(data.error || "Login failed. Please check your credentials.", "error");
-            loginButton.disabled = false;
-            loginButton.textContent = originalButtonText;
         }
     } catch (error) {
         console.error("❌ Login failed:", error);
         showMessage("An error occurred. Please try again later.", "error");
-        loginButton.disabled = false;
-        loginButton.textContent = originalButtonText;
     }
 }
 
