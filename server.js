@@ -141,7 +141,7 @@ app.post("/login", (req, res) => {
         }
 
         const user = results[0];
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash); // Compare password with hash
 
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid username or password' });
