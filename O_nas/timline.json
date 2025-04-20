@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Ducati Monster",
-    "description": "Ducati Monster je razred naked motornih koles, ki jih je Ducati predstavil leta 1993. Od takrat je postal eden največjih uspehov Ducatija in pomemben del njihove prodajne linije. Monster je bil zasnovan kot gol motocikel z vidnim motorjem in minimalnim ohišjem, z močnim izraznim značajem.",
+    "description": "The Ducati Monster is a class of naked motorcycles introduced by Ducati in 1993. Since then, it has become one of Ducati's greatest successes and an important part of their sales line. The Monster was designed as a naked motorcycle with a visible engine and minimal bodywork, with a strong expressive character.",
     "imageUrl": "/Slike/timeLine/Monster.jpg",
     "releaseDate": {
       "from": "1993",
@@ -19,7 +19,7 @@
   {
     "id": 2,
     "name": "Ducati Panigale V4",
-    "description": "Ducati Panigale V4 je super športni motocikel, ki ga je italijanski proizvajalec motociklov Ducati predstavil leta 2018 kot naslednika modela 1299 Panigale. Je prvi serijski motocikel Ducati z V4 motorjem, ki izhaja neposredno iz Desmosedici MotoGP motocikla.",
+    "description": "The Ducati Panigale V4 is a super sports motorcycle launched by Italian motorcycle manufacturer Ducati in 2018 as the successor to the 1299 Panigale. It is the first production Ducati motorcycle with a V4 engine, derived directly from the Desmosedici MotoGP motorcycle.",
     "imageUrl": "/Slike/timeLine/panigale.jpg",
     "releaseDate": {
       "from": "2018",
@@ -73,7 +73,7 @@
     "id": 3,
     "name": "Ducati Monster",
     "manufacturer": "Ducati",
-    "imageUrl": "/Slike/timeLine/m0onster.jpg",
+    "imageUrl": "/Slike/timeLine/m0nster.jpg",
     "releaseDate": {
       "from": "1933",
       "to": "present"
