@@ -795,6 +795,7 @@ section:nth-child(even) {
     color: #333; /* Dark gray for better readability */
     line-height: 1.8;
     max-width: 800px;
+    text-align: center;
 }
 
 .apparel-container {
