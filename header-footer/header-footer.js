@@ -38,9 +38,15 @@ function loadHeader() {
             return response.text();
         })
         .then(html => {
-            document.getElementById('header-placeholder').innerHTML = html;
-            console.log('✅ Header loaded successfully');
-            updateUserDisplay(); // Ensure user info is updated after header loads
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            if (headerPlaceholder) {
+                headerPlaceholder.innerHTML = html;
+                console.log('✅ Header loaded successfully');
+                // Call updateUserDisplay only after the header is fully loaded
+                setTimeout(updateUserDisplay, 0);
+            } else {
+                console.error('❌ Header placeholder not found in DOM.');
+            }
         })
         .catch(error => {
             console.error('❌ Error loading header:', error);
