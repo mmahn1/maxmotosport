@@ -11,17 +11,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const addSubscriberForm = document.getElementById("add-subscriber-form");
     const newSubscriberEmail = document.getElementById("new-subscriber-email");
 
-    // Toggle sections
+    // Toggle newsletter section
     toggleNewsletterBtn.addEventListener("click", () => {
-        newsletterSection.classList.toggle("hidden");
-        toggleNewsletterBtn.textContent = newsletterSection.classList.contains("hidden")
+        const isHidden = newsletterSection.classList.toggle("hidden");
+        toggleNewsletterBtn.textContent = isHidden
             ? "Show Newsletter Subscribers"
             : "Hide Newsletter Subscribers";
     });
 
+    // Toggle orders section
     toggleOrdersBtn.addEventListener("click", () => {
-        ordersSection.classList.toggle("hidden");
-        toggleOrdersBtn.textContent = ordersSection.classList.contains("hidden")
+        const isHidden = ordersSection.classList.toggle("hidden");
+        toggleOrdersBtn.textContent = isHidden
             ? "Show Orders"
             : "Hide Orders";
     });

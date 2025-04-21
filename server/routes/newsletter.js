@@ -32,6 +32,28 @@ router.get('/subscribers', [auth, adminCheck], async (req, res) => {
 });
 
 /**
+ * @route   DELETE /api/newsletter/subscribers/:email
+ * @desc    Remove a subscriber by email
+ * @access  Admin
+ */
+router.delete('/subscribers/:email', [auth, adminCheck], async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    const result = await db.run('DELETE FROM newsletter WHERE email = ?', [email]);
+
+    if (result.changes === 0) {
+      return res.status(404).json({ success: false, message: 'Subscriber not found' });
+    }
+
+    res.json({ success: true, message: 'Subscriber removed successfully' });
+  } catch (error) {
+    console.error('Error removing subscriber:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+/**
  * @route   GET /api/newsletter/status
  * @desc    Check if user is subscribed to newsletter
  * @access  Private
