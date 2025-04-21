@@ -47,6 +47,12 @@ function loadHeader() {
         });
 }
 
+// Call loadHeader when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadHeader();
+    // Other initialization code...
+});
+
 function loadFooter() {
     fetch('/header-footer/footer.html') // Use an absolute path
         .then(response => {
