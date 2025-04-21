@@ -13,21 +13,53 @@
 <body>
     <div id="header-placeholder"></div>
     <h1>Admin Dashboard</h1>
-    <table id="orders-table">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>User ID</th>
-                <th>Total Price</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Orders will be dynamically loaded here -->
-        </tbody>
-    </table>
+
+    <div>
+        <button id="toggle-newsletter">Toggle Newsletter Subscribers</button>
+        <button id="toggle-orders">Toggle Orders</button>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div id="newsletter-section" class="hidden">
+        <h2>Newsletter Subscribers</h2>
+        <table id="newsletter-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Newsletter subscribers will be dynamically loaded here -->
+            </tbody>
+        </table>
+        <form id="add-subscriber-form">
+            <input type="email" id="new-subscriber-email" placeholder="Enter email" required />
+            <button type="submit">Add Subscriber</button>
+        </form>
+        <p>Total Subscribers: <span id="subscriber-count">0</span></p>
+    </div>
+
+    <!-- Orders Section -->
+    <div id="orders-section" class="hidden">
+        <h2>Orders</h2>
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Total Price</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Orders will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
     <div id="footer-placeholder"></div>
 </body>
 </html>
