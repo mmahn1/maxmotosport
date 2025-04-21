@@ -71,7 +71,9 @@ app.use('/api/users', usersRoutes);
 
 // Endpoint to expose server configuration
 app.get('/api/config', (req, res) => {
-    res.json({ serverUrl: process.env.SERVER_URL });
+    const serverUrl = process.env.SERVER_URL || "https://maxmotosport-production.up.railway.app"; // Fallback to production URL
+    console.log("✅ /api/config called. Returning serverUrl:", serverUrl); // Debugging log
+    res.json({ serverUrl });
 });
 
 // Authentication Routes

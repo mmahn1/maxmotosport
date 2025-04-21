@@ -1,3 +1,5 @@
+const serverUrl = window.serverUrl || "https://maxmotosport-production.up.railway.app"; // Fallback to production URL
+
 document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");
@@ -61,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log("🚀 Checkout initiated");
         console.log("Cart data being sent:", cartData);
-        console.log("Server URL:", serverUrl);
+        console.log("Server URL:", serverUrl); // Debugging log
 
         fetch(`${serverUrl}/api/orders`, {
             method: "POST",
