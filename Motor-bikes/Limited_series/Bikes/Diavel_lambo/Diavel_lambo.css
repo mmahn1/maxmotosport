@@ -502,6 +502,8 @@ hero-text h2 {
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
+    text-align: center;
+    margin: 40px auto;
 }
 
 .gallery-description {
