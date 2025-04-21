@@ -779,6 +779,7 @@ section:nth-child(even) {
     background-color: #000; /* Black background */
     color: #fff; /* White text for contrast */
     margin-bottom: 20px;
+    max-width: 800px;
 }
 
 .exclusive-apparel h2 {
