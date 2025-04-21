@@ -1,3 +1,19 @@
+let serverUrl = "";
+
+fetch("/api/config")
+    .then(response => response.json())
+    .then(config => {
+        serverUrl = config.serverUrl;
+
+        // Fetch subscribers and orders after serverUrl is loaded
+        fetchSubscribers();
+        fetchOrders();
+    })
+    .catch(error => {
+        console.error("❌ Failed to load server configuration:", error);
+        alert("Failed to load server configuration. Please try again later.");
+    });
+
 document.addEventListener("DOMContentLoaded", () => {
     const ordersTableBody = document.querySelector("#orders-table tbody");
     const newsletterTableBody = document.querySelector("#newsletter-table tbody");
@@ -80,7 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
             ordersTableBody.appendChild(row);
         });
     }
-
-    fetchSubscribers();
-    fetchOrders();
 });

@@ -71,7 +71,7 @@ app.use('/api/users', usersRoutes);
 
 // Endpoint to expose server configuration
 app.get('/api/config', (req, res) => {
-    res.json({ SERVER_URL: process.env.SERVER_URL });
+    res.json({ serverUrl: process.env.SERVER_URL });
 });
 
 // Authentication Routes
