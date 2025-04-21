@@ -1,3 +1,5 @@
+const serverUrl = "http://localhost:3000"; // Update this to match your server's URL
+
 console.log("🔹 admin-dashboard.js script loaded successfully.");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -121,8 +123,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                console.log("🔹 Response received:", response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(result => {
+                console.log("🔹 Parsed JSON:", result);
                 if (result.success) {
                     console.log("✅ Newsletter subscribers fetched successfully.");
                     renderSubscribers(result.subscribers);
