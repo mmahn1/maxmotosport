@@ -118,19 +118,16 @@ function updateUserDisplay() {
     const userLink = document.getElementById("userLink");
     const userText = document.getElementById("userText");
     const userIcon = document.getElementById("userIcon");
-    const logoutSection = document.getElementById("logoutSection");
-    const loggedInUsername = document.getElementById("loggedInUsername");
 
-    if (!userLink || !userText || !userIcon || !logoutSection || !loggedInUsername) {
+    if (!userLink || !userText || !userIcon) {
         console.error("❌ User elements not found in header.");
         return;
     }
 
-    const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
 
-    if (token && username) {
+    if (username) {
         userText.textContent = username;
         userLink.dataset.role = role;
 
@@ -139,14 +136,10 @@ function updateUserDisplay() {
         } else {
             userIcon.className = "fas fa-user-circle"; // User profile icon for normal users
         }
-
-        logoutSection.classList.remove("hidden");
-        loggedInUsername.textContent = username;
     } else {
         userText.textContent = "Login / Register";
         userIcon.className = "fas fa-user"; // Default user icon
         userLink.dataset.role = "";
-        logoutSection.classList.add("hidden");
     }
 }
 

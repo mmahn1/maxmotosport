@@ -81,9 +81,9 @@ async function login() {
 
         if (response.ok) {
             console.log("✅ Login successful (client-side)");
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("username", data.username);
-            localStorage.setItem("role", data.role);
+            localStorage.setItem("token", data.token); // Save token
+            localStorage.setItem("username", data.username); // Save username
+            localStorage.setItem("role", data.role); // Save role
             showMessage("Login successful! Redirecting...", "success");
 
             if (typeof updateUserDisplay === "function") {
