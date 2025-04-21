@@ -79,72 +79,54 @@ app.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-        console.log("❌ Missing fields in request body:", { username, email, password });
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("🔹 Hashed password:", hashedPassword);
 
         const query = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
         db.query(query, [username, email, hashedPassword], (err, result) => {
             if (err) {
-                console.error("❌ Database error during registration:", err);
                 return res.status(500).json({ error: 'Server error' });
             }
-            console.log("✅ User registered successfully:", { username, email });
             res.status(201).json({ success: true, message: 'User registered successfully' });
         });
     } catch (error) {
-        console.error("❌ Server error:", error);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
 app.post("/login", (req, res) => {
-    console.log("🔹 Incoming login request:", req.body);
-
     const { username, password } = req.body;
 
     if (!username || !password) {
-        console.log("❌ Missing username or password");
         return res.status(400).json({ error: 'All fields are required', source: 'server' });
     }
 
     const query = 'SELECT * FROM users WHERE username = ?';
     db.query(query, [username], async (err, results) => {
         if (err) {
-            console.error("❌ Database error:", err);
             return res.status(500).json({ error: 'Server error', source: 'server' });
         }
 
         if (results.length === 0) {
-            console.log("❌ User not found:", username);
             return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
         }
 
         const user = results[0];
-        console.log("🔹 User found:", user);
 
         try {
-            console.log("🔹 Password received:", password);
-            console.log("🔹 Hashed password from DB:", user.password_hash);
-
             const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-            console.log("🔹 Password comparison result:", isPasswordValid);
 
             if (!isPasswordValid) {
-                console.log("❌ Password mismatch");
                 return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
             }
 
             const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
             const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-            console.log("✅ Login successful for user:", username);
             res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
         } catch (compareError) {
-            console.error("❌ Error comparing passwords:", compareError);
             res.status(500).json({ error: 'Server error', source: 'server' });
         }
     });
@@ -180,7 +162,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
     // Read products from the JSON file
     fs.readFile(JSON_FILE, "utf8", (err, data) => {
         if (err) {
-            console.error("❌ Error reading products JSON file:", err);
             return res.status(500).json({ error: "Server error" });
         }
 
@@ -213,7 +194,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
         `;
         db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
             if (err) {
-                console.error("❌ Error creating order:", err);
                 return res.status(500).json({ error: "Server error" });
             }
             res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
@@ -230,7 +210,6 @@ app.get("/api/orders", authenticateToken, (req, res) => {
     `;
     db.query(query, [req.user.id], (err, results) => {
         if (err) {
-            console.error("❌ Error fetching orders:", err);
             return res.status(500).json({ error: "Server error" });
         }
         res.json({ success: true, orders: results });
@@ -250,7 +229,6 @@ app.get("/api/admin/orders", authenticateToken, (req, res) => {
     `;
     db.query(query, (err, results) => {
         if (err) {
-            console.error("❌ Error fetching all orders:", err);
             return res.status(500).json({ error: "Server error" });
         }
         res.json({ success: true, orders: results });

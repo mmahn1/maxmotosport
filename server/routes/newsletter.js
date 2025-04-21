@@ -26,7 +26,6 @@ router.get('/subscribers', [auth, adminCheck], async (req, res) => {
     const subscribers = await db.all('SELECT email, subscribed_at FROM newsletter ORDER BY subscribed_at DESC');
     res.json({ success: true, subscribers });
   } catch (error) {
-    console.error('Error fetching subscribers:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
