@@ -1,0 +1,77 @@
+@media screen and (max-width: 768px) {
+    /* HEADER */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .header-container nav ul {
+        display: none; /* Hide navigation links by default */
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container nav ul.show {
+        display: flex; /* Show navigation links when toggled */
+    }
+
+    .burger-menu {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* FOOTER */
+    footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    footer .footer-section {
+        width: 100%;
+    }
+
+    /* GENERAL RESPONSIVENESS */
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+
+    img, video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    button, a {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin: 10px 0;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .grid-item {
+        flex: 1 1 100%; /* Stack items vertically */
+    }
+}

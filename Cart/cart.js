@@ -53,9 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Prepare cart data for the backend
         const cartData = cart.map(item => ({
-            product_id: item.id, // Use the product ID from the JSON file
+            product_id: item.id,
             quantity: item.quantity
         }));
 
@@ -63,23 +62,28 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}` // Include JWT token
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({ cart: cartData })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // Attempt to parse JSON
+            })
             .then(result => {
                 if (result.success) {
                     alert("✅ Order placed successfully!");
-                    localStorage.removeItem("cart"); // Clear the cart
-                    renderCart(); // Re-render the cart
+                    localStorage.removeItem("cart");
+                    renderCart();
                 } else {
                     alert("❌ " + (result.message || result.error));
                 }
             })
             .catch(error => {
                 console.error("❌ Checkout failed:", error);
-                alert("❌ Checkout failed: " + error);
+                alert("❌ Checkout failed: " + error.message);
             });
     }
 
