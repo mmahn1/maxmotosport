@@ -85,6 +85,9 @@ async function login() {
             localStorage.setItem("username", data.username);
             localStorage.setItem("role", data.role);
             showMessage("Login successful! Redirecting...", "success");
+
+            updateUserDisplay(); // Update header with user info
+
             setTimeout(() => window.location.href = "/Landing_page/index.html", 1000);
         } else {
             console.error(`❌ Login failed (server-side): ${data.error}`);

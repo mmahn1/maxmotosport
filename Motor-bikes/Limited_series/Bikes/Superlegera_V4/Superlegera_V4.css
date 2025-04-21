@@ -942,7 +942,7 @@ section:nth-child(even) {
 
 .limited-edition {
     text-align: left; /* Align text to the left */
-     /* Limit the width of the section */
+    max-width: 800px; /* Limit the width of the section */
     margin: 40px auto; /* Center the section horizontally with spacing above and below */
     padding: 0 20px; /* Add padding for better spacing */
     line-height: 1.8; /* Improve readability */

@@ -107,9 +107,8 @@ function updateUserDisplay() {
     const userIcon = document.getElementById("userIcon");
     const logoutSection = document.getElementById("logoutSection");
     const loggedInUsername = document.getElementById("loggedInUsername");
-    const logoutButton = document.getElementById("logoutButton");
 
-    if (!userLink || !userText || !userIcon || !logoutSection || !loggedInUsername || !logoutButton) {
+    if (!userLink || !userText || !userIcon || !logoutSection || !loggedInUsername) {
         console.error("❌ User elements not found in header.");
         return;
     }
@@ -120,36 +119,20 @@ function updateUserDisplay() {
 
     if (token && username) {
         userText.textContent = username;
-        userIcon.classList.remove("hidden");
-        userLink.href = "#";
-        userLink.title = "Logged in as " + username;
+        userLink.dataset.role = role;
 
-        // Change icon based on role
         if (role === "admin") {
             userIcon.className = "fas fa-crown"; // Crown icon for admin
         } else {
             userIcon.className = "fas fa-user-circle"; // User profile icon for normal users
         }
 
-        // Show logout section
         logoutSection.classList.remove("hidden");
         loggedInUsername.textContent = username;
-
-        logoutButton.addEventListener("click", function () {
-            if (confirm("Do you want to log out?")) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-                localStorage.removeItem("role");
-                window.location.href = "/account/account.html";
-            }
-        });
     } else {
         userText.textContent = "Login / Register";
         userIcon.className = "fas fa-user"; // Default user icon
-        userLink.href = "/account/account.html";
-        userLink.title = "Login or create an account";
-
-        // Hide logout section
+        userLink.dataset.role = "";
         logoutSection.classList.add("hidden");
     }
 }
