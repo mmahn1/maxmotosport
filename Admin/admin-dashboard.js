@@ -1,6 +1,7 @@
-const serverUrl = "https://maxmotosport-production.up.railway.app/"; 
+console.log("🔹 admin-dashboard.js script loaded successfully.");
 
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("🔹 DOM fully loaded and parsed.");
     const ordersTableBody = document.querySelector("#orders-table tbody");
     const newsletterSection = document.getElementById("newsletter-section");
     const ordersSection = document.getElementById("orders-section");
