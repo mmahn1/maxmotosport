@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 });
 
 module.exports = {
-    query: (sql, params) => pool.execute(sql, params),
+    query: (sql, params) => pool.execute(sql, params), // Ensure this method is correct
     get: (sql, params) => pool.query(sql, params).then(([rows]) => rows[0]),
     all: (sql, params) => pool.query(sql, params).then(([rows]) => rows),
     run: (sql, params) => pool.execute(sql, params)

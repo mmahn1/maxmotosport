@@ -1,3 +1,5 @@
+const serverUrl = window.serverUrl || "http://localhost:3000"; // Fallback to localhost
+
 document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");
@@ -58,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
             quantity: item.quantity
         }));
 
+        console.log("Using serverUrl:", serverUrl); // Debugging log
+
         fetch(`${serverUrl}/api/orders`, {
             method: "POST",
             headers: {
@@ -70,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.json(); // Attempt to parse JSON
+                return response.json();
             })
             .then(result => {
                 if (result.success) {
