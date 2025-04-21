@@ -11,24 +11,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const addSubscriberForm = document.getElementById("add-subscriber-form");
     const newSubscriberEmail = document.getElementById("new-subscriber-email");
 
+    console.log("🔹 Admin dashboard script loaded successfully.");
+
     // Toggle newsletter section
     toggleNewsletterBtn.addEventListener("click", () => {
+        console.log("🔹 Toggle Newsletter button clicked.");
         const isHidden = newsletterSection.classList.toggle("hidden");
         toggleNewsletterBtn.textContent = isHidden
             ? "Show Newsletter Subscribers"
             : "Hide Newsletter Subscribers";
+        console.log(`🔹 Newsletter section is now ${isHidden ? "hidden" : "visible"}.`);
     });
 
     // Toggle orders section
     toggleOrdersBtn.addEventListener("click", () => {
+        console.log("🔹 Toggle Orders button clicked.");
         const isHidden = ordersSection.classList.toggle("hidden");
         toggleOrdersBtn.textContent = isHidden
             ? "Show Orders"
             : "Hide Orders";
+        console.log(`🔹 Orders section is now ${isHidden ? "hidden" : "visible"}.`);
     });
 
     // Fetch all orders
     function fetchOrders() {
+        console.log("🔹 Fetching orders...");
         fetch(`${serverUrl}/api/admin/orders`, {
             method: "GET",
             headers: {
@@ -38,8 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
+                    console.log("✅ Orders fetched successfully.");
                     renderOrders(result.orders);
                 } else {
+                    console.error("❌ Failed to fetch orders:", result.message || result.error);
                     alert("❌ " + (result.message || result.error));
                 }
             })
@@ -51,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render orders in the table
     function renderOrders(orders) {
+        console.log("🔹 Rendering orders...");
         ordersTableBody.innerHTML = ""; // Clear existing rows
 
         orders.forEach(order => {
@@ -67,18 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             ordersTableBody.appendChild(row);
         });
+        console.log(`✅ Rendered ${orders.length} orders.`);
     }
 
     // Handle order expansion
     ordersTableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("view-order-btn")) {
             const orderId = e.target.dataset.id;
+            console.log(`🔹 View button clicked for order ID: ${orderId}`);
             const row = e.target.closest("tr");
 
             // Toggle expanded view
             if (row.nextElementSibling && row.nextElementSibling.classList.contains("order-details")) {
+                console.log("🔹 Hiding order details.");
                 row.nextElementSibling.remove(); // Remove expanded view
             } else {
+                console.log("🔹 Showing order details.");
                 const order = orders.find(o => o.id == orderId);
                 const detailsRow = document.createElement("tr");
                 detailsRow.classList.add("order-details");
@@ -99,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Fetch and render newsletter subscribers
     function fetchSubscribers() {
+        console.log("🔹 Fetching newsletter subscribers...");
         fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "GET",
             headers: {
@@ -108,18 +123,21 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
+                    console.log("✅ Newsletter subscribers fetched successfully.");
                     renderSubscribers(result.subscribers);
                 } else {
+                    console.error("❌ Failed to fetch subscribers:", result.message || result.error);
                     alert("❌ " + (result.message || result.error));
                 }
             })
             .catch(error => {
-                console.error("❌ Failed to fetch subscribers:", error);
+                console.error("❌ Error fetching subscribers:", error);
                 alert("❌ Failed to fetch subscribers: " + error);
             });
     }
 
     function renderSubscribers(subscribers) {
+        console.log("🔹 Rendering subscribers...");
         newsletterTableBody.innerHTML = ""; // Clear existing rows
         subscribers.forEach(subscriber => {
             const row = document.createElement("tr");
@@ -132,12 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
             newsletterTableBody.appendChild(row);
         });
         subscriberCount.textContent = subscribers.length;
+        console.log(`✅ Rendered ${subscribers.length} subscribers.`);
     }
 
     // Handle subscriber removal
     newsletterTableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-subscriber-btn")) {
             const email = e.target.dataset.email;
+            console.log(`🔹 Remove button clicked for email: ${email}`);
             fetch(`${serverUrl}/api/newsletter/subscribers/${encodeURIComponent(email)}`, {
                 method: "DELETE",
                 headers: {
@@ -147,13 +167,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
+                        console.log(`✅ Subscriber with email ${email} removed successfully.`);
                         fetchSubscribers();
                     } else {
+                        console.error(`❌ Failed to remove subscriber: ${result.message || result.error}`);
                         alert("❌ " + (result.message || result.error));
                     }
                 })
                 .catch(error => {
-                    console.error("❌ Failed to remove subscriber:", error);
+                    console.error("❌ Error removing subscriber:", error);
                     alert("❌ Failed to remove subscriber: " + error);
                 });
         }
@@ -163,8 +185,12 @@ document.addEventListener("DOMContentLoaded", () => {
     addSubscriberForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const email = newSubscriberEmail.value.trim();
-        if (!email) return;
+        if (!email) {
+            console.warn("⚠️ No email entered. Cannot add subscriber.");
+            return;
+        }
 
+        console.log(`🔹 Adding new subscriber with email: ${email}`);
         fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "POST",
             headers: {
@@ -176,19 +202,22 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
+                    console.log(`✅ Subscriber with email ${email} added successfully.`);
                     newSubscriberEmail.value = "";
                     fetchSubscribers();
                 } else {
+                    console.error(`❌ Failed to add subscriber: ${result.message || result.error}`);
                     alert("❌ " + (result.message || result.error));
                 }
             })
             .catch(error => {
-                console.error("❌ Failed to add subscriber:", error);
+                console.error("❌ Error adding subscriber:", error);
                 alert("❌ Failed to add subscriber: " + error);
             });
     });
 
     // Initial fetch
+    console.log("🔹 Initializing fetch for subscribers and orders...");
     fetchSubscribers();
     fetchOrders();
 });
