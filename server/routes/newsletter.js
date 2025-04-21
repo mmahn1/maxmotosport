@@ -24,8 +24,12 @@ const transporter = nodemailer.createTransport({
 router.get('/subscribers', [auth, adminCheck], async (req, res) => {
   try {
     const subscribers = await db.all('SELECT email, subscribed_at FROM newsletter ORDER BY subscribed_at DESC');
+    if (!subscribers) {
+      return res.status(404).json({ success: false, message: 'No subscribers found' });
+    }
     res.json({ success: true, subscribers });
   } catch (error) {
+    console.error('❌ Error fetching subscribers:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });

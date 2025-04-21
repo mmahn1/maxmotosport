@@ -229,7 +229,11 @@ app.get("/api/admin/orders", authenticateToken, (req, res) => {
     `;
     db.query(query, (err, results) => {
         if (err) {
+            console.error('❌ Error fetching orders:', err);
             return res.status(500).json({ error: "Server error" });
+        }
+        if (!results.length) {
+            return res.status(404).json({ success: false, message: "No orders found" });
         }
         res.json({ success: true, orders: results });
     });

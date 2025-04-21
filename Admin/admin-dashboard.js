@@ -9,7 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(result => {
                 if (result.success) {
                     renderSubscribers(result.subscribers);
@@ -17,7 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert(result.message || "Failed to fetch subscribers.");
                 }
             })
-            .catch(() => alert("Failed to fetch subscribers."));
+            .catch(error => {
+                console.error("❌ Error fetching subscribers:", error);
+                alert("Failed to fetch subscribers. Please try again later.");
+            });
     }
 
     function renderSubscribers(subscribers) {
@@ -39,7 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(result => {
                 if (result.success) {
                     renderOrders(result.orders);
@@ -47,7 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert(result.message || "Failed to fetch orders.");
                 }
             })
-            .catch(() => alert("Failed to fetch orders."));
+            .catch(error => {
+                console.error("❌ Error fetching orders:", error);
+                alert("Failed to fetch orders. Please try again later.");
+            });
     }
 
     function renderOrders(orders) {
