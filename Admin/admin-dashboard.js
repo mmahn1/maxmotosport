@@ -14,10 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Toggle sections
     toggleNewsletterBtn.addEventListener("click", () => {
         newsletterSection.classList.toggle("hidden");
+        toggleNewsletterBtn.textContent = newsletterSection.classList.contains("hidden")
+            ? "Show Newsletter Subscribers"
+            : "Hide Newsletter Subscribers";
     });
 
     toggleOrdersBtn.addEventListener("click", () => {
         ordersSection.classList.toggle("hidden");
+        toggleOrdersBtn.textContent = ordersSection.classList.contains("hidden")
+            ? "Show Orders"
+            : "Hide Orders";
     });
 
     // Fetch all orders
@@ -119,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
                 <td>${subscriber.email}</td>
                 <td>
-                    <button class="remove-subscriber-btn" data-email="${subscriber.email}">Remove</button>
+                    <button class="remove-subscriber-btn red-button" data-email="${subscriber.email}">Remove</button>
                 </td>
             `;
             newsletterTableBody.appendChild(row);

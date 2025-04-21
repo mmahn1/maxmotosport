@@ -44,6 +44,20 @@ button:hover {
     background-color: #0056b3;
 }
 
+.red-button {
+    background-color: #e00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.red-button:hover {
+    background-color: #c00;
+}
+
 .order-details {
     background-color: #f9f9f9;
 }

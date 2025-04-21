@@ -14,14 +14,17 @@
     <div id="header-placeholder"></div>
     <h1>Admin Dashboard</h1>
 
+    <p>Welcome to the admin panel. Use the buttons below to manage newsletter subscribers and view orders.</p>
+
     <div>
-        <button id="toggle-newsletter">Toggle Newsletter Subscribers</button>
-        <button id="toggle-orders">Toggle Orders</button>
+        <button id="toggle-newsletter" class="red-button">Toggle Newsletter Subscribers</button>
+        <button id="toggle-orders" class="red-button">Toggle Orders</button>
     </div>
 
     <!-- Newsletter Section -->
     <div id="newsletter-section" class="hidden">
         <h2>Newsletter Subscribers</h2>
+        <p>Manage the list of newsletter subscribers. You can add new subscribers, remove existing ones, and view the total count.</p>
         <table id="newsletter-table">
             <thead>
                 <tr>
@@ -35,7 +38,7 @@
         </table>
         <form id="add-subscriber-form">
             <input type="email" id="new-subscriber-email" placeholder="Enter email" required />
-            <button type="submit">Add Subscriber</button>
+            <button type="submit" class="red-button">Add Subscriber</button>
         </form>
         <p>Total Subscribers: <span id="subscriber-count">0</span></p>
     </div>
@@ -43,6 +46,7 @@
     <!-- Orders Section -->
     <div id="orders-section" class="hidden">
         <h2>Orders</h2>
+        <p>View all orders placed by users. This section will be updated once the order placement system is fully implemented.</p>
         <table id="orders-table">
             <thead>
                 <tr>
