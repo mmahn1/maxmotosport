@@ -40,6 +40,7 @@ function loadHeader() {
         .then(html => {
             document.getElementById('header-placeholder').innerHTML = html;
             console.log('✅ Header loaded successfully');
+            updateUserDisplay(); // Ensure user info is updated after header loads
         })
         .catch(error => {
             console.error('❌ Error loading header:', error);

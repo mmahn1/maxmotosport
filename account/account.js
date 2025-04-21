@@ -86,7 +86,11 @@ async function login() {
             localStorage.setItem("role", data.role);
             showMessage("Login successful! Redirecting...", "success");
 
-            updateUserDisplay(); // Update header with user info
+            if (typeof updateUserDisplay === "function") {
+                updateUserDisplay(); // Update header with user info
+            } else {
+                console.error("❌ updateUserDisplay function not found.");
+            }
 
             setTimeout(() => window.location.href = "/Landing_page/index.html", 1000);
         } else {
