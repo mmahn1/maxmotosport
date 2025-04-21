@@ -141,6 +141,14 @@ function updateUserDisplay() {
         userIcon.className = "fas fa-user"; // Default user icon
         userLink.dataset.role = "";
     }
+
+    const adminDashboardNav = document.getElementById("adminDashboardNav");
+
+    if (role === "admin" && adminDashboardNav) {
+        adminDashboardNav.classList.remove("hidden");
+    } else if (adminDashboardNav) {
+        adminDashboardNav.classList.add("hidden");
+    }
 }
 
 function checkAdminStatus() {
