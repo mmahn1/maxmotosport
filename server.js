@@ -155,13 +155,19 @@ app.get("/api/profile", authenticateToken, (req, res) => {
 app.post("/api/orders", authenticateToken, (req, res) => {
     const { cart } = req.body;
 
+    console.log("🚀 New order request received");
+    console.log("User ID:", req.user.id);
+    console.log("Cart data:", cart);
+
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        console.error("❌ Invalid or empty cart data");
         return res.status(400).json({ error: "Cart is empty or invalid" });
     }
 
+    // Read products from the JSON file
     fs.readFile(JSON_FILE, "utf8", (err, data) => {
         if (err) {
-            console.error("Error reading products file:", err);
+            console.error("❌ Error reading products file:", err);
             return res.status(500).json({ error: "Server error" });
         }
 
@@ -170,9 +176,11 @@ app.post("/api/orders", authenticateToken, (req, res) => {
             let totalPrice = 0;
             const productDetails = [];
 
+            // Validate cart items and calculate total price
             for (const item of cart) {
                 const product = products.find(p => p.id === item.product_id);
                 if (!product) {
+                    console.error(`❌ Product with ID ${item.product_id} not found`);
                     return res.status(400).json({ error: `Product with ID ${item.product_id} not found` });
                 }
 
@@ -187,19 +195,23 @@ app.post("/api/orders", authenticateToken, (req, res) => {
                 });
             }
 
+            console.log("🛒 Order details prepared:", productDetails);
+
+            // Insert the order into the database
             const query = `
                 INSERT INTO orders (user_id, product_details, total_price)
                 VALUES (?, ?, ?)
             `;
             db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
                 if (err) {
-                    console.error("Error inserting order:", err);
+                    console.error("❌ Error inserting order into database:", err);
                     return res.status(500).json({ error: "Server error" });
                 }
+                console.log("✅ Order successfully inserted with ID:", result.insertId);
                 res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
             });
         } catch (parseError) {
-            console.error("Error parsing products file:", parseError);
+            console.error("❌ Error parsing products file:", parseError);
             res.status(500).json({ error: "Server error" });
         }
     });

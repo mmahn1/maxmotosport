@@ -1,5 +1,3 @@
-const serverUrl = window.serverUrl || "http://localhost:3000"; // Fallback to localhost
-
 document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");
@@ -55,32 +53,37 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // Prepare cart data for the backend
         const cartData = cart.map(item => ({
-            product_id: item.id,
+            product_id: item.id, // Use the product ID from the JSON file
             quantity: item.quantity
         }));
 
-        console.log("Using serverUrl:", serverUrl); // Debugging log
+        console.log("🚀 Checkout initiated");
+        console.log("Cart data being sent:", cartData);
+        console.log("Server URL:", serverUrl);
 
         fetch(`${serverUrl}/api/orders`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${localStorage.getItem("token")}` // Include JWT token
             },
             body: JSON.stringify({ cart: cartData })
         })
             .then(response => {
+                console.log("📥 Response received:", response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(result => {
+                console.log("✅ Checkout result:", result);
                 if (result.success) {
                     alert("✅ Order placed successfully!");
-                    localStorage.removeItem("cart");
-                    renderCart();
+                    localStorage.removeItem("cart"); // Clear the cart
+                    renderCart(); // Re-render the cart
                 } else {
                     alert("❌ " + (result.message || result.error));
                 }
