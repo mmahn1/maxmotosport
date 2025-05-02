@@ -45,7 +45,6 @@ router.put(
     body('phone').optional().isString()
   ],
   async (req, res) => {
-    // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, message: errors.array()[0].msg });
@@ -55,19 +54,16 @@ router.put(
     const { email, full_name, phone } = req.body;
 
     try {
-      // Check if email already exists for another user
       const existingEmail = await db.get('SELECT id FROM users WHERE email = ? AND id != ?', [email, userId]);
       if (existingEmail) {
         return res.status(400).json({ success: false, message: 'Email already in use' });
       }
       
-      // Update profile
       await db.run(
         'UPDATE users SET email = ?, full_name = ?, phone = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
         [email, full_name || null, phone || null, userId]
       );
       
-      // Log activity
       await db.run(
         'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
         [userId, 'account', 'Updated profile information']
@@ -94,7 +90,7 @@ router.put(
     body('new_password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
   ],
   async (req, res) => {
-    // Validate request data
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, message: errors.array()[0].msg });
@@ -104,29 +100,24 @@ router.put(
     const { current_password, new_password } = req.body;
 
     try {
-      // Get user with password
       const user = await db.get('SELECT password_hash FROM users WHERE id = ?', [userId]);
       if (!user) {
         return res.status(404).json({ success: false, message: 'User not found' });
       }
       
-      // Verify current password
       const isMatch = await bcrypt.compare(current_password, user.password_hash);
       if (!isMatch) {
         return res.status(400).json({ success: false, message: 'Current password is incorrect' });
       }
       
-      // Hash new password
       const salt = await bcrypt.genSalt(10);
       const newPasswordHash = await bcrypt.hash(new_password, salt);
       
-      // Update password
       await db.run(
         'UPDATE users SET password_hash = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
         [newPasswordHash, userId]
       );
       
-      // Log activity
       await db.run(
         'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
         [userId, 'account', 'Changed password']

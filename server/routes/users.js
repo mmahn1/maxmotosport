@@ -57,18 +57,18 @@ router.put('/:id', [auth, adminCheck], async (req, res) => {
   try {
     const { username, email, role, full_name, phone } = req.body;
     
-    // Make sure at least some fields were provided
+    
     if (!username && !email && !role && !full_name && !phone) {
       return res.status(400).json({ success: false, message: 'No fields to update' });
     }
     
-    // First check if user exists
+    
     const existingUser = await db.get('SELECT id FROM users WHERE id = ?', [req.params.id]);
     if (!existingUser) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
     
-    // Update user fields
+    
     await db.run(`
       UPDATE users 
       SET username = COALESCE(?, username),

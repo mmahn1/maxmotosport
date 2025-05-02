@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 
 const express = require("express");
 const fs = require("fs");
@@ -14,9 +14,7 @@ const { exec } = require('child_process');
 
 const app = express();
 const PORT = 3000;
-const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); // Corrected path
-
-// Check if running in production (Railway / Hostinger)
+const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
 
 const db = mysql.createConnection({
@@ -39,8 +37,6 @@ db.query('SELECT DATABASE()', (err, results) => {
     if (err) console.error('Database connection error:', err);
     else console.log('Connected to database:', results[0]['DATABASE()']);
 });
-
-// Routes import section - keep this near the top
 const authRoutes = require('./server/routes/auth');
 const userRoutes = require('./server/routes/user');
 const newsletterRoutes = require('./server/routes/newsletter');
@@ -51,7 +47,7 @@ const usersRoutes = require('./server/routes/users');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: ['https://maxmotosport-production.up.railway.app', 'https://example.com'], // Add your frontend's origin
+    origin: ['https://maxmotosport-production.up.railway.app', 'https://example.com'], 
     credentials: true
 }));
 app.use(session({
@@ -61,7 +57,6 @@ app.use(session({
     cookie: { secure: false, maxAge: 3600000 } 
 }));
 
-// API routes registration - IMPORTANT: This needs to be before other route handlers
 app.use('/', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/newsletter', newsletterRoutes);
@@ -69,12 +64,10 @@ app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', usersRoutes);
 
-// Endpoint to expose server configuration
 app.get('/api/config', (req, res) => {
     res.json({ serverUrl: process.env.SERVER_URL });
 });
 
-// Authentication Routes
 app.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -132,13 +125,12 @@ app.post("/login", (req, res) => {
     });
 });
 
-// JWT Authentication Middleware
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) return res.sendStatus(401);
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
+    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; 
     jwt.verify(token, jwtSecret, (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
@@ -146,12 +138,10 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Example protected route
 app.get("/api/profile", authenticateToken, (req, res) => {
     res.json({ message: `Hello ${req.user.id}, you are logged in as ${req.user.role}` });
 });
 
-// Create a new order from cart data
 app.post("/api/orders", authenticateToken, (req, res) => {
     const { cart } = req.body;
 
@@ -164,7 +154,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
         return res.status(400).json({ error: "Cart is empty or invalid" });
     }
 
-    // Read products from the JSON file
     fs.readFile(JSON_FILE, "utf8", (err, data) => {
         if (err) {
             console.error("❌ Error reading products file:", err);
@@ -176,7 +165,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
             let totalPrice = 0;
             const productDetails = [];
 
-            // Validate cart items and calculate total price
             for (const item of cart) {
                 const product = products.find(p => p.id === item.product_id);
                 if (!product) {
@@ -197,7 +185,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
 
             console.log("🛒 Order details prepared:", productDetails);
 
-            // Insert the order into the database
             const query = `
                 INSERT INTO orders (user_id, product_details, total_price)
                 VALUES (?, ?, ?)
@@ -217,7 +204,6 @@ app.post("/api/orders", authenticateToken, (req, res) => {
     });
 });
 
-// Get all orders for the logged-in user
 app.get("/api/orders", authenticateToken, (req, res) => {
     const query = `
         SELECT id, product_details, total_price, order_date, status
@@ -232,7 +218,6 @@ app.get("/api/orders", authenticateToken, (req, res) => {
     });
 });
 
-// Admin-only route to fetch all orders
 app.get("/api/admin/orders", authenticateToken, (req, res) => {
     if (req.user.role !== "admin") {
         return res.status(403).json({ error: "Access denied" });
@@ -255,7 +240,6 @@ app.get("/api/admin/orders", authenticateToken, (req, res) => {
     });
 });
 
-// Serve static files - Place this AFTER API routes
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));
 app.use("/Slike", express.static(__dirname + "/Slike"));
@@ -264,7 +248,6 @@ app.use("/account", express.static(__dirname + "/account"));
 app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
 app.use("/Cart", express.static(__dirname + "/Cart"));
 
-// Email configuration
 const emailTransporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -275,7 +258,6 @@ const emailTransporter = nodemailer.createTransport({
     }
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}/`);
 });

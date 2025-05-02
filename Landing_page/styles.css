@@ -3,14 +3,12 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-    background: #fff; /* Set a solid white background */
+    background: #fff; 
 }
-
 a {
-    text-decoration: none; /* Remove underline */
-    color: inherit; /* Use inherited text color */
+    text-decoration: none; 
+    color: inherit; 
 }
-
 .hero {
     position: relative;
     height: 100vh;
@@ -20,57 +18,48 @@ a {
     background-size: cover;
     background-position: center;
 }
-
 .hero-image {
-    display: none; /* Hide the <picture> element since the background image is now applied via CSS */
+    display: none; 
 }
-
 .hero-text {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for perfect centering */
-    text-align: center; /* Center text */
-    color: #fff; /* Ensure text is visible */
-    z-index: 2; /* Ensure it appears above the video */
-    max-width: 600px; /* Limit text width for better readability */
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    text-align: center; 
+    color: #fff; 
+    z-index: 2; 
+    max-width: 600px; 
 }
-
 .hero-text h1 {
-    font-size: 2.5rem; /* Reduce font size slightly */
-    margin-bottom: 50px; /* Increase space below the title */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Improve text visibility */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Ensure no overflow */
-    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    font-size: 2.5rem; 
+    margin-bottom: 50px; 
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); 
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
-
 .hero-text p {
     font-size: 1.2rem;
     margin-bottom: 20px;
     line-height: 1.6;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Improve text visibility */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
 }
-
 .hero-text .btn {
     display: inline-block;
     padding: 12px 24px;
     font-size: 1.2rem;
     font-weight: bold;
     border-radius: 5px;
-    position: relative; /* Ensure button is positioned correctly */
+    position: relative; 
     top: 20px;
 }
-
-
 .hero-text h1 {
-    margin-bottom: 0; /* Remove space between h1 and h3 */
+    margin-bottom: 0; 
 }
-
 .hero-text h3 {
-    margin-top: 0; /* Ensure no extra margin above h3 */
+    margin-top: 0; 
 }
-
 .hero-video {
     position: absolute;
     top: 50%;
@@ -79,9 +68,8 @@ a {
     min-height: 100%;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: 2; /* Ensure the video is on top of other elements */
+    z-index: 2; 
 }
-
 .hero-content {
     position: absolute;
     top: 50%;
@@ -89,61 +77,50 @@ a {
     transform: translate(-50%, -50%);
     text-align: center;
     color: #fff;
-    z-index: 1; /* Ensure it appears above the video */
-    background-color: transparent; /* Remove any background color */
-    box-shadow: none; /* Remove any shadow that might appear as an overlay */
+    z-index: 1; 
+    background-color: transparent; 
+    box-shadow: none; 
 }
-
 .hero-content h1 {
-    font-size: 3rem; /* Increase font size by 20% */
-    margin-bottom: 12px; /* Adjust spacing */
+    font-size: 3rem; 
+    margin-bottom: 12px; 
 }
-
 .hero-content p {
-    font-size: 1.44rem; /* Increase font size by 20% */
-    margin-bottom: 24px; /* Adjust spacing */
+    font-size: 1.44rem; 
+    margin-bottom: 24px; 
 }
-
 .hero-content .btn {
     display: inline-block;
-    padding: 12px 24px; /* Adjust padding */
-    
+    padding: 12px 24px; 
     color: #fff;
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
-    font-size: 1.2rem; /* Increase font size by 20% */
+    font-size: 1.2rem; 
     transition: background-color 0.3s;
 }
-
-
-
 .customer-testimonials {
-    background-color: #f5f5f5f5; /* Match background color */
-    padding: 80px 0; /* Adjust padding */
+    background-color: #f5f5f5f5; 
+    padding: 80px 0; 
     text-align: center;
 }
-
 .customer-testimonials h2 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 20px;
 }
-
 .customer-testimonials .section-intro {
     font-size: 1.2rem;
     color: #666;
     margin-bottom: 40px;
 }
-
 .testimonials {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px; /* Adjust gap */
+    gap: 25px; 
     justify-content: center;
     margin-top: 40px;
 }
-
 .testimonial {
     flex: 1;
     min-width: 280px;
@@ -155,44 +132,36 @@ a {
     text-align: left;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .testimonial:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
-
 .testimonial .quote-icon {
     color: var(--primary-color);
     font-size: 2rem;
     margin-bottom: 15px;
 }
-
 .testimonial .quote {
     font-style: italic;
     margin-bottom: 20px;
     line-height: 1.6;
 }
-
 .testimonial .author {
     border-top: 1px solid #eee;
     padding-top: 15px;
 }
-
 .testimonial .author .name {
     font-weight: 600;
     margin-bottom: 3px;
 }
-
 .testimonial .author .bike {
     color: #666;
     font-size: 0.9rem;
 }
-
 .about-us-button-container {
     margin-top: 20px;
-    text-align: center; /* Center the button */
+    text-align: center; 
 }
-
 .about-us-button-container .btn {
     display: inline-block;
     padding: 12px 24px;
@@ -201,18 +170,15 @@ a {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
 .limited-edition-description {
     text-align: center;
     padding: 40px 20px;
 }
-
 .limited-edition-description h2 {
     font-size: 2rem;
     color: #333;
     margin-bottom: 20px;
 }
-
 .limited-edition-description p {
     font-size: 1.2rem;
     color: #555;
@@ -220,110 +186,90 @@ a {
     max-width: 800px;
     margin: 0 auto;
 }
-
 .special-offer-title {
     text-align: center;
     padding: 20px;
-    
     color: #fff;
 }
-
 .special-offer-title h2 {
     font-size: 2rem;
     margin: 0;
 }
-
-/* Updated bike details section */
 .bike-details-section {
-    background-color: #000; /* Black background */
-    color: #fff; /* White text for contrast */
+    background-color: #000; 
+    color: #fff; 
     padding: 40px 20px;
 }
-
 .bike-details-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-template-columns: 1fr 1fr; 
     gap: 20px;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
 }
-
 .bike-image img {
     max-width: 100%;
     display: block;
     margin: 0 auto;
 }
-
 .bike-info {
-    text-align: center; /* Center the content, including the link */
+    text-align: center; 
 }
-
 .bike-info h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #e00; /* Highlighted title in red */
+    color: #e00; 
 }
-
 .bike-info p {
     font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 20px;
-    color: #fff; /* White text for description */
+    color: #fff; 
 }
-
 .bike-info .price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #fff; /* White text for price */
+    color: #fff; 
 }
-
 .bike-info .btn {
     display: inline-block;
     padding: 10px 20px;
     font-size: 1rem;
     transition: background-color 0.3s;
 }
-
-/* Styling for #bike-detail-link */
 #bike-detail-link {
-    display: inline-block; /* Ensure proper alignment */
-    margin-top: 20px; /* Add spacing above the button */
-    background-color: #ff0000; /* Ducati Red */
+    display: inline-block; 
+    margin-top: 20px; 
+    background-color: #ff0000; 
     color: #fff;
     border: 2px solid #ff0000;
-    border-radius: 10px; /* Softer edges */
-    padding: 10px 20px; /* Add padding for better spacing */
+    border-radius: 10px; 
+    padding: 10px 20px; 
     font-size: 16px;
-    text-decoration: none; /* Remove underline */
+    text-decoration: none; 
     display: inline-block;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s, transform 0.2s;
 }
-
 #bike-detail-link:hover {
-    background-color: #cc0000; /* Darker red on hover */
+    background-color: #cc0000; 
     border-color: #cc0000;
-    transform: scale(1.05); /* Slight zoom effect */
+    transform: scale(1.05); 
 }
-
-/* General Section Styling */
 section {
     padding: 60px 20px;
     margin-bottom: 40px;
-    
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
-
 section h2 {
     font-size: 2.5rem;
     color: #333;
     text-align: center;
     margin-bottom: 20px;
 }
-
 section p {
     font-size: 1.2rem;
     color: #555;
@@ -332,18 +278,13 @@ section p {
     margin: 0 auto 20px;
     text-align: center;
 }
-
-/* Product Section */
 .product-section {
-    background-color: #fff; /* White background */
+    background-color: #fff; 
 }
-
-/* Product Section Button */
 .product-button-container {
     text-align: center;
     margin-top: 20px;
 }
-
 .product-button-container .btn {
     display: inline-block;
     padding: 12px 24px;
@@ -352,124 +293,70 @@ section p {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-/* Scrollable Image Section */
 .additional-images.scrollable {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    white-space: nowrap; /* Prevent line breaks */
-    padding: 10px 0; /* Add some padding */
-    scrollbar-width: thin; /* For Firefox: make the scrollbar thinner */
-    scrollbar-color: #e00 #f5f5f5; /* For Firefox: red thumb, light gray track */
+    overflow-x: auto; 
+    white-space: nowrap; 
+    padding: 10px 0; 
+    scrollbar-width: thin; 
+    scrollbar-color: #e00 #f5f5f5; 
 }
-
 .additional-images.scrollable .scroll-container {
-    display: inline-flex; /* Align images in a single row */
-    gap: 20px; /* Add spacing between images */
+    display: inline-flex; 
+    gap: 20px; 
 }
-
 .additional-images.scrollable img {
-    width: auto; /* Maintain aspect ratio */
-    height: 300px; /* Reduce height to make the scrollable area smaller */
-    object-fit: contain; /* Ensure the entire image fits within the container */
-    border-radius: 10px; /* Add rounded corners */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-    cursor: pointer; /* Indicate interactivity */
-    transition: transform 0.3s; /* Smooth scaling effect */
+    width: auto; 
+    height: 300px; 
+    object-fit: contain; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    cursor: pointer; 
+    transition: transform 0.3s; 
 }
-
 .additional-images.scrollable img:hover {
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    transform: scale(1.05); 
 }
-
-/* Custom scrollbar for WebKit browsers (Chrome, Edge, Safari) */
 .additional-images.scrollable::-webkit-scrollbar {
-    height: 8px; /* Adjust scrollbar height */
+    height: 8px; 
 }
-
 .additional-images.scrollable::-webkit-scrollbar-thumb {
-    background-color: #e00; /* Red scrollbar thumb */
-    border-radius: 10px; /* Rounded scrollbar thumb */
+    background-color: #e00; 
+    border-radius: 10px; 
 }
-
 .additional-images.scrollable::-webkit-scrollbar-track {
-    
-    border-radius: 10px; /* Rounded scrollbar track */
+    border-radius: 10px; 
 }
-
-/* Contact Section */
-.contact-section {
-    background-color: #fff; /* White background */
-    text-align: center;
-}
-
-.contact-section form {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.contact-section input,
-.contact-section textarea {
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-}
-
-.contact-section input:focus,
-.contact-section textarea:focus {
-    border-color: #e00;
-}
-
-.contact-section button {
-    padding: 12px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-/* Services Section */
 .services-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-template-columns: 1fr 1fr; 
     gap: 20px;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
 }
-
 .services-image img {
     max-width: 100%;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
 .services-text {
     text-align: left;
 }
-
 .services-text h2 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
 }
-
 .services-text p {
     font-size: 1.2rem;
     line-height: 1.8;
     margin-bottom: 20px;
     color: #555;
 }
-
 .services-button-container {
     margin-top: 20px;
-    text-align: center; /* Center the button */
+    text-align: center; 
 }
-
 .services-button-container .btn {
     display: inline-block;
     padding: 12px 24px;
@@ -478,20 +365,13 @@ section p {
     border-radius: 5px;
     transition: background-color 0.3s;
 }
-
-
-/* Common button styling */
 .btn {
-    background-color: #ff0000; /* Consistent red color */
+    background-color: #ff0000; 
     color: #fff;
-    border: 2px solid #ff0000; /* Consistent outline */
+    border: 2px solid #ff0000; 
     transition: background-color 0.3s, border-color 0.3s;
 }
-
 .btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
+    background-color: #cc0000; 
     border-color: #cc0000;
 }
-
-
-

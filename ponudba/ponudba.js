@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadProducts("bikes.json", "bikes-container", "bike");
     loadCategories("ponudba2.json", "accessories-container");
 
-    let currentProduct = null; // Track the currently displayed product
+    let currentProduct = null; 
 
     function loadCategories(jsonPath, containerId) {
         fetch(jsonPath)
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(categories => {
                 const container = document.getElementById(containerId);
-                container.innerHTML = ""; // Clear container
+                container.innerHTML = ""; 
                 
                 if (categories && categories.length > 0) {
                     categories.forEach(category => {
@@ -41,11 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         container.appendChild(categoryCard);
                     });
-
-                    // Enable horizontal scrolling with mouse wheel
                     container.addEventListener("wheel", (event) => {
                         if (event.deltaY !== 0) {
-                            container.scrollLeft += event.deltaY * 2; // Increase scroll speed
+                            container.scrollLeft += event.deltaY * 2; 
                             container.classList.add("scrolling");
                             clearTimeout(container.scrollTimeout);
                             container.scrollTimeout = setTimeout(() => {
@@ -94,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             productCard.addEventListener("click", () => redirectToSpecificAccessories(product.category));
                         }
 
-                        // Add hover effect to bike cards
                         if (type === "bike") {
                             let hoverTimeout;
                             productCard.addEventListener("mouseover", () => {
@@ -115,10 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         container.appendChild(productCard);
                     });
 
-                    // Enable horizontal scrolling with mouse wheel
                     container.addEventListener("wheel", (event) => {
                         if (event.deltaY !== 0) {
-                            container.scrollLeft += event.deltaY * 2; // Increase scroll speed
+                            container.scrollLeft += event.deltaY * 2; 
                             container.classList.add("scrolling");
                             clearTimeout(container.scrollTimeout);
                             container.scrollTimeout = setTimeout(() => {
@@ -157,15 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
         previewTitle.textContent = product.name;
         previewImage.src = product.image;
 
-        // Clear previous tabs
         tabContainer.innerHTML = "";
 
-        // Add tabs for versions only
         if (product.versions && product.versions.length > 0) {
             product.versions.forEach((version, index) => {
                 createTab(version.name, () => showVersion(version), tabContainer, index === 0);
             });
-            showVersion(product.versions[0]); // Show the first version by default
+            showVersion(product.versions[0]); 
         }
 
         previewSection.style.display = "block";
@@ -184,11 +178,9 @@ document.addEventListener("DOMContentLoaded", function () {
         tabContainer.appendChild(tab);
     }
 
-    // This function will only be used from tabs now, not for direct category navigation
     function redirectToSpecificAccessories(category) {
         let page = "accessories";
         
-        // Convert category to lowercase for case-insensitive comparison
         const lowerCategory = category ? category.toLowerCase().trim() : '';
         
         if (lowerCategory === "bike wear") {
@@ -203,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.closePreview = function () {
         const previewSection = document.getElementById("preview-section");
         previewSection.style.display = "none";
-        currentProduct = null; // Reset the current product
+        currentProduct = null; 
     };
 
     function showVersion(version) {
@@ -218,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 Go to Bike Page
             </button>
         `;
-        document.getElementById("preview-image").src = version.image; // Update the main image with the version image
+        document.getElementById("preview-image").src = version.image; 
     }
 
     function addToCart(product) {
@@ -235,7 +227,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(`${product.name} added to cart!`);
     }
 
-    // Example usage: Attach to buttons
     document.querySelectorAll(".add-to-cart-btn").forEach(button => {
         button.addEventListener("click", () => {
             const product = {

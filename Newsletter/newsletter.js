@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const newsletterPlaceholder = document.getElementById('newsletter-placeholder');
     if (newsletterPlaceholder) {
-        fetch('/Newsletter/index.html') // Use an absolute path
+        fetch('/Newsletter/index.html') 
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load newsletter content');
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener('submit', function (event) {
         const form = event.target;
         if (form.id === 'newsletter-form') {
-            event.preventDefault(); // Prevent page refresh
+            event.preventDefault(); 
 
             const emailInput = form.querySelector('#email');
             const email = emailInput.value.trim();
@@ -70,8 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const form = document.getElementById('newsletter-form');
         form.parentNode.insertBefore(messageContainer, form.nextSibling);
-
-        // Add styles for colorful alerts
         messageContainer.style.padding = '10px';
         messageContainer.style.marginTop = '10px';
         messageContainer.style.borderRadius = '5px';

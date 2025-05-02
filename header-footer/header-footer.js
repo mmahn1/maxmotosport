@@ -1,13 +1,9 @@
 let serverUrl;
-
-// Fetch the server URL from the backend
 fetch('/api/config')
     .then(response => response.json())
     .then(config => {
         serverUrl = config.SERVER_URL;
         console.log('Server URL:', serverUrl);
-
-        // Initialize functions that depend on serverUrl
         loadHeader();
         loadFooter();
         loadNewsletter();
@@ -30,7 +26,7 @@ document.addEventListener('click', function (e) {
 });
 
 function loadHeader() {
-    fetch('/header-footer/header.html') // Use an absolute path
+    fetch('/header-footer/header.html') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to load header');
@@ -42,7 +38,7 @@ function loadHeader() {
             if (headerPlaceholder) {
                 headerPlaceholder.innerHTML = html;
                 console.log('✅ Header loaded successfully');
-                // Call updateUserDisplay only after the header is fully loaded
+                
                 setTimeout(updateUserDisplay, 0);
             } else {
                 console.error('❌ Header placeholder not found in DOM.');
@@ -53,14 +49,14 @@ function loadHeader() {
         });
 }
 
-// Call loadHeader when the page loads
+
 document.addEventListener('DOMContentLoaded', () => {
     loadHeader();
-    // Other initialization code...
+    
 });
 
 function loadFooter() {
-    fetch('/header-footer/footer.html') // Use an absolute path
+    fetch('/header-footer/footer.html') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to load footer');
@@ -103,14 +99,13 @@ function updateCartCount() {
     const cartCountElement = document.getElementById("cart-count");
     if (cartCountElement) {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCountElement.textContent = totalItems; // Update the cart count
+        cartCountElement.textContent = totalItems; 
     }
 }
 
-// Ensure the cart count updates dynamically when the cart changes
 window.addEventListener("storage", (event) => {
     if (event.key === "cart") {
-        updateCartCount(); // Update cart count when localStorage changes
+        updateCartCount(); 
     }
 });
 
@@ -132,13 +127,13 @@ function updateUserDisplay() {
         userLink.dataset.role = role;
 
         if (role === "admin") {
-            userIcon.className = "fas fa-crown"; // Crown icon for admin
+            userIcon.className = "fas fa-crown"; 
         } else {
-            userIcon.className = "fas fa-user-circle"; // User profile icon for normal users
+            userIcon.className = "fas fa-user-circle"; 
         }
     } else {
         userText.textContent = "Login / Register";
-        userIcon.className = "fas fa-user"; // Default user icon
+        userIcon.className = "fas fa-user"; 
         userLink.dataset.role = "";
     }
 
@@ -152,7 +147,7 @@ function updateUserDisplay() {
 }
 
 function checkAdminStatus() {
-    fetch('/api/check-admin') // Use an absolute path
+    fetch('/api/check-admin') 
         .then(response => {
             if (!response.ok) {
                 throw new Error('Server responded with 404 (Not Found)');

@@ -8,31 +8,29 @@ async function initDb() {
   try {
     console.log('Initializing database...');
     
-    // Database file path
     const dbPath = path.join(__dirname, 'maxmotosport.db');
     
-    // Remove existing database if it exists
     try {
       await fs.unlink(dbPath);
       console.log('Removed existing database file');
     } catch (error) {
-      // File doesn't exist, continue
+      
     }
     
-    // Create new database
+    
     const db = await open({
       filename: dbPath,
       driver: sqlite3.Database
     });
     
-    // Read schema SQL
+    
     const schemaSQL = await fs.readFile(path.join(__dirname, 'db_schema.sql'), 'utf8');
     
-    // Execute schema SQL
+    
     await db.exec(schemaSQL);
     console.log('Database schema created');
     
-    // Ensure newsletter table exists
+    
     await db.run(`
         CREATE TABLE IF NOT EXISTS newsletter (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +39,7 @@ async function initDb() {
         )
     `);
     
-    // Create default admin user
+   
     const salt = await bcrypt.genSalt(10);
     const adminPasswordHash = await bcrypt.hash('amin123', salt);
     
@@ -51,7 +49,7 @@ async function initDb() {
     );
     console.log('Default admin user created (admin123/amin123)');
     
-    // Create regular test user
+   
     const userPasswordHash = await bcrypt.hash('password123', salt);
     
     await db.run(
@@ -60,13 +58,11 @@ async function initDb() {
     );
     console.log('Test user created (user/password123)');
     
-    // Add some test newsletter subscribers
     await db.run('INSERT INTO newsletter_subscribers (email) VALUES (?)', ['subscriber1@example.com']);
     await db.run('INSERT INTO newsletter_subscribers (email) VALUES (?)', ['subscriber2@example.com']);
     await db.run('INSERT INTO newsletter_subscribers (email, user_id) VALUES (?, ?)', ['user@example.com', 2]);
     console.log('Test newsletter subscribers added');
     
-    // Add some test maintenance orders
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(10, 0, 0, 0);
@@ -90,7 +86,6 @@ async function initDb() {
     );
     console.log('Test maintenance orders added');
     
-    // Add some user activity
     await db.run(
       'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
       [2, 'account', 'Account created']
@@ -112,7 +107,6 @@ async function initDb() {
     );
     console.log('Test user activity added');
     
-    // Close database connection
     await db.close();
     
     console.log('Database initialization complete!');

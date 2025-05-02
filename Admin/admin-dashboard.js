@@ -4,8 +4,6 @@ fetch("/api/config")
     .then(response => response.json())
     .then(config => {
         serverUrl = config.serverUrl;
-
-        // Fetch subscribers and orders after serverUrl is loaded
         fetchSubscribers();
         fetchOrders();
     })

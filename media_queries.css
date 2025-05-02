@@ -1,5 +1,5 @@
 @media screen and (max-width: 768px) {
-    /* HEADER */
+    
     header {
         display: flex;
         justify-content: space-between;
@@ -8,7 +8,7 @@
     }
 
     .header-container nav ul {
-        display: none; /* Hide navigation links by default */
+        display: none; 
         flex-direction: column;
         background-color: #fff;
         position: absolute;
@@ -20,7 +20,7 @@
     }
 
     .header-container nav ul.show {
-        display: flex; /* Show navigation links when toggled */
+        display: flex; 
     }
 
     .burger-menu {
@@ -29,7 +29,7 @@
         cursor: pointer;
     }
 
-    /* FOOTER */
+  
     footer {
         display: flex;
         flex-direction: column;
@@ -43,11 +43,11 @@
         width: 100%;
     }
 
-    /* GENERAL RESPONSIVENESS */
+    
     body {
         margin: 0;
         padding: 0;
-        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-x: hidden; 
     }
 
     img, video {
@@ -72,6 +72,6 @@
     }
 
     .grid-item {
-        flex: 1 1 100%; /* Stack items vertically */
+        flex: 1 1 100%; 
     }
 }
