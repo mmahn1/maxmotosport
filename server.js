@@ -13,7 +13,7 @@ const nodemailer = require("nodemailer");
 const { exec } = require('child_process');
 
 const app = express();
-const PORT = 3000;
+const PORT =  process.env.PORT|| 3000;
 const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
 
