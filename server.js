@@ -281,3 +281,6 @@ const emailTransporter = nodemailer.createTransport({
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}/`);
 });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
+});
