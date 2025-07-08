@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentIndex = 0;
     let offers = [];
 
-    fetch("specialoffer.json")
+    fetch("/Landing_page/specialoffer.json")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
