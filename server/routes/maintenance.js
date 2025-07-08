@@ -16,11 +16,9 @@ router.get('/orders', auth, async (req, res) => {
   const date = req.query.date;
   
   try {
-    // Build query with optional filters
     let query = 'SELECT * FROM maintenance_orders';
     const queryParams = [];
     
-    // Only apply filters if provided
     const conditions = [];
     
     if (status && status !== 'all') {
@@ -33,12 +31,10 @@ router.get('/orders', auth, async (req, res) => {
       queryParams.push(date);
     }
     
-    // Add WHERE clause if there are conditions
     if (conditions.length > 0) {
       query += ' WHERE ' + conditions.join(' AND ');
     }
-    
-    // Add sorting
+  
     query += ' ORDER BY appointment_date DESC';
     
     const orders = await db.all(query, queryParams);
@@ -147,7 +143,6 @@ router.post(
     body('time').matches(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/).withMessage('Valid time is required (HH:MM format)')
   ],
   async (req, res) => {
-    // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, message: errors.array()[0].msg });
@@ -158,7 +153,6 @@ router.post(
     const adminId = req.user.id;
 
     try {
-      // Check if order exists
       const order = await db.get('SELECT * FROM maintenance_orders WHERE id = ?', [id]);
       
       if (!order) {
@@ -172,10 +166,8 @@ router.post(
         });
       }
       
-      // Format new appointment date
       const newAppointmentDate = `${date}T${time}:00`;
       
-      // Check if the time slot is available (no other appointments within 1 hour)
       const appointmentTime = new Date(newAppointmentDate);
       const oneHourBefore = new Date(appointmentTime.getTime() - 60 * 60 * 1000);
       const oneHourAfter = new Date(appointmentTime.getTime() + 60 * 60 * 1000);
@@ -196,7 +188,6 @@ router.post(
         });
       }
       
-      // Add admin note about the reschedule
       let adminNotes = order.admin_notes || '';
       const rescheduleNote = `[${new Date().toLocaleString()}] Rescheduled from ${new Date(order.appointment_date).toLocaleString()} to ${newAppointmentDate}.`;
       
@@ -206,19 +197,16 @@ router.post(
         adminNotes = rescheduleNote;
       }
       
-      // Update order with new appointment date
       await db.run(
         'UPDATE maintenance_orders SET appointment_date = ?, admin_notes = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
         [newAppointmentDate, adminNotes, id]
       );
       
-      // Log admin activity
       await db.run(
         'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
         [adminId, 'maintenance', `Rescheduled maintenance order #${id}`]
       );
       
-      // Notify customer about reschedule (could send email here)
       
       res.json({ success: true, message: 'Order rescheduled successfully' });
     } catch (error) {
@@ -281,7 +269,6 @@ router.post('/schedule', [
   body('vehicle_info').not().isEmpty().withMessage('Vehicle information is required'),
   body('appointment_date').isISO8601().withMessage('Valid appointment date is required')
 ], async (req, res) => {
-  // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ success: false, message: errors.array()[0].msg });
@@ -291,16 +278,13 @@ router.post('/schedule', [
   const userId = req.user.id;
 
   try {
-    // Get user info
     const user = await db.get('SELECT username, full_name, phone FROM users WHERE id = ?', [userId]);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Use full_name if available, otherwise username
     const customerName = user.full_name || user.username;
 
-    // Insert maintenance order
     const result = await db.run(
       `INSERT INTO maintenance_orders 
       (user_id, customer_name, phone, service_type, vehicle_info, appointment_date, status, notes)
@@ -308,7 +292,6 @@ router.post('/schedule', [
       [userId, customerName, user.phone || '', service_type, vehicle_info, appointment_date, notes || '']
     );
 
-    // Log activity
     await db.run(
       'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
       [userId, 'maintenance', `Scheduled ${service_type} maintenance service`]

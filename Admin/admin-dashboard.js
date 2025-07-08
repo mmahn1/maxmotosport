@@ -1,71 +1,93 @@
+<<<<<<< HEAD
 const serverUrl = "http://localhost:3000"; // Update this to match your server's URL
 
 console.log("🔹 admin-dashboard.js script loaded successfully.");
+=======
+let serverUrl = "";
+
+fetch("/api/config")
+    .then(response => response.json())
+    .then(config => {
+        serverUrl = config.serverUrl;
+        fetchSubscribers();
+        fetchOrders();
+    })
+    .catch(error => {
+        console.error("❌ Failed to load server configuration:", error);
+        alert("Failed to load server configuration. Please try again later.");
+    });
+>>>>>>> fix-crash-version
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("🔹 DOM fully loaded and parsed.");
     const ordersTableBody = document.querySelector("#orders-table tbody");
-    const newsletterSection = document.getElementById("newsletter-section");
-    const ordersSection = document.getElementById("orders-section");
-    const toggleNewsletterBtn = document.getElementById("toggle-newsletter");
-    const toggleOrdersBtn = document.getElementById("toggle-orders");
     const newsletterTableBody = document.querySelector("#newsletter-table tbody");
-    const subscriberCount = document.getElementById("subscriber-count");
-    const addSubscriberForm = document.getElementById("add-subscriber-form");
-    const newSubscriberEmail = document.getElementById("new-subscriber-email");
 
-    console.log("🔹 Admin dashboard script loaded successfully.");
-
-    // Toggle newsletter section
-    toggleNewsletterBtn.addEventListener("click", () => {
-        console.log("🔹 Toggle Newsletter button clicked.");
-        const isHidden = newsletterSection.classList.toggle("hidden");
-        toggleNewsletterBtn.textContent = isHidden
-            ? "Show Newsletter Subscribers"
-            : "Hide Newsletter Subscribers";
-        console.log(`🔹 Newsletter section is now ${isHidden ? "hidden" : "visible"}.`);
-    });
-
-    // Toggle orders section
-    toggleOrdersBtn.addEventListener("click", () => {
-        console.log("🔹 Toggle Orders button clicked.");
-        const isHidden = ordersSection.classList.toggle("hidden");
-        toggleOrdersBtn.textContent = isHidden
-            ? "Show Orders"
-            : "Hide Orders";
-        console.log(`🔹 Orders section is now ${isHidden ? "hidden" : "visible"}.`);
-    });
-
-    // Fetch all orders
-    function fetchOrders() {
-        console.log("🔹 Fetching orders...");
-        fetch(`${serverUrl}/api/admin/orders`, {
+    function fetchSubscribers() {
+        fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}` // Include JWT token
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(result => {
                 if (result.success) {
-                    console.log("✅ Orders fetched successfully.");
-                    renderOrders(result.orders);
+                    renderSubscribers(result.subscribers);
                 } else {
-                    console.error("❌ Failed to fetch orders:", result.message || result.error);
-                    alert("❌ " + (result.message || result.error));
+                    alert(result.message || "Failed to fetch subscribers.");
                 }
             })
             .catch(error => {
-                console.error("❌ Failed to fetch orders:", error);
-                alert("❌ Failed to fetch orders: " + error);
+                console.error("❌ Error fetching subscribers:", error);
+                alert("Failed to fetch subscribers. Please try again later.");
             });
     }
 
-    // Render orders in the table
-    function renderOrders(orders) {
-        console.log("🔹 Rendering orders...");
-        ordersTableBody.innerHTML = ""; // Clear existing rows
+    function renderSubscribers(subscribers) {
+        newsletterTableBody.innerHTML = "";
+        subscribers.forEach(subscriber => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${subscriber.email}</td>
+                <td>${new Date(subscriber.subscribed_at).toLocaleString()}</td>
+            `;
+            newsletterTableBody.appendChild(row);
+        });
+    }
 
+    function fetchOrders() {
+        fetch(`${serverUrl}/api/admin/orders`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.success) {
+                    renderOrders(result.orders);
+                } else {
+                    alert(result.message || "Failed to fetch orders.");
+                }
+            })
+            .catch(error => {
+                console.error("❌ Error fetching orders:", error);
+                alert("Failed to fetch orders. Please try again later.");
+            });
+    }
+
+    function renderOrders(orders) {
+        ordersTableBody.innerHTML = "";
         orders.forEach(order => {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -74,14 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>€${order.total_price.toFixed(2)}</td>
                 <td>${new Date(order.order_date).toLocaleString()}</td>
                 <td>${order.status}</td>
-                <td>
-                    <button class="view-order-btn" data-id="${order.id}">View</button>
-                </td>
             `;
             ordersTableBody.appendChild(row);
         });
-        console.log(`✅ Rendered ${orders.length} orders.`);
     }
+<<<<<<< HEAD
 
     // Handle order expansion
     ordersTableBody.addEventListener("click", (e) => {
@@ -230,4 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("🔹 Initializing fetch for subscribers and orders...");
     fetchSubscribers();
     fetchOrders();
+=======
+>>>>>>> fix-crash-version
 });

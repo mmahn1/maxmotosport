@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const db = require('../db');
 
-// Secret key for JWT - should be in environment variables in production
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 if (JWT_SECRET === 'your_jwt_secret_key') {
@@ -72,19 +71,16 @@ router.post(
         const { username, password } = req.body;
 
         try {
-            // Check if user exists
             const user = await db.get('SELECT * FROM users WHERE username = ?', [username]);
             if (!user) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
-            // Verify password using bcrypt
             const isMatch = await bcrypt.compare(password, user.password_hash);
             if (!isMatch) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
-            // Create and sign JWT token
             const payload = {
                 id: user.id,
                 username: user.username,
@@ -106,7 +102,7 @@ router.post(
                 }
             );
 
-            // Log activity
+          
             await db.run(
                 'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
                 [user.id, 'account', 'User logged in']

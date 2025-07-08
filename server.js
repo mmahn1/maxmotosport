@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 
 const express = require("express");
 const fs = require("fs");
@@ -13,10 +13,8 @@ const nodemailer = require("nodemailer");
 const { exec } = require('child_process');
 
 const app = express();
-const PORT = 3000;
-const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); // Corrected path
-
-// Check if running in production (Railway / Hostinger)
+const PORT =  process.env.PORT|| 3000;
+const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
 
 const db = mysql.createConnection({
@@ -39,8 +37,6 @@ db.query('SELECT DATABASE()', (err, results) => {
     if (err) console.error('Database connection error:', err);
     else console.log('Connected to database:', results[0]['DATABASE()']);
 });
-
-// Routes import section - keep this near the top
 const authRoutes = require('./server/routes/auth');
 const userRoutes = require('./server/routes/user');
 const newsletterRoutes = require('./server/routes/newsletter');
@@ -51,7 +47,7 @@ const usersRoutes = require('./server/routes/users');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: ['https://maxmotosport-production.up.railway.app', 'https://example.com'], // Add your frontend's origin
+    origin: ['https://maxmotosport-production.up.railway.app', 'https://example.com'], 
     credentials: true
 }));
 app.use(session({
@@ -61,7 +57,6 @@ app.use(session({
     cookie: { secure: false, maxAge: 3600000 } 
 }));
 
-// API routes registration - IMPORTANT: This needs to be before other route handlers
 app.use('/', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/newsletter', newsletterRoutes);
@@ -69,94 +64,73 @@ app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', usersRoutes);
 
-// Endpoint to expose server configuration
 app.get('/api/config', (req, res) => {
-    res.json({ SERVER_URL: process.env.SERVER_URL });
+    res.json({ serverUrl: process.env.SERVER_URL });
 });
 
-// Authentication Routes
 app.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-        console.log("❌ Missing fields in request body:", { username, email, password });
         return res.status(400).json({ error: 'All fields are required' });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("🔹 Hashed password:", hashedPassword);
 
         const query = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
         db.query(query, [username, email, hashedPassword], (err, result) => {
             if (err) {
-                console.error("❌ Database error during registration:", err);
                 return res.status(500).json({ error: 'Server error' });
             }
-            console.log("✅ User registered successfully:", { username, email });
             res.status(201).json({ success: true, message: 'User registered successfully' });
         });
     } catch (error) {
-        console.error("❌ Server error:", error);
         res.status(500).json({ error: 'Server error' });
     }
 });
 
 app.post("/login", (req, res) => {
-    console.log("🔹 Incoming login request:", req.body);
-
     const { username, password } = req.body;
 
     if (!username || !password) {
-        console.log("❌ Missing username or password");
         return res.status(400).json({ error: 'All fields are required', source: 'server' });
     }
 
     const query = 'SELECT * FROM users WHERE username = ?';
     db.query(query, [username], async (err, results) => {
         if (err) {
-            console.error("❌ Database error:", err);
             return res.status(500).json({ error: 'Server error', source: 'server' });
         }
 
         if (results.length === 0) {
-            console.log("❌ User not found:", username);
             return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
         }
 
         const user = results[0];
-        console.log("🔹 User found:", user);
 
         try {
-            console.log("🔹 Password received:", password);
-            console.log("🔹 Hashed password from DB:", user.password_hash);
-
             const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-            console.log("🔹 Password comparison result:", isPasswordValid);
 
             if (!isPasswordValid) {
-                console.log("❌ Password mismatch");
                 return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
             }
 
             const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
             const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-            console.log("✅ Login successful for user:", username);
             res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
         } catch (compareError) {
-            console.error("❌ Error comparing passwords:", compareError);
             res.status(500).json({ error: 'Server error', source: 'server' });
         }
     });
 });
 
-// JWT Authentication Middleware
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) return res.sendStatus(401);
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; // Use environment variable or fallback
+    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; 
     jwt.verify(token, jwtSecret, (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
@@ -164,64 +138,72 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Example protected route
 app.get("/api/profile", authenticateToken, (req, res) => {
     res.json({ message: `Hello ${req.user.id}, you are logged in as ${req.user.role}` });
 });
 
-// Create a new order from cart data
 app.post("/api/orders", authenticateToken, (req, res) => {
     const { cart } = req.body;
 
+    console.log("🚀 New order request received");
+    console.log("User ID:", req.user.id);
+    console.log("Cart data:", cart);
+
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        console.error("❌ Invalid or empty cart data");
         return res.status(400).json({ error: "Cart is empty or invalid" });
     }
 
-    // Read products from the JSON file
     fs.readFile(JSON_FILE, "utf8", (err, data) => {
         if (err) {
-            console.error("❌ Error reading products JSON file:", err);
+            console.error("❌ Error reading products file:", err);
             return res.status(500).json({ error: "Server error" });
         }
 
-        const products = JSON.parse(data);
-        let totalPrice = 0;
-        const productDetails = [];
+        try {
+            const products = JSON.parse(data);
+            let totalPrice = 0;
+            const productDetails = [];
 
-        // Validate cart items and calculate total price
-        for (const item of cart) {
-            const product = products.find(p => p.id === item.product_id);
-            if (!product) {
-                return res.status(400).json({ error: `Product with ID ${item.product_id} not found` });
+            for (const item of cart) {
+                const product = products.find(p => p.id === item.product_id);
+                if (!product) {
+                    console.error(`❌ Product with ID ${item.product_id} not found`);
+                    return res.status(400).json({ error: `Product with ID ${item.product_id} not found` });
+                }
+
+                const itemTotalPrice = product.price * item.quantity;
+                totalPrice += itemTotalPrice;
+
+                productDetails.push({
+                    name: product.name,
+                    price: product.price,
+                    quantity: item.quantity,
+                    total_price: itemTotalPrice
+                });
             }
 
-            const itemTotalPrice = product.price * item.quantity;
-            totalPrice += itemTotalPrice;
+            console.log("🛒 Order details prepared:", productDetails);
 
-            productDetails.push({
-                name: product.name,
-                price: product.price,
-                quantity: item.quantity,
-                total_price: itemTotalPrice
+            const query = `
+                INSERT INTO orders (user_id, product_details, total_price)
+                VALUES (?, ?, ?)
+            `;
+            db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
+                if (err) {
+                    console.error("❌ Error inserting order into database:", err);
+                    return res.status(500).json({ error: "Server error" });
+                }
+                console.log("✅ Order successfully inserted with ID:", result.insertId);
+                res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
             });
+        } catch (parseError) {
+            console.error("❌ Error parsing products file:", parseError);
+            res.status(500).json({ error: "Server error" });
         }
-
-        // Insert the order into the database
-        const query = `
-            INSERT INTO orders (user_id, product_details, total_price)
-            VALUES (?, ?, ?)
-        `;
-        db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
-            if (err) {
-                console.error("❌ Error creating order:", err);
-                return res.status(500).json({ error: "Server error" });
-            }
-            res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
-        });
     });
 });
 
-// Get all orders for the logged-in user
 app.get("/api/orders", authenticateToken, (req, res) => {
     const query = `
         SELECT id, product_details, total_price, order_date, status
@@ -230,14 +212,12 @@ app.get("/api/orders", authenticateToken, (req, res) => {
     `;
     db.query(query, [req.user.id], (err, results) => {
         if (err) {
-            console.error("❌ Error fetching orders:", err);
             return res.status(500).json({ error: "Server error" });
         }
         res.json({ success: true, orders: results });
     });
 });
 
-// Admin-only route to fetch all orders
 app.get("/api/admin/orders", authenticateToken, (req, res) => {
     if (req.user.role !== "admin") {
         return res.status(403).json({ error: "Access denied" });
@@ -250,14 +230,16 @@ app.get("/api/admin/orders", authenticateToken, (req, res) => {
     `;
     db.query(query, (err, results) => {
         if (err) {
-            console.error("❌ Error fetching all orders:", err);
+            console.error('❌ Error fetching orders:', err);
             return res.status(500).json({ error: "Server error" });
+        }
+        if (!results.length) {
+            return res.status(404).json({ success: false, message: "No orders found" });
         }
         res.json({ success: true, orders: results });
     });
 });
 
-// Serve static files - Place this AFTER API routes
 app.use(express.static(__dirname));
 app.use("/ponudba", express.static(__dirname + "/ponudba"));
 app.use("/Slike", express.static(__dirname + "/Slike"));
@@ -266,7 +248,6 @@ app.use("/account", express.static(__dirname + "/account"));
 app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
 app.use("/Cart", express.static(__dirname + "/Cart"));
 
-// Email configuration
 const emailTransporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -277,7 +258,6 @@ const emailTransporter = nodemailer.createTransport({
     }
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}/`);
 });

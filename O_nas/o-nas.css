@@ -1,4 +1,3 @@
-/* Global styles and enhancements */
 :root {
     --primary-color: #d32f2f;
     --primary-dark: #9a0007;
@@ -17,7 +16,6 @@
     padding: 0;
 }
 
-/* Placeholder image styling (moved from inline) */
 .placeholder-img {
     background-color: #f0f0f0;
     display: flex;
@@ -54,7 +52,6 @@
     z-index: 1;
 }
 
-/* Body styling (moved from inline) */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -65,38 +62,35 @@ body {
     padding-top: 20px;
 }
 
-/* Main content wrapper - adjusted for dynamic header */
 .main-content {
-    padding-top: 60px; /* Add padding to account for fixed header height */
-    margin-bottom: 0; /* Let the footer handle its own spacing */
-    min-height: calc(100vh - 60px - 200px); /* Viewport height minus header and footer */
+    padding-top: 60px; 
+    margin-bottom: 0; 
+    min-height: calc(100vh - 60px - 200px); 
 }
 
-/* Adjust page-header to work with dynamic site header */
+
 .page-header {
     background-color: #d32f2f;
     color: white;
-    padding: 60px 0; /* Reduced from 80px to better fit with the fixed header */
+    padding: 60px 0; 
     text-align: center;
-    margin-top: 20px; /* Add spacing below the fixed header */
+    margin-top: 20px; 
 }
-
-/* Remove redundant body styling since header-footer.css has base styles */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-light);
     overflow-x: hidden;
-    /* Remove top margins/paddings as header-footer.css handles this */
+    
 }
 
-/* Style placeholders for dynamic header and footer */
+
 #header-placeholder, #footer-placeholder {
     width: 100%;
 }
 
-/* Rest of existing styles */
+
 .container {
     width: 90%;
     max-width: 1200px;
@@ -114,7 +108,7 @@ img {
     height: auto;
 }
 
-/* Header styles */
+
 header {
     background-color: #d32f2f;
     color: white;
@@ -133,7 +127,7 @@ header .subtitle {
     opacity: 0.9;
 }
 
-/* History sections */
+
 .history-section {
     padding: 80px 0;
 }
@@ -180,12 +174,12 @@ header .subtitle {
     flex-direction: row-reverse;
 }
 
-/* Timeline section - improved styling for professional look */
+
 .timeline-section {
     padding: 80px 0;
     background-color: var(--white);
     position: relative;
-    z-index: 1; /* Keep below header z-index */
+    z-index: 1; 
 }
 
 .timeline-section::before {
@@ -261,7 +255,6 @@ header .subtitle {
     color: white;
 }
 
-/* Make sure timeline is fully visible */
 .timeline-content {
     max-height: none;
     transition: max-height 0.5s ease;
@@ -281,7 +274,6 @@ header .subtitle {
     padding: 40px 0;
 }
 
-/* Timeline vertical line - made more prominent */
 .vertical-timeline::before {
     content: '';
     position: absolute;
@@ -326,9 +318,8 @@ header .subtitle {
     padding-left: 40px;
 }
 
-/* Timeline item dots - showing only the year */
 .timeline-item::after {
-    content: attr(data-year); /* Use data-year attribute for the content */
+    content: attr(data-year); 
     position: absolute;
     width: 50px;
     height: 50px;
@@ -355,14 +346,13 @@ header .subtitle {
 }
 
 .timeline-item:nth-child(odd)::after {
-    right: -25px; /* Adjust position to be centered on the line */
+    right: -25px; 
 }
 
 .timeline-item:nth-child(even)::after {
-    left: -25px; /* Adjust position to be centered on the line */
+    left: -25px; 
 }
 
-/* Show the date display inside timeline boxes again */
 .timeline-date {
     font-size: 0.9rem;
     font-weight: 600;
@@ -374,7 +364,6 @@ header .subtitle {
     border-radius: 15px;
 }
 
-/* Timeline content boxes - enhanced styling */
 .timeline-content-box {
     padding: 20px;
     background-color: var(--white);
@@ -390,7 +379,6 @@ header .subtitle {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Enhanced date display inside timeline boxes */
 .timeline-date {
     font-size: 0.9rem;
     font-weight: 600;
@@ -402,10 +390,9 @@ header .subtitle {
     border-radius: 15px;
 }
 
-/* Image container styling */
 .timeline-image {
-    width: 90%; /* Reduced from 100% to make container less wide */
-    max-width: 300px; /* Add a max-width to control the size */
+    width: 90%; 
+    max-width: 300px; 
     height: 200px;
     overflow: hidden;
     border-radius: 8px;
@@ -415,15 +402,15 @@ header .subtitle {
     align-items: center;
     justify-content: center;
     background-color: #f8f8f8;
-    margin: 0 auto; /* Center the container */
+    margin: 0 auto; 
 }
 
 .timeline-image img {
     max-width: 100%;
     max-height: 100%;
-    width: auto; /* Let the image maintain its aspect ratio */
-    height: auto; /* Let the image maintain its aspect ratio */
-    object-fit: contain; /* This ensures the image isn't cropped */
+    width: auto; 
+    height: auto; 
+    object-fit: contain; 
     transition: transform 0.5s ease;
 }
 
@@ -432,20 +419,20 @@ header .subtitle {
 }
 
 .timeline-image::after {
-    content: ''; /* Remove the text content */
+    content: ''; 
     position: absolute;
-    bottom: 0; /* Adjust positioning if needed */
+    bottom: 0; 
     left: 0;
     right: 0;
-    height: 100%; /* Cover the entire image */
-    background-color: rgba(0, 0, 0, 0.3); /* Keep the hover effect */
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.3); 
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 2;
 }
 
 .timeline-item:hover .timeline-image::after {
-    opacity: 1; /* Show the hover effect */
+    opacity: 1; 
 }
 
 .timeline-name {
@@ -456,7 +443,7 @@ header .subtitle {
     text-align: center;
 }
 
-/* Enhanced show more button */
+
 .timeline-show-more {
     text-align: center;
     margin: 40px 0;
@@ -484,11 +471,11 @@ header .subtitle {
     transform: translateY(-2px);
 }
 
-/* Timeline detail overlay */
+
 .detail-overlay {
     display: none;
     position: fixed;
-    z-index: 2000; /* Higher than header's z-index */
+    z-index: 2000; 
     left: 0;
     top: 0;
     width: 100%;
@@ -522,7 +509,7 @@ header .subtitle {
     opacity: 1;
 }
 
-/* Enhanced detail header */
+
 .detail-header {
     padding: 25px 30px;
     background: linear-gradient(to right, #d32f2f, #f44336);
@@ -562,18 +549,17 @@ header .subtitle {
     gap: 30px;
 }
 
-/* Also update the detail overlay image to match proportionally */
 .detail-image {
     flex: 1;
     min-width: 300px;
-    max-width: 500px; /* Add max-width to control the size */
+    max-width: 500px; 
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #f8f8f8;
     border-radius: 5px;
     overflow: hidden;
-    margin: 0 auto; /* Center the container */
+    margin: 0 auto; 
 }
 
 .detail-image img {
@@ -581,7 +567,7 @@ header .subtitle {
     max-height: 400px;
     width: auto;
     height: auto;
-    object-fit: contain; /* Changed from cover to contain */
+    object-fit: contain; 
     border-radius: 5px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
@@ -632,7 +618,6 @@ header .subtitle {
     font-weight: normal;
 }
 
-/* Fade effect for minimized timeline */
 .timeline-content::after {
     content: '';
     position: absolute;
@@ -651,7 +636,6 @@ header .subtitle {
     opacity: 1;
 }
 
-/* Modal styles */
 .model-modal {
     display: none;
     position: fixed;
@@ -752,7 +736,6 @@ header .subtitle {
     color: #d32f2f;
 }
 
-/* Enhanced placeholder */
 .placeholder-img {
     background: linear-gradient(135deg, #f5f5f5 25%, #ebebeb 25%, #ebebeb 50%, #f5f5f5 50%, #f5f5f5 75%, #ebebeb 75%, #ebebeb 100%);
     background-size: 20px 20px;
@@ -788,18 +771,15 @@ header .subtitle {
     z-index: 1;
 }
 
-/* Header & Footer Placeholders - ensure proper spacing */
 #header-placeholder {
     display: block;
-    height: 0; /* Takes no space when empty */
+    height: 0;
 }
 
 #footer-placeholder {
     display: block;
-    /* No fixed height needed */
 }
 
-/* Year Range Selector */
 .year-range-selector {
     background: white;
     border-radius: 15px;
@@ -891,7 +871,6 @@ header .subtitle {
     background-color: #e5e5e5;
 }
 
-/* Back to top button */
 .back-to-top {
     position: fixed;
     bottom: 30px;
@@ -931,7 +910,6 @@ header .subtitle {
     100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
 }
 
-/* Responsive design */
 @media (max-width: 900px) {
     .history-content {
         flex-direction: column;
@@ -974,7 +952,7 @@ header .subtitle {
     
     .timeline-item::after {
         left: 15px;
-        width: 60px; /* Slightly smaller on mobile */
+        width: 60px; 
         height: 60px;
         font-size: 0.6rem;
     }
@@ -990,7 +968,7 @@ header .subtitle {
     }
     
     .main-content {
-        margin-top: 60px; /* Smaller top margin for mobile */
+        margin-top: 60px; 
     }
     
     .page-header {
@@ -1004,14 +982,14 @@ header .subtitle {
     .era-marker {
         left: 40px;
         transform: none;
-        width: 80px; /* Wider for oval shape */
-        height: 50px; /* Shorter height for oval shape */
+        width: 80px; 
+        height: 50px; 
         font-size: 0.7rem;
-        margin: -20px 0 50px 0; /* Increased bottom margin for mobile */
+        margin: -20px 0 50px 0;
     }
     
     .era-marker + .era-marker {
-        margin-top: 15px; /* Adjusted for mobile */
+        margin-top: 15px; 
     }
     
     .era-marker:hover {
@@ -1019,11 +997,9 @@ header .subtitle {
     }
     
     .era-info-image {
-        height: 200px; /* Slightly smaller on mobile */
+        height: 200px; 
     }
 }
-
-/* Add responsive adjustments for the year selector */
 @media (max-width: 600px) {
     header h1 {
         font-size: 2.2rem;
@@ -1047,7 +1023,7 @@ header .subtitle {
     }
 
     .timeline-item::after {
-        width: 50px; /* Even smaller on very small screens */
+        width: 50px; 
         height: 50px;
         font-size: 0.5rem;
     }
@@ -1066,7 +1042,6 @@ header .subtitle {
     }
 }
 
-/* Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -1080,7 +1055,6 @@ header .subtitle {
     animation-delay: 0.4s;
 }
 
-/* Improved timeline dots with pulsing effect */
 .timeline-item::after {
     transition: all 0.3s ease;
 }
@@ -1092,24 +1066,22 @@ header .subtitle {
     color: white;
 }
 
-/* Add a subtle highlight for active items */
 .timeline-item.active .timeline-content-box {
     border-color: var(--primary-color);
     box-shadow: 0 10px 20px rgba(211, 47, 47, 0.2);
 }
 
-/* Timeline era markers - updated to oval shape with solid border */
 .era-marker {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    margin: -35px 0 70px 0; /* Maintain good spacing */
+    margin: -35px 0 70px 0; 
     font-weight: bold;
     z-index: 5;
-    width: 90px; /* Wider for oval shape */
-    height: 60px; /* Shorter height for oval shape */
-    border-radius: 30px; /* More oval shape */
+    width: 90px; 
+    height: 60px; 
+    border-radius: 30px; 
     background: linear-gradient(145deg, #f5f5f5, #ffffff);
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
     display: flex;
@@ -1117,7 +1089,7 @@ header .subtitle {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 3px solid var(--primary-color); /* Solid border instead of dashed */
+    border: 3px solid var(--primary-color); 
 }
 
 .era-marker:hover {
@@ -1134,7 +1106,7 @@ header .subtitle {
     font-weight: 600;
 }
 
-/* Era information overlay */
+
 .era-info-overlay {
     position: fixed;
     top: 0;
@@ -1208,17 +1180,16 @@ header .subtitle {
 
 .era-info-image {
     width: 100%;
-    height: 250px; /* Increase height for better visibility */
+    height: 250px; 
     margin: 15px 0;
     background-position: center;
-    background-size: contain; /* Changed from cover to contain to show full image */
+    background-size: contain; 
     background-repeat: no-repeat;
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    background-color: #f8f8f8; /* Add background color for non-rectangular images */
+    background-color: #f8f8f8; 
 }
 
-/* Custom scrollbar for timeline */
 .timeline-content {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) #f0f0f0;
@@ -1238,7 +1209,6 @@ header .subtitle {
     border-radius: 10px;
 }
 
-/* Animation for detail overlay */
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -1250,7 +1220,6 @@ header .subtitle {
     }
 }
 
-/* Timeline navigation dot indicators */
 .timeline-navigation {
     display: flex;
     justify-content: center;
@@ -1276,7 +1245,7 @@ header .subtitle {
     transform: scale(1.3);
 }
 
-/* Hero section styles */
+
 .about-hero {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../Slike/ducati-showroom.jpg');
     background-size: cover;
@@ -1288,15 +1257,15 @@ header .subtitle {
 }
 
 .about-hero h1 {
-    font-size: 4rem; /* Increased from the current size */
+    font-size: 4rem; 
 }
 
-/* Add fallback for the hero section */
+
 .about-hero.no-image {
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(211, 47, 47, 0.7));
 }
 
-/* Team section styles */
+
 .team-section {
     background-color: white;
     padding: 80px 0;
@@ -1335,12 +1304,12 @@ header .subtitle {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Team section styles - Fix for images getting cut off */
+
 .member-image {
     height: 250px;
     overflow: hidden;
-    position: relative; /* Add position relative for better control */
-    display: flex;      /* Use flexbox for better centering */
+    position: relative; 
+    display: flex;      
     align-items: center;
     justify-content: center;
     background-color: #f5f5f5;
@@ -1349,15 +1318,13 @@ header .subtitle {
 .member-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;  /* Keep object-fit: cover for filling the space */
+    object-fit: cover;  
     transition: transform 0.5s ease;
 }
-
-/* For team members with portrait images that might get cut off */
 .member-image.portrait img {
-    object-fit: contain; /* This prevents cutting off important parts */
+    object-fit: contain; 
     max-height: 100%;
-    width: auto;        /* Allow width to adjust naturally */
+    width: auto;        
 }
 
 .team-member h3 {
@@ -1376,7 +1343,6 @@ header .subtitle {
     color: var(--text-light);
 }
 
-/* Testimonials section styles */
 .testimonials-section {
     background-color: #f8f8f8;
     padding: 80px 0;
@@ -1435,7 +1401,6 @@ header .subtitle {
     font-size: 0.9rem;
 }
 
-/* Visit section styles */
 .visit-section {
     background-color: white;
     padding: 80px 0;
@@ -1476,7 +1441,7 @@ header .subtitle {
 .contact-btn {
     background-color: var(--primary-color);
     color: white;
-    border: none; /* Remove the dark outline */
+    border: none; 
     padding: 12px 30px;
     border-radius: 5px;
     text-decoration: none;
@@ -1512,9 +1477,8 @@ header .subtitle {
     text-align: center;
 }
 
-/* Media queries - update for new sections */
 @media (max-width: 900px) {
-    /* ...existing code... */
+    
     
     .about-hero {
         padding: 80px 0;
@@ -1534,7 +1498,7 @@ header .subtitle {
 }
 
 @media (max-width: 600px) {
-    /* ...existing code... */
+   
     
     .about-hero {
         padding: 60px 0;
@@ -1549,7 +1513,6 @@ header .subtitle {
     }
 }
 
-/* Enhanced visit section with interactive map */
 .visit-map {
     position: relative;
     height: auto;
@@ -1558,22 +1521,21 @@ header .subtitle {
     box-shadow: var(--card-shadow);
 }
 
-/* Contact form styling */
 .contact-form-container {
     margin-top: 40px;
     max-height: 0;
     overflow: hidden;
     transition: all 0.5s ease;
     opacity: 0;
-    padding-bottom: 0; /* Remove extra padding when not active */
-    margin-bottom: 0; /* Remove extra margin when not active */
+    padding-bottom: 0; 
+    margin-bottom: 0; 
 }
 
 .contact-form-container.active {
-    max-height: 100vh; /* Ensure it fits within the viewport when active */
+    max-height: 100vh; 
     opacity: 1;
-    padding-bottom: 100px; /* Add padding when active */
-    margin-bottom: 50px; /* Add margin when active */
+    padding-bottom: 100px; 
+    margin-bottom: 50px; 
 }
 
 .contact-form {
@@ -1681,7 +1643,6 @@ header .subtitle {
     background-color: #e5e5e5;
 }
 
-/* Form success message */
 .form-success {
     text-align: center;
     padding: 25px 10px;
@@ -1706,14 +1667,12 @@ header .subtitle {
     font-size: 1.1rem;
 }
 
-/* Animation for success icon */
 @keyframes success-bounce {
     0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
     40% {transform: translateY(-20px);}
     60% {transform: translateY(-10px);}
 }
 
-/* Form error message styling */
 .form-error {
     color: #d32f2f;
     font-size: 0.9rem;
@@ -1731,7 +1690,6 @@ header .subtitle {
     background-color: rgba(211, 47, 47, 0.05);
 }
 
-/* Sending indicator styling */
 .sending-indicator {
     display: none;
     align-items: center;
@@ -1757,7 +1715,6 @@ header .subtitle {
     to {transform: rotate(360deg);}
 }
 
-/* Media queries for contact form and map */
 @media (max-width: 767px) {
     .visit-map {
         height: 300px;
@@ -1777,15 +1734,15 @@ header .subtitle {
     }
 }
 
-/* Show contact form button */
+
 .show-contact-form-btn {
-    background-color: #ff0000; /* Consistent red color */
+    background-color: #ff0000; 
     color: #fff;
-    border: 2px solid #ff0000; /* Consistent outline */
+    border: 2px solid #ff0000; 
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 .show-contact-form-btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
+    background-color: #cc0000; 
     border-color: #cc0000;
 }

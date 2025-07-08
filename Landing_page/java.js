@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
         })
         .then(data => {
-            console.log("✅ JSON data loaded:", data); // Debugging log
+            console.log("✅ JSON data loaded:", data);
             offers = data;
             setupBikeDetails();
         })
@@ -39,10 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             bikeLink.href = offer.link;
         }
 
-        // Initialize with the first bike
         updateBikeDetails(currentIndex);
-
-        // Switch bike details every 7 seconds
         setInterval(() => {
             currentIndex = (currentIndex + 1) % offers.length;
             updateBikeDetails(currentIndex);

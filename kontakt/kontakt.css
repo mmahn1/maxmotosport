@@ -32,9 +32,9 @@
 }
 
 .main-content {
-    padding-top: 60px; /* Add padding to account for fixed header height */
-    margin-bottom: 0; /* Let the footer handle its own spacing */
-    min-height: calc(100vh - 60px - 200px); /* Viewport height minus header and footer */
+    padding-top: 60px;
+    margin-bottom: 0; 
+    min-height: calc(100vh - 60px - 200px); 
 }
 
 .contact-info-section {
@@ -271,20 +271,19 @@
     text-decoration: underline;
 }
 
-/* Common button styling */
 .btn {
-    background-color: #ff0000; /* Consistent red color */
+    background-color: #ff0000; 
     color: #fff;
-    border: 2px solid #ff0000; /* Consistent outline */
+    border: 2px solid #ff0000; 
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 .btn:hover {
-    background-color: #cc0000; /* Darker red on hover */
+    background-color: #cc0000; 
     border-color: #cc0000;
 }
 
-/* Apply the common button class to existing buttons */
+
 .btn-submit {
     margin-top: 10px;
     background-color: #e00;

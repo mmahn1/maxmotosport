@@ -6,7 +6,6 @@ const auth = require('../middleware/auth');
 const adminCheck = require('../middleware/adminCheck');
 const nodemailer = require('nodemailer');
 
-// Configure email transporter - should use environment variables in production
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST || 'smtp.mailtrap.io',
   port: process.env.EMAIL_PORT || 2525,
@@ -24,9 +23,12 @@ const transporter = nodemailer.createTransport({
 router.get('/subscribers', [auth, adminCheck], async (req, res) => {
   try {
     const subscribers = await db.all('SELECT email, subscribed_at FROM newsletter ORDER BY subscribed_at DESC');
+    if (!subscribers) {
+      return res.status(404).json({ success: false, message: 'No subscribers found' });
+    }
     res.json({ success: true, subscribers });
   } catch (error) {
-    console.error('Error fetching subscribers:', error);
+    console.error('❌ Error fetching subscribers:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
@@ -95,14 +97,14 @@ router.post('/subscribe', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid email address' });
     }
 
-    // Check if already subscribed
+    
     const existingSubscription = await db.get('SELECT * FROM newsletter WHERE email = ?', [email]);
 
     if (existingSubscription) {
       return res.json({ success: true, message: 'You are already subscribed to the newsletter.' });
     }
 
-    // Add subscription
+    
     await db.run(
       'INSERT INTO newsletter (email) VALUES (?)',
       [email]
@@ -129,13 +131,13 @@ router.post('/unsubscribe', auth, async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
     
-    // Delete subscription
+    
     await db.run(
       'DELETE FROM newsletter WHERE email = ? OR user_id = ?',
       [userInfo.email, userId]
     );
     
-    // Log activity
+    
     await db.run(
       'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
       [userId, 'newsletter', 'Unsubscribed from newsletter']
@@ -207,7 +209,6 @@ router.post(
     body('content').not().isEmpty().withMessage('Content is required')
   ],
   async (req, res) => {
-    // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, message: errors.array()[0].msg });
@@ -217,14 +218,12 @@ router.post(
     const adminId = req.user.id;
 
     try {
-      // Get all subscribers
       const subscribers = await db.all('SELECT email FROM newsletter');
       
       if (subscribers.length === 0) {
         return res.status(400).json({ success: false, message: 'No subscribers to send newsletter to' });
       }
       
-      // Store newsletter in archive
       const result = await db.run(
         'INSERT INTO newsletter_archive (subject, content, sent_by) VALUES (?, ?, ?)',
         [subject, content, adminId]
@@ -232,7 +231,6 @@ router.post(
       
       const newsletterId = result.lastID;
       
-      // Send emails (in batches for large lists)
       const batchSize = 50;
       let successCount = 0;
       let failCount = 0;
@@ -261,8 +259,7 @@ router.post(
         
         await Promise.all(emailPromises);
       }
-      
-      // Log activity
+    
       await db.run(
         'INSERT INTO user_activity (user_id, activity_type, description) VALUES (?, ?, ?)',
         [adminId, 'newsletter', `Sent newsletter "${subject}" to ${successCount} subscribers`]

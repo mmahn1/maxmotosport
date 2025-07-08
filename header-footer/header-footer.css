@@ -285,10 +285,10 @@ nav ul li a:hover::after {
 }
 
 .footer-logo img {
-  max-width: 120px; /* Slightly smaller size */
+  max-width: 120px; 
   height: auto;
   display: block;
-  margin: 0 auto 10px; /* Adjust spacing */
+  margin: 0 auto 10px; 
 }
 
 .footer-timeschedule {

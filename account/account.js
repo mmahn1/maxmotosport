@@ -4,15 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    /*if (token) {
-        if (role === "admin") {
-            window.location.href = "/Admin/admin-dashboard.html";
-        } else {
-            window.location.href = "/Landing_page/index.html";
-        }
-        return;
-    }*/
-
     const showLogin = document.getElementById("showLogin");
     const showRegister = document.getElementById("showRegister");
     const loginForm = document.getElementById("loginForm");
@@ -61,7 +52,7 @@ async function login() {
     const username = document.getElementById("loginUsername").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
 
-    console.log("🔹 Login attempt:", { username, password }); // Debugging log
+    console.log("🔹 Login attempt:", { username, password });
 
     if (!username || !password) {
         console.error("❌ Missing username or password (client-side)");
@@ -77,17 +68,17 @@ async function login() {
         });
 
         const data = await response.json();
-        console.log("🔹 Server response:", data); // Debugging log
+        console.log("🔹 Server response:", data); 
 
         if (response.ok) {
             console.log("✅ Login successful (client-side)");
-            localStorage.setItem("token", data.token); // Save token
-            localStorage.setItem("username", data.username); // Save username
-            localStorage.setItem("role", data.role); // Save role
+            localStorage.setItem("token", data.token); 
+            localStorage.setItem("username", data.username); 
+            localStorage.setItem("role", data.role); 
             showMessage("Login successful! Redirecting...", "success");
 
             if (typeof updateUserDisplay === "function") {
-                updateUserDisplay(); // Update header with user info
+                updateUserDisplay(); 
             } else {
                 console.error("❌ updateUserDisplay function not found.");
             }

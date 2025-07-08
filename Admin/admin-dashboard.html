@@ -9,6 +9,7 @@
     <script defer src="/header-footer/header-footer.js"></script>
     <script defer src="/Newsletter/newsletter.js"></script>
     <script defer src="admin-dashboard.js"></script>
+    <link rel="stylesheet" href="/media_queries.css">
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -21,7 +22,7 @@
         <button id="toggle-orders" class="button">Toggle Orders</button>
     </div>
 
-    <!-- Newsletter Section -->
+
     <div id="newsletter-section" class="hidden">
         <h2>Newsletter Subscribers</h2>
         <p>Manage the list of newsletter subscribers. You can add new subscribers, remove existing ones, and view the total count.</p>
@@ -33,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Newsletter subscribers will be dynamically loaded here -->
+                
             </tbody>
         </table>
         <form id="add-subscriber-form">
@@ -43,7 +44,7 @@
         <p>Total Subscribers: <span id="subscriber-count">0</span></p>
     </div>
 
-    <!-- Orders Section -->
+    
     <div id="orders-section" class="hidden">
         <h2>Orders</h2>
         <p>View all orders placed by users. This section will be updated once the order placement system is fully implemented.</p>
@@ -59,7 +60,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Orders will be dynamically loaded here -->
+                
             </tbody>
         </table>
     </div>

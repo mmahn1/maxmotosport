@@ -148,7 +148,6 @@ function renderActivityFeed(activities) {
     });
 }
 
-// Orders page functions
 function loadOrders() {
     const orderContainer = document.getElementById('order-container');
     orderContainer.innerHTML = '<div class="loading">Loading your orders...</div>';
