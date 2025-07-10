@@ -39,7 +39,10 @@ function loadHeader() {
                 headerPlaceholder.innerHTML = html;
                 console.log('✅ Header loaded successfully');
                 
-                setTimeout(updateUserDisplay, 0);
+                setTimeout(() => {
+                    updateUserDisplay();
+                    setupBurgerMenu();
+                }, 0);
             } else {
                 console.error('❌ Header placeholder not found in DOM.');
             }
@@ -113,36 +116,61 @@ function updateUserDisplay() {
     const userLink = document.getElementById("userLink");
     const userText = document.getElementById("userText");
     const userIcon = document.getElementById("userIcon");
-
-    if (!userLink || !userText || !userIcon) {
-        console.error("❌ User elements not found in header.");
-        return;
-    }
+    
+    // Mobile elements
+    const userLinkMobile = document.getElementById("userLinkMobile");
+    const userTextMobile = document.getElementById("userTextMobile");
+    const userIconMobile = document.getElementById("userIconMobile");
 
     const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
 
-    if (username) {
-        userText.textContent = username;
-        userLink.dataset.role = role;
+    // Update desktop elements
+    if (userLink && userText && userIcon) {
+        if (username) {
+            userText.textContent = username;
+            userLink.dataset.role = role;
 
-        if (role === "admin") {
-            userIcon.className = "fas fa-crown"; 
+            if (role === "admin") {
+                userIcon.className = "fas fa-crown"; 
+            } else {
+                userIcon.className = "fas fa-user-circle"; 
+            }
         } else {
-            userIcon.className = "fas fa-user-circle"; 
+            userText.textContent = "Login / Register";
+            userIcon.className = "fas fa-user"; 
+            userLink.dataset.role = "";
         }
-    } else {
-        userText.textContent = "Login / Register";
-        userIcon.className = "fas fa-user"; 
-        userLink.dataset.role = "";
+    }
+    
+    // Update mobile elements
+    if (userLinkMobile && userTextMobile && userIconMobile) {
+        if (username) {
+            userTextMobile.textContent = username;
+            userLinkMobile.dataset.role = role;
+
+            if (role === "admin") {
+                userIconMobile.className = "fas fa-crown"; 
+            } else {
+                userIconMobile.className = "fas fa-user-circle"; 
+            }
+        } else {
+            userTextMobile.textContent = "Login / Register";
+            userIconMobile.className = "fas fa-user"; 
+            userLinkMobile.dataset.role = "";
+        }
     }
 
+    // Handle admin dashboard nav for both desktop and mobile
     const adminDashboardNav = document.getElementById("adminDashboardNav");
+    const adminDashboardNavMobile = document.getElementById("adminDashboardNavMobile");
 
-    if (role === "admin" && adminDashboardNav) {
-        adminDashboardNav.classList.remove("hidden");
-    } else if (adminDashboardNav) {
-        adminDashboardNav.classList.add("hidden");
+    if (role === "admin") {
+        if (adminDashboardNav) adminDashboardNav.classList.remove("hidden");
+        if (adminDashboardNavMobile) adminDashboardNavMobile.classList.remove("hidden");
+    } else {
+        if (adminDashboardNav) adminDashboardNav.classList.add("hidden");
+        if (adminDashboardNavMobile) adminDashboardNavMobile.classList.add("hidden");
     }
 }
 
@@ -261,6 +289,50 @@ function setupDropdownMenus() {
             });
         }
     });
+}
+
+function setupBurgerMenu() {
+    const burgerMenu = document.getElementById('burgerMenu');
+    const mainNav = document.getElementById('mainNav');
+    
+    if (burgerMenu && mainNav) {
+        burgerMenu.addEventListener('click', function() {
+            mainNav.classList.toggle('show');
+            
+            // Toggle burger icon
+            const icon = burgerMenu.querySelector('i');
+            if (icon) {
+                if (mainNav.classList.contains('show')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-bars';
+                }
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!burgerMenu.contains(event.target) && !mainNav.contains(event.target)) {
+                mainNav.classList.remove('show');
+                const icon = burgerMenu.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-bars';
+                }
+            }
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = mainNav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mainNav.classList.remove('show');
+                const icon = burgerMenu.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-bars';
+                }
+            });
+        });
+    }
 }
 
 document.head.insertAdjacentHTML('beforeend', `

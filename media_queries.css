@@ -1,77 +1,582 @@
-@media screen and (max-width: 768px) {
+/* 
+📱 Responsive Media Queries for MaX Motosport Ducati Website
+🌍 Shared across all HTML pages for consistent mobile experience
+*/
+
+/* ==========================================================================
+   TABLET STYLES (600px - 900px)
+   ========================================================================== */
+@media screen and (max-width: 900px) {
+    /* Header adjustments for tablets */
+    header {
+        padding: 15px 30px;
+    }
     
+    .header-container nav ul {
+        gap: 20px;
+    }
+    
+    .header-container nav ul li a {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+    
+    /* Product grid for tablets - 2 columns */
+    .product-grid,
+    .bikes-grid,
+    .models-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    /* Product cards adjustments */
+    .product-card,
+    .bike-card,
+    .model-card {
+        padding: 15px;
+    }
+    
+    .product-card h3,
+    .bike-card h3,
+    .model-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    /* Forms become more compact */
+    .form-container,
+    .contact-form,
+    .newsletter-form {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    
+    /* Adjust font sizes */
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    h3 { font-size: 1.4rem; }
+    
+    /* Footer adjustments */
+    footer {
+        padding: 30px 20px;
+    }
+    
+    .footer-section {
+        margin-bottom: 20px;
+    }
+}
+
+/* ==========================================================================
+   MOBILE STYLES (max-width: 600px)
+   ========================================================================== */
+@media screen and (max-width: 600px) {
+    /* Base mobile settings */
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    /* Header with burger menu */
     header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
+        position: relative;
     }
-
-    .header-container nav ul {
-        display: none; 
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        padding: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+    .logo {
+        max-height: 40px;
+        width: auto;
     }
-
-    .header-container nav ul.show {
-        display: flex; 
-    }
-
+    
+    /* Burger menu implementation */
     .burger-menu {
         display: block;
         font-size: 24px;
         cursor: pointer;
+        color: #e00;
+        background: none;
+        border: none;
+        padding: 8px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        z-index: 1001;
     }
-
-  
+    
+    .burger-menu:hover {
+        background-color: rgba(224, 0, 0, 0.1);
+        transform: scale(1.1);
+    }
+    
+    /* Mobile navigation */
+    .main-nav {
+        display: none;
+        flex-direction: column;
+        background-color: #0f0f0f;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        padding: 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        border-top: 3px solid #e00;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+    }
+    
+    .main-nav.show {
+        display: flex;
+    }
+    
+    .main-nav li {
+        margin: 0;
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
+    
+    .main-nav li:last-child {
+        border-bottom: none;
+    }
+    
+    .main-nav li a {
+        display: block;
+        padding: 15px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .main-nav li a:hover {
+        background-color: rgba(224, 0, 0, 0.1);
+        color: #e00;
+    }
+    
+    .main-nav li a i {
+        margin-right: 8px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    /* Hide desktop navigation */
+    .nav-right {
+        display: none;
+    }
+    
+    /* Show mobile elements */
+    .mobile-only {
+        display: block !important;
+    }
+    
+    /* Hide desktop elements */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Typography scaling */
+    h1 { 
+        font-size: 1.8rem; 
+        text-align: center;
+        margin: 20px 0;
+    }
+    
+    h2 { 
+        font-size: 1.5rem; 
+        text-align: center;
+        margin: 15px 0;
+    }
+    
+    h3 { 
+        font-size: 1.2rem; 
+        margin: 10px 0;
+    }
+    
+    p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 10px 0;
+    }
+    
+    /* Product grids - single column on mobile */
+    .product-grid,
+    .bikes-grid,
+    .models-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 15px 0;
+        padding: 0 10px;
+    }
+    
+    /* Product cards full width */
+    .product-card,
+    .bike-card,
+    .model-card {
+        width: 100%;
+        margin: 0 0 15px 0;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    
+    .product-card img,
+    .bike-card img,
+    .model-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    /* Images and media */
+    img, video {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    /* Hero sections */
+    .hero,
+    .banner {
+        min-height: 50vh;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .hero h1,
+    .banner h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .hero p,
+    .banner p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    
+    /* Buttons and links - full width */
+    button, 
+    .btn,
+    .button,
+    .cta-button {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background-color: #dc2626;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #991b1b;
+    }
+    
+    /* Forms full width */
+    .form-container,
+    .contact-form,
+    .newsletter-form,
+    .login-form,
+    .register-form {
+        width: 100%;
+        max-width: 100%;
+        margin: 15px 0;
+        padding: 20px 15px;
+        box-sizing: border-box;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    /* Footer - vertical layout */
     footer {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 20px;
-        padding: 20px;
+        padding: 30px 20px;
     }
-
-    footer .footer-section {
+    
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .footer-section h4 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: #374151;
+    }
+    
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-section ul li {
+        margin: 8px 0;
+    }
+    
+    .footer-section ul li a {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    .footer-section ul li a:hover {
+        color: #dc2626;
+    }
+    
+    /* Container adjustments */
+    .container {
+        padding: 10px 15px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    /* Grid layouts */
+    .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .grid-item {
+        flex: 1 1 100%;
         width: 100%;
     }
-
     
-    body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden; 
+    /* Specifications tables */
+    .specs-table,
+    .features-table {
+        width: 100%;
+        overflow-x: auto;
+        font-size: 14px;
     }
-
-    img, video {
-        max-width: 100%;
-        height: auto;
+    
+    .specs-table table,
+    .features-table table {
+        width: 100%;
+        min-width: 300px;
     }
-
-    button, a {
-        font-size: 16px;
-        padding: 10px 20px;
+    
+    .specs-table th,
+    .specs-table td,
+    .features-table th,
+    .features-table td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+    
+    /* Cart and checkout */
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .cart-item img {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto 10px auto;
+    }
+    
+    .quantity-controls {
+        justify-content: center;
         margin: 10px 0;
     }
-
-    .container {
-        padding: 10px;
+    
+    /* Admin dashboard adjustments */
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
-
-    .grid {
+    
+    .admin-card {
+        padding: 15px;
+    }
+    
+    /* Search and filters */
+    .search-container {
+        width: 100%;
+        margin: 15px 0;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+    
+    .filter-buttons {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+        margin: 15px 0;
     }
+    
+    .filter-btn {
+        flex: 1;
+        min-width: calc(50% - 5px);
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    /* Testimonials and reviews */
+    .testimonial,
+    .review {
+        margin: 15px 0;
+        padding: 15px;
+        text-align: center;
+    }
+    
+    /* Newsletter signup */
+    .newsletter-signup {
+        text-align: center;
+        padding: 20px 15px;
+    }
+    
+    .newsletter-signup input[type="email"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Social media links */
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .social-links a {
+        font-size: 24px;
+        color: #6b7280;
+        text-decoration: none;
+    }
+    
+    .social-links a:hover {
+        color: #dc2626;
+    }
+    
+    /* Hide desktop-only elements */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Show mobile-only elements */
+    .mobile-only {
+        display: block !important;
+    }
+    
+    /* Utility classes for mobile */
+    .text-center-mobile {
+        text-align: center;
+    }
+    
+    .full-width-mobile {
+        width: 100% !important;
+    }
+    
+    .hide-mobile {
+        display: none !important;
+    }
+}
 
-    .grid-item {
-        flex: 1 1 100%; 
-    }
+/* ==========================================================================
+   HEADER RESPONSIVE FIXES
+   ========================================================================== */
+
+/* Desktop navigation layout */
+.header-container nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Hide burger menu on desktop */
+.burger-menu {
+    display: none;
+}
+
+/* Desktop user section */
+.nav-right {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin-left: auto;
+    gap: 15px;
+}
+
+/* Hide/show elements based on screen size */
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Mobile user section styling */
+.mobile-user-section {
+    border-top: 2px solid #e00;
+    margin-top: 10px;
+    padding-top: 10px;
 }

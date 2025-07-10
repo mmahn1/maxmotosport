@@ -6,17 +6,43 @@
 <link rel="stylesheet" href="/media_queries.css">
 <header>
   <div class="header-container">
+    <!-- Mobile burger menu button -->
+    <button class="burger-menu" id="burgerMenu" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Logo (optional - add if you have one) -->
+    <div class="logo desktop-only">
+      <img src="/Slike/Ducati_red_logo.svg.png" alt="MaX Motosport" style="height: 40px;">
+    </div>
+    
     <nav>
-      <ul class="nav-left">
-        <li><a href="/Landing_page/index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="/ponudba/ponudba.html"><i class="fas fa-tag"></i> Products</a></li>
-        <li><a href="/O_nas/o-nas.html"><i class="fas fa-info-circle"></i> About us</a></li>
-        <li><a href="/servis/servis.html"><i class="fas fa-tools"></i> Service</a></li>
-        <li><a href="/kontakt/kontakt.html"><i class="fas fa-envelope"></i> Contact</a></li>
-        <li><a href="/Cart/cart.html"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count">0</span></a></li>
-        <li id="add-product-nav" class="hidden"><a href="/admin/add-product.html"><i class="fas fa-plus-circle"></i> Add Product</a></li>
+      <!-- Combined navigation for mobile -->
+      <ul id="mainNav" class="main-nav">
+        <li><a href="/Landing_page/index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
+        <li><a href="/ponudba/ponudba.html"><i class="fas fa-tag"></i> <span>Products</span></a></li>
+        <li><a href="/O_nas/o-nas.html"><i class="fas fa-info-circle"></i> <span>About us</span></a></li>
+        <li><a href="/servis/servis.html"><i class="fas fa-tools"></i> <span>Service</span></a></li>
+        <li><a href="/kontakt/kontakt.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
+        <li><a href="/Cart/cart.html"><i class="fas fa-shopping-cart"></i> <span>Cart</span> <span id="cart-count">0</span></a></li>
+        <li id="add-product-nav" class="hidden"><a href="/admin/add-product.html"><i class="fas fa-plus-circle"></i> <span>Add Product</span></a></li>
+        
+        <!-- User section in mobile menu -->
+        <li class="mobile-user-section mobile-only">
+          <a href="/account/account.html" id="userLinkMobile" data-role="">
+            <i class="fas fa-user" id="userIconMobile"></i> 
+            <span id="userTextMobile">Login / Register</span>
+          </a>
+        </li>
+        <li id="adminDashboardNavMobile" class="hidden mobile-only">
+          <a href="/Admin/admin-dashboard.html">
+            <i class="fas fa-tools"></i> <span>Admin Panel</span>
+          </a>
+        </li>
       </ul>
-      <ul class="nav-right">
+      
+      <!-- Desktop user section -->
+      <ul class="nav-right desktop-only">
         <li>
           <a href="/account/account.html" id="userLink" data-role="">
             <i class="fas fa-user" id="userIcon"></i> 
