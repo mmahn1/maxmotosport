@@ -16,6 +16,13 @@ body {
   padding-top: 60px; 
 }
 
+/* Mobile body padding adjustment */
+@media screen and (max-width: 600px) {
+  body {
+    padding-top: 70px; /* Account for taller mobile header */
+  }
+}
+
 html {
   margin-top: 0px;
 }

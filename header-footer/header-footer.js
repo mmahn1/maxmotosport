@@ -100,9 +100,16 @@ function loadNewsletter() {
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartCountElement = document.getElementById("cart-count");
+    const cartCountMobileElement = document.getElementById("cart-count-mobile");
+    
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
     if (cartCountElement) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         cartCountElement.textContent = totalItems; 
+    }
+    
+    if (cartCountMobileElement) {
+        cartCountMobileElement.textContent = totalItems; 
     }
 }
 
@@ -121,6 +128,7 @@ function updateUserDisplay() {
     const userLinkMobile = document.getElementById("userLinkMobile");
     const userTextMobile = document.getElementById("userTextMobile");
     const userIconMobile = document.getElementById("userIconMobile");
+    const mobileUserIcon = document.getElementById("mobileUserIcon");
 
     const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
@@ -143,7 +151,7 @@ function updateUserDisplay() {
         }
     }
     
-    // Update mobile elements
+    // Update mobile menu elements
     if (userLinkMobile && userTextMobile && userIconMobile) {
         if (username) {
             userTextMobile.textContent = username;
@@ -158,6 +166,19 @@ function updateUserDisplay() {
             userTextMobile.textContent = "Login / Register";
             userIconMobile.className = "fas fa-user"; 
             userLinkMobile.dataset.role = "";
+        }
+    }
+    
+    // Update mobile header user icon
+    if (mobileUserIcon) {
+        if (username) {
+            if (role === "admin") {
+                mobileUserIcon.className = "fas fa-crown"; 
+            } else {
+                mobileUserIcon.className = "fas fa-user-circle"; 
+            }
+        } else {
+            mobileUserIcon.className = "fas fa-user"; 
         }
     }
 
@@ -293,55 +314,61 @@ function setupDropdownMenus() {
 
 function setupBurgerMenu() {
     const burgerMenu = document.getElementById('burgerMenu');
-    const mainNav = document.getElementById('mainNav');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
     
-    if (burgerMenu && mainNav) {
+    if (burgerMenu && mobileNavOverlay) {
         burgerMenu.addEventListener('click', function() {
-            mainNav.classList.toggle('show');
+            mobileNavOverlay.classList.toggle('show');
             
             // Toggle burger icon
             const icon = burgerMenu.querySelector('i');
             if (icon) {
-                if (mainNav.classList.contains('show')) {
+                if (mobileNavOverlay.classList.contains('show')) {
                     icon.className = 'fas fa-times';
+                    // Prevent body scroll when menu is open
+                    document.body.style.overflow = 'hidden';
                 } else {
                     icon.className = 'fas fa-bars';
+                    document.body.style.overflow = '';
                 }
             }
         });
         
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!burgerMenu.contains(event.target) && !mainNav.contains(event.target)) {
-                mainNav.classList.remove('show');
+        // Close menu when clicking on overlay background
+        mobileNavOverlay.addEventListener('click', function(event) {
+            if (event.target === mobileNavOverlay) {
+                mobileNavOverlay.classList.remove('show');
                 const icon = burgerMenu.querySelector('i');
                 if (icon) {
                     icon.className = 'fas fa-bars';
                 }
+                document.body.style.overflow = '';
             }
         });
         
         // Close menu when clicking on a link
-        const navLinks = mainNav.querySelectorAll('a');
+        const navLinks = mobileNavOverlay.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
-                mainNav.classList.remove('show');
+                mobileNavOverlay.classList.remove('show');
                 const icon = burgerMenu.querySelector('i');
                 if (icon) {
                     icon.className = 'fas fa-bars';
                 }
+                document.body.style.overflow = '';
             });
         });
         
         // Handle window resize - ensure proper display
         window.addEventListener('resize', function() {
             if (window.innerWidth > 600) {
-                // Desktop view - ensure navigation is visible and burger is hidden
-                mainNav.classList.remove('show');
+                // Desktop view - close mobile menu if open
+                mobileNavOverlay.classList.remove('show');
                 const icon = burgerMenu.querySelector('i');
                 if (icon) {
                     icon.className = 'fas fa-bars';
                 }
+                document.body.style.overflow = '';
             }
         });
     }
