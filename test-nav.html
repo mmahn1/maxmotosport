@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test</title>
+    <link rel="stylesheet" href="header-footer/header-footer.css">
+    <link rel="stylesheet" href="media_queries.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <!-- Mobile Header Layout -->
+            <div class="mobile-header">
+                <!-- Logo/Brand Name on Left -->
+                <div class="mobile-logo">
+                    <h2>MaX Motosport</h2>
+                </div>
+                
+                <!-- Mobile Right Section: User Icon + Burger Menu -->
+                <div class="mobile-nav-controls">
+                    <a href="#" class="mobile-user-icon">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button class="burger-menu" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation (hidden on mobile) -->
+            <nav class="desktop-nav">
+                <ul class="main-nav desktop-only">
+                    <li><a href="#"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="#"><i class="fas fa-tag"></i> <span>Products</span></a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> <span>About us</span></a></li>
+                    <li><a href="#"><i class="fas fa-tools"></i> <span>Service</span></a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
+                    <li><a href="#"><i class="fas fa-shopping-cart"></i> <span>Cart</span> <span>0</span></a></li>
+                </ul>
+                
+                <!-- Desktop user section -->
+                <ul class="nav-right desktop-only">
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-user"></i> 
+                            <span>Login / Register</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main style="padding: 20px; margin-top: 100px;">
+        <h1>Desktop Navigation Test</h1>
+        <p>This page is for testing the desktop navigation layout.</p>
+        <p>On desktop (screens wider than 600px), the navigation should display horizontally across the top.</p>
+        <p>On mobile (screens 600px and below), you should see the mobile header with burger menu.</p>
+        
+        <div style="margin-top: 50px;">
+            <h2>Current Screen Size Info:</h2>
+            <p>Resize your browser window to test responsiveness.</p>
+        </div>
+    </main>
+    
+    <script src="header-footer/header-footer.js"></script>
+</body>
+</html>

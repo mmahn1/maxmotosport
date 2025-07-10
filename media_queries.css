@@ -4,69 +4,113 @@
 */
 
 /* ==========================================================================
-   DESKTOP STYLES (Default - screens larger than 768px)
+   DESKTOP STYLES (Default - screens larger than 600px)
    ========================================================================== */
 
-/* Mobile header hidden on desktop */
+/* Hide mobile elements on desktop */
 .mobile-header {
-    display: none;
+    display: none !important;
 }
 
-/* Mobile navigation overlay hidden on desktop */
 .mobile-nav-overlay {
-    display: none;
-}
-
-/* Desktop navigation visible */
-.desktop-nav {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.main-nav {
-    display: flex !important;
-    align-items: center;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-direction: row !important;
-}
-
-.nav-right {
-    display: flex !important;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    margin-left: auto;
-    gap: 15px;
-}
-
-.desktop-only {
-    display: block !important;
+    display: none !important;
 }
 
 .mobile-only {
     display: none !important;
 }
 
+.burger-menu {
+    display: none !important;
+}
+
+/* Show desktop elements */
+.desktop-only {
+    display: block !important;
+}
+
+/* Desktop navigation layout - ensure horizontal display */
+.desktop-nav {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-direction: row !important;
+}
+
+.main-nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    position: static !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-top: none !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+}
+
+.main-nav li {
+    display: inline-block !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+.main-nav li a {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 15px !important;
+    font-size: 16px !important;
+    color: white !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    white-space: nowrap !important;
+}
+
+.nav-right {
+    display: flex !important;
+    align-items: center !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 15px !important;
+    flex-direction: row !important;
+}
+
+.nav-right li {
+    display: inline-block !important;
+    margin: 0 !important;
+}
+
 /* ==========================================================================
-   TABLET STYLES (600px - 768px)
+   TABLET STYLES (601px - 768px)
    ========================================================================== */
 @media screen and (max-width: 768px) and (min-width: 601px) {
     /* Keep desktop navigation on tablets */
     .mobile-header {
-        display: none;
+        display: none !important;
     }
     
     .desktop-nav {
-        display: flex;
+        display: flex !important;
     }
     
     .mobile-nav-overlay {
-        display: none;
+        display: none !important;
+    }
+    
+    .desktop-only {
+        display: block !important;
+    }
+    
+    .mobile-only {
+        display: none !important;
     }
     
     /* Slightly smaller navigation for tablets */
@@ -102,7 +146,7 @@
         overflow-x: hidden;
         font-size: 14px;
         line-height: 1.5;
-        padding-top: 70px; /* Account for fixed header */
+        padding-top: 70px !important; /* Account for fixed header */
     }
     
     /* Fixed header */
@@ -127,9 +171,14 @@
         display: none !important;
     }
     
+    /* Show mobile elements */
+    .mobile-only {
+        display: block !important;
+    }
+    
     /* Mobile header layout */
     .mobile-header {
-        display: flex;
+        display: flex !important;
         justify-content: space-between;
         align-items: center;
         padding: 0 20px;
@@ -158,6 +207,7 @@
         transition: all 0.3s ease;
         padding: 8px;
         border-radius: 50%;
+        text-decoration: none;
     }
     
     .mobile-user-icon:hover {
@@ -197,7 +247,7 @@
     }
     
     .mobile-nav-overlay.show {
-        display: block;
+        display: block !important;
         opacity: 1;
     }
     
@@ -458,10 +508,6 @@
     }
     
     /* Utility classes */
-    .mobile-only {
-        display: block !important;
-    }
-    
     .text-center-mobile {
         text-align: center;
     }
@@ -741,53 +787,38 @@
 }
 
 /* ==========================================================================
-   HEADER RESPONSIVE FIXES
+   DESKTOP SPECIFIC OVERRIDE (min-width: 601px) - Ensure horizontal nav
    ========================================================================== */
-
-/* Desktop navigation layout */
-.header-container nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.main-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Hide burger menu on desktop */
-.burger-menu {
-    display: none;
-}
-
-/* Desktop user section */
-.nav-right {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    padding: 0;
-    margin-left: auto;
-    gap: 15px;
-}
-
-/* Hide/show elements based on screen size */
-.desktop-only {
-    display: block;
-}
-
-.mobile-only {
-    display: none;
-}
-
-/* Mobile user section styling */
-.mobile-user-section {
-    border-top: 2px solid #e00;
-    margin-top: 10px;
-    padding-top: 10px;
+@media screen and (min-width: 601px) {
+    /* Force desktop navigation to be horizontal */
+    .desktop-nav {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+    
+    .main-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 20px !important;
+    }
+    
+    .nav-right {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+    
+    /* Hide mobile elements completely */
+    .mobile-header,
+    .mobile-nav-overlay,
+    .burger-menu {
+        display: none !important;
+    }
+    
+    /* Show desktop elements */
+    .desktop-nav,
+    .desktop-only {
+        display: flex !important;
+    }
 }
