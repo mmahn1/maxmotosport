@@ -118,21 +118,6 @@
         font-size: 14px;
         padding: 8px 12px;
     }
-    
-    /* Product grid for tablets - 2 columns */
-    .product-grid,
-    .bikes-grid,
-    .models-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        margin: 20px 0;
-    }
-    
-    /* Adjust font sizes */
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.4rem; }
 }
 
 /* ==========================================================================
@@ -317,80 +302,39 @@
         margin-left: 5px;
     }
     
-    /* Remove white space issues */
-    .hero-section,
-    .main-content {
-        padding: 20px 15px;
-        margin: 0;
+    /* Footer - vertical layout and centered */
+    footer,
+    .footer {
+        padding: 30px 15px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        justify-content: center !important;
     }
     
-    .section-divider {
-        margin: 10px 0;
-        height: 1px;
+    .footer-container {
+        flex-direction: column !important;
+        text-align: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
     
-    /* Typography scaling */
-    h1 { 
-        font-size: 1.8rem; 
-        text-align: center;
-        margin: 15px 0;
+    .footer-info,
+    .footer-links,
+    .footer-social {
+        margin: 10px 0 !important;
+        min-width: auto !important;
+        width: 100% !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
     
-    h2 { 
-        font-size: 1.5rem; 
-        text-align: center;
-        margin: 15px 0;
-    }
-    
-    h3 { 
-        font-size: 1.2rem; 
-        margin: 10px 0;
-    }
-    
-    p {
-        font-size: 14px;
-        line-height: 1.6;
-        margin: 10px 0;
-    }
-    
-    /* Product grids - single column on mobile */
-    .product-grid,
-    .bikes-grid,
-    .models-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        margin: 15px 0;
-        padding: 0;
-    }
-    
-    /* Product cards full width */
-    .product-card,
-    .bike-card,
-    .model-card {
-        width: 100%;
-        margin: 0 0 15px 0;
-        padding: 15px;
-        box-sizing: border-box;
-    }
-    
-    .product-card img,
-    .bike-card img,
-    .model-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-    
-    /* Images and media */
-    img, video {
-        max-width: 100%;
-        height: auto;
-        display: block;
-    }
-    
-    /* Hero sections */
+    /* Landing page specific mobile styles */
     .hero,
     .banner,
     .hero-section {
@@ -414,22 +358,23 @@
         margin-bottom: 20px;
     }
     
-    /* Buttons and links - full width */
+    /* Buttons - full width on mobile */
     button, 
     .btn,
     .button,
     .cta-button,
     .cta-btn {
-        width: 100%;
-        font-size: 16px;
-        padding: 12px 20px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        text-align: center;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
+        width: 100% !important;
+        font-size: 16px !important;
+        padding: 12px 20px !important;
+        margin: 10px 0 !important;
+        border: none !important;
+        border-radius: 6px !important;
+        cursor: pointer !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        transition: all 0.3s ease !important;
+        display: block !important;
     }
     
     .btn-primary,
@@ -443,40 +388,7 @@
         background-color: #c00;
     }
     
-    /* Forms full width */
-    .form-container,
-    .contact-form,
-    .newsletter-form,
-    .login-form,
-    .register-form {
-        width: 100%;
-        max-width: 100%;
-        margin: 15px 0;
-        padding: 20px 15px;
-        box-sizing: border-box;
-    }
-    
-    /* Footer - vertical layout */
-    footer,
-    .footer {
-        padding: 30px 15px;
-    }
-    
-    .footer-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-    
-    .footer-info,
-    .footer-links,
-    .footer-social {
-        margin: 10px 0;
-        min-width: auto;
-        width: 100%;
-    }
-    
-    /* Testimonials responsive */
+    /* Testimonials - vertical on mobile */
     .testimonials {
         display: flex;
         flex-direction: column;
@@ -489,302 +401,19 @@
         text-align: center;
     }
     
-    /* Container adjustments */
+    /* Basic mobile adjustments */
     .container {
         padding: 10px 15px;
         margin: 0 auto;
         max-width: 100%;
     }
     
-    /* Remove any unwanted margins */
-    #app {
-        margin: 0;
-        padding: 0;
-    }
-    
-    .main-content {
-        padding: 15px;
-        margin: 0;
-    }
-    
-    /* Utility classes */
-    .text-center-mobile {
-        text-align: center;
-    }
-    
-    .full-width-mobile {
-        width: 100% !important;
-    }
-    
-    .hide-mobile {
-        display: none !important;
-    }
-}
-    
-    /* Typography scaling */
-    h1 { 
-        font-size: 1.8rem; 
-        text-align: center;
-        margin: 20px 0;
-    }
-    
-    h2 { 
-        font-size: 1.5rem; 
-        text-align: center;
-        margin: 15px 0;
-    }
-    
-    h3 { 
-        font-size: 1.2rem; 
-        margin: 10px 0;
-    }
-    
-    p {
-        font-size: 14px;
-        line-height: 1.6;
-        margin: 10px 0;
-    }
-    
-    /* Product grids - single column on mobile */
-    .product-grid,
-    .bikes-grid,
-    .models-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        margin: 15px 0;
-        padding: 0 10px;
-    }
-    
-    /* Product cards full width */
-    .product-card,
-    .bike-card,
-    .model-card {
-        width: 100%;
-        margin: 0 0 15px 0;
-        padding: 15px;
-        box-sizing: border-box;
-    }
-    
-    .product-card img,
-    .bike-card img,
-    .model-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-    
-    /* Images and media */
     img, video {
         max-width: 100%;
         height: auto;
         display: block;
     }
-    
-    /* Hero sections */
-    .hero,
-    .banner {
-        min-height: 50vh;
-        padding: 20px;
-        text-align: center;
-    }
-    
-    .hero h1,
-    .banner h1 {
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
-    
-    .hero p,
-    .banner p {
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-    
-    /* Buttons and links - full width */
-    button, 
-    .btn,
-    .button,
-    .cta-button,
-    .cta-btn {
-        width: 100%;
-        font-size: 16px;
-        padding: 12px 20px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        text-align: center;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-primary {
-        background-color: #e00;
-        color: white;
-    }
-    
-    .btn-primary:hover {
-        background-color: #c00;
-    }
-    
-    /* Forms full width */
-    .form-container,
-    .contact-form,
-    .newsletter-form,
-    .login-form,
-    .register-form {
-        width: 100%;
-        max-width: 100%;
-        margin: 15px 0;
-        padding: 20px 15px;
-        box-sizing: border-box;
-    }
-    
-    .form-group {
-        margin-bottom: 15px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 600;
-        font-size: 14px;
-    }
-    
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-    
-    .form-group textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-    
-    /* Footer - vertical layout */
-    footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 20px;
-        padding: 30px 20px;
-    }
-    
-    .footer-section {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    
-    .footer-section h4 {
-        font-size: 1.1rem;
-        margin-bottom: 10px;
-        color: #374151;
-    }
-    
-    .footer-section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .footer-section ul li {
-        margin: 8px 0;
-    }
-    
-    .footer-section ul li a {
-        color: #6b7280;
-        text-decoration: none;
-        font-size: 14px;
-    }
-    
-    .footer-section ul li a:hover {
-        color: #e00;
-    }
-    
-    /* Container adjustments */
-    .container {
-        padding: 10px 15px;
-        margin: 0 auto;
-        max-width: 100%;
-    }
-    
-    /* Grid layouts */
-    .grid {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .grid-item {
-        flex: 1 1 100%;
-        width: 100%;
-    }
-    
-    /* Testimonials responsive */
-    .testimonials {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .testimonial {
-        margin: 15px 0;
-        padding: 15px;
-        text-align: center;
-    }
-    
-    /* Preview section mobile */
-    .preview-section {
-        margin: 10px;
-        padding: 15px;
-    }
-    
-    .preview-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    
-    .close-btn {
-        font-size: 24px;
-        padding: 5px 10px;
-    }
-    
-    /* Cart and checkout */
-    .cart-item {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-    }
-    
-    .cart-item img {
-        width: 100%;
-        max-width: 200px;
-        margin: 0 auto 10px auto;
-    }
-    
-    /* Utility classes for mobile */
-    .text-center-mobile {
-        text-align: center;
-    }
-    
-    .full-width-mobile {
-        width: 100% !important;
-    }
-    
-    .hide-mobile {
-        display: none !important;
-    }
-
+}
 
 /* ==========================================================================
    DESKTOP SPECIFIC OVERRIDE (min-width: 601px) - Ensure horizontal nav
@@ -821,4 +450,107 @@
     .desktop-only {
         display: flex !important;
     }
+    
+    /* Desktop buttons should NOT be full width */
+    button, 
+    .btn,
+    .button,
+    .cta-button,
+    .cta-btn {
+        width: auto !important;
+        display: inline-block !important;
+        min-width: 200px;
+        max-width: 400px;
+        margin: 10px auto !important;
+    }
+    
+    /* Center buttons on desktop */
+    .hero .cta-btn,
+    .hero .btn,
+    .banner .cta-btn,
+    .banner .btn {
+        display: block !important;
+        width: auto !important;
+        max-width: 300px !important;
+        margin: 20px auto !important;
+    }
+    
+    /* Desktop testimonials should be horizontal */
+    .testimonials {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        flex-wrap: wrap !important;
+        margin: 40px 0 !important;
+    }
+    
+    .testimonial {
+        flex: 1 1 300px !important;
+        max-width: 350px !important;
+        margin: 0 !important;
+        padding: 30px 20px !important;
+        text-align: center !important;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Testimonial content styling */
+    .testimonial blockquote,
+    .testimonial p {
+        font-style: italic;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: #555;
+    }
+    
+    .testimonial .author,
+    .testimonial h4 {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .testimonial .role,
+    .testimonial small {
+        color: #888;
+        font-size: 14px;
+    }
+}
+
+/* ==========================================================================
+   ADMIN ELEMENTS - Hidden by default, shown only when user is admin
+   ========================================================================== */
+
+/* Hide admin elements by default */
+#adminDashboardNav,
+#adminDashboardNavMobile,
+#add-product-nav,
+.admin-only,
+.hidden {
+    display: none !important;
+}
+
+/* Show admin elements only when user has admin role or when explicitly shown */
+.user-admin #adminDashboardNav,
+.user-admin #adminDashboardNavMobile,
+.user-admin #add-product-nav,
+.user-admin .admin-only {
+    display: block !important;
+}
+
+/* Override hidden class when not admin */
+#adminDashboardNav.hidden,
+#adminDashboardNavMobile.hidden {
+    display: none !important;
+}
+
+/* Admin panel navigation item styling */
+#adminDashboardNav a,
+#adminDashboardNavMobile a {
+    color: #e00 !important;
+    font-weight: 600;
 }
