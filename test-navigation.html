@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - MaX Motosport</title>
+    <link rel="stylesheet" href="/header-footer/header-footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/media_queries.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .test-content {
+            padding: 100px 20px 20px 20px;
+            text-align: center;
+        }
+        .device-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .breakpoint-indicator {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <div class="test-content">
+        <h1>Navigation Test Page</h1>
+        
+        <div class="device-info">
+            <div class="breakpoint-indicator" id="breakpointInfo">Loading...</div>
+            <p><strong>Desktop (>600px):</strong> Horizontal navigation bar</p>
+            <p><strong>Mobile (≤600px):</strong> Burger menu → Dropdown overlay</p>
+        </div>
+        
+        <div class="device-info">
+            <h3>Test Instructions:</h3>
+            <ul style="text-align: left;">
+                <li><strong>Desktop:</strong> Navigation should be horizontal across the top</li>
+                <li><strong>Mobile:</strong> Click the burger menu (☰) to see dropdown</li>
+                <li><strong>Resize window:</strong> Watch navigation change at 600px breakpoint</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Mock API config for testing
+        window.serverUrl = 'http://localhost:3000';
+        
+        // Load header
+        fetch('/header-footer/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                
+                // Initialize burger menu
+                setTimeout(() => {
+                    setupBurgerMenu();
+                    updateBreakpointInfo();
+                }, 100);
+            });
+        
+        function setupBurgerMenu() {
+            const burgerMenu = document.getElementById('burgerMenu');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            
+            if (burgerMenu && mobileNavOverlay) {
+                burgerMenu.addEventListener('click', function() {
+                    mobileNavOverlay.classList.toggle('show');
+                    
+                    const icon = burgerMenu.querySelector('i');
+                    if (icon) {
+                        if (mobileNavOverlay.classList.contains('show')) {
+                            icon.className = 'fas fa-times';
+                            document.body.style.overflow = 'hidden';
+                        } else {
+                            icon.className = 'fas fa-bars';
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+                
+                // Close on overlay click
+                mobileNavOverlay.addEventListener('click', function(event) {
+                    if (event.target === mobileNavOverlay) {
+                        mobileNavOverlay.classList.remove('show');
+                        const icon = burgerMenu.querySelector('i');
+                        if (icon) icon.className = 'fas fa-bars';
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        }
+        
+        function updateBreakpointInfo() {
+            const width = window.innerWidth;
+            const info = document.getElementById('breakpointInfo');
+            
+            if (width > 600) {
+                info.textContent = `Desktop Mode (${width}px) - Horizontal Navigation`;
+                info.style.color = '#28a745';
+            } else {
+                info.textContent = `Mobile Mode (${width}px) - Burger Menu`;
+                info.style.color = '#e00';
+            }
+        }
+        
+        window.addEventListener('resize', updateBreakpointInfo);
+        window.addEventListener('load', updateBreakpointInfo);
+    </script>
+</body>
+</html>
