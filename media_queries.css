@@ -4,6 +4,79 @@
 */
 
 /* ==========================================================================
+   DESKTOP STYLES (Default - screens larger than 900px)
+   ========================================================================== */
+
+/* Ensure burger menu is hidden on desktop */
+.burger-menu {
+    display: none !important;
+}
+
+/* Desktop navigation layout */
+.header-container nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.main-nav {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: row !important;
+    position: static !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-top: none !important;
+    max-height: none !important;
+    overflow-y: visible !important;
+}
+
+.main-nav li {
+    margin: 0;
+    text-align: left;
+    border-bottom: none;
+}
+
+.main-nav li a {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    transition: all 0.3s ease;
+    width: auto;
+    box-sizing: content-box;
+}
+
+/* Desktop user section */
+.nav-right {
+    display: flex !important;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin-left: auto;
+    gap: 15px;
+}
+
+/* Hide/show elements based on screen size */
+.desktop-only {
+    display: block !important;
+}
+
+.mobile-only {
+    display: none !important;
+}
+
+/* Mobile user section styling */
+.mobile-user-section {
+    display: none !important;
+}
+
+/* ==========================================================================
    TABLET STYLES (600px - 900px)
    ========================================================================== */
 @media screen and (max-width: 900px) {
@@ -19,6 +92,31 @@
     .header-container nav ul li a {
         font-size: 14px;
         padding: 8px 12px;
+    }
+    
+    /* Keep desktop navigation on tablets */
+    .burger-menu {
+        display: none !important;
+    }
+    
+    .main-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        position: static !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    .nav-right {
+        display: flex !important;
+    }
+    
+    .desktop-only {
+        display: block !important;
+    }
+    
+    .mobile-only {
+        display: none !important;
     }
     
     /* Product grid for tablets - 2 columns */
@@ -87,7 +185,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
-        position: relative;
+        position: fixed;
     }
     
     .logo {
@@ -95,9 +193,9 @@
         width: auto;
     }
     
-    /* Burger menu implementation */
+    /* Show burger menu ONLY on mobile */
     .burger-menu {
-        display: block;
+        display: block !important;
         font-size: 24px;
         cursor: pointer;
         color: #e00;
@@ -114,9 +212,9 @@
         transform: scale(1.1);
     }
     
-    /* Mobile navigation */
+    /* Hide desktop navigation on mobile */
     .main-nav {
-        display: none;
+        display: none !important;
         flex-direction: column;
         background-color: #0f0f0f;
         position: absolute;
@@ -132,7 +230,7 @@
     }
     
     .main-nav.show {
-        display: flex;
+        display: flex !important;
     }
     
     .main-nav li {
@@ -167,9 +265,9 @@
         text-align: center;
     }
     
-    /* Hide desktop navigation */
+    /* Hide desktop navigation completely on mobile */
     .nav-right {
-        display: none;
+        display: none !important;
     }
     
     /* Show mobile elements */
@@ -180,6 +278,14 @@
     /* Hide desktop elements */
     .desktop-only {
         display: none !important;
+    }
+    
+    /* Mobile user section styling */
+    .mobile-user-section {
+        border-top: 2px solid #e00;
+        margin-top: 10px;
+        padding-top: 10px;
+        display: block !important;
     }
     
     /* Typography scaling */
@@ -267,7 +373,8 @@
     button, 
     .btn,
     .button,
-    .cta-button {
+    .cta-button,
+    .cta-btn {
         width: 100%;
         font-size: 16px;
         padding: 12px 20px;
@@ -281,12 +388,12 @@
     }
     
     .btn-primary {
-        background-color: #dc2626;
+        background-color: #e00;
         color: white;
     }
     
     .btn-primary:hover {
-        background-color: #991b1b;
+        background-color: #c00;
     }
     
     /* Forms full width */
@@ -367,7 +474,7 @@
     }
     
     .footer-section ul li a:hover {
-        color: #dc2626;
+        color: #e00;
     }
     
     /* Container adjustments */
@@ -389,26 +496,34 @@
         width: 100%;
     }
     
-    /* Specifications tables */
-    .specs-table,
-    .features-table {
-        width: 100%;
-        overflow-x: auto;
-        font-size: 14px;
+    /* Testimonials responsive */
+    .testimonials {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
     
-    .specs-table table,
-    .features-table table {
-        width: 100%;
-        min-width: 300px;
+    .testimonial {
+        margin: 15px 0;
+        padding: 15px;
+        text-align: center;
     }
     
-    .specs-table th,
-    .specs-table td,
-    .features-table th,
-    .features-table td {
-        padding: 8px 6px;
-        font-size: 12px;
+    /* Preview section mobile */
+    .preview-section {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .preview-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .close-btn {
+        font-size: 24px;
+        padding: 5px 10px;
     }
     
     /* Cart and checkout */
@@ -422,97 +537,6 @@
         width: 100%;
         max-width: 200px;
         margin: 0 auto 10px auto;
-    }
-    
-    .quantity-controls {
-        justify-content: center;
-        margin: 10px 0;
-    }
-    
-    /* Admin dashboard adjustments */
-    .admin-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .admin-card {
-        padding: 15px;
-    }
-    
-    /* Search and filters */
-    .search-container {
-        width: 100%;
-        margin: 15px 0;
-    }
-    
-    .search-input {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        box-sizing: border-box;
-    }
-    
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 15px 0;
-    }
-    
-    .filter-btn {
-        flex: 1;
-        min-width: calc(50% - 5px);
-        padding: 8px 12px;
-        font-size: 14px;
-    }
-    
-    /* Testimonials and reviews */
-    .testimonial,
-    .review {
-        margin: 15px 0;
-        padding: 15px;
-        text-align: center;
-    }
-    
-    /* Newsletter signup */
-    .newsletter-signup {
-        text-align: center;
-        padding: 20px 15px;
-    }
-    
-    .newsletter-signup input[type="email"] {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    
-    /* Social media links */
-    .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin: 20px 0;
-    }
-    
-    .social-links a {
-        font-size: 24px;
-        color: #6b7280;
-        text-decoration: none;
-    }
-    
-    .social-links a:hover {
-        color: #dc2626;
-    }
-    
-    /* Hide desktop-only elements */
-    .desktop-only {
-        display: none !important;
-    }
-    
-    /* Show mobile-only elements */
-    .mobile-only {
-        display: block !important;
     }
     
     /* Utility classes for mobile */

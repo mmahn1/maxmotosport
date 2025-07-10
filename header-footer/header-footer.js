@@ -332,6 +332,18 @@ function setupBurgerMenu() {
                 }
             });
         });
+        
+        // Handle window resize - ensure proper display
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 600) {
+                // Desktop view - ensure navigation is visible and burger is hidden
+                mainNav.classList.remove('show');
+                const icon = burgerMenu.querySelector('i');
+                if (icon) {
+                    icon.className = 'fas fa-bars';
+                }
+            }
+        });
     }
 }
 
