@@ -784,7 +784,7 @@
     .hide-mobile {
         display: none !important;
     }
-}
+
 
 /* ==========================================================================
    DESKTOP SPECIFIC OVERRIDE (min-width: 601px) - Ensure horizontal nav
