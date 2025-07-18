@@ -14,7 +14,7 @@ const isProduction = window.location.hostname === 'maxmotosport.eu' ||
 // Configuration object
 const GoogleMapsConfig = {
     // Single API Key for both development and production
-    apiKey: 'AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU', // Replace with your FULL API key from Google Cloud Console
+    apiKey: 'AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU', // Replace this with your actual Google Cloud API key
     
     // Get the API key (same for both environments now)
     getApiKey: function() {
@@ -42,15 +42,11 @@ function initMap() {
     try {
         const map = new google.maps.Map(document.getElementById('map'), GoogleMapsConfig.mapOptions);
         
-        // Add marker for Max MotoSport
-        const marker = new google.maps.Marker({
+        // Add marker for Max MotoSport using the new AdvancedMarkerElement
+        const marker = new google.maps.marker.AdvancedMarkerElement({
             position: GoogleMapsConfig.mapOptions.center,
             map: map,
-            title: 'MaX Motosport - Ducati Dealer',
-            icon: {
-                url: '/Slike/Ducati_red_logo.svg.png',
-                scaledSize: new google.maps.Size(40, 40)
-            }
+            title: 'MaX Motosport - Ducati Dealer'
         });
         
         // Add info window
@@ -110,7 +106,7 @@ function loadGoogleMaps() {
     }
     
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker`;
     script.async = true;
     script.defer = true;
     script.onerror = handleMapError;
