@@ -401,6 +401,28 @@
         text-align: center;
     }
     
+    /* Payment methods section styling */
+    .payment-methods {
+        margin-top: 20px !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
+    .payment-icons {
+        margin-top: 10px !important;
+        display: flex !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    
+    .payment-icons i {
+        font-size: 24px !important;
+        color: #aaa !important;
+        flex-shrink: 0 !important;
+    }
+    
     /* Basic mobile adjustments */
     .container {
         padding: 10px 15px;
@@ -412,6 +434,161 @@
         max-width: 100%;
         height: auto;
         display: block;
+    }
+    
+    /* =====================================================================
+       LANDING PAGE: Scrollable Images Section - Mobile Fixes
+       ======================================================================= */
+    
+    /* Fix scrollable images section to prevent white bar */
+    .additional-images.scrollable {
+        overflow-x: hidden !important;
+        white-space: normal !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 10px 0 !important;
+    }
+    
+    .additional-images.scrollable .scroll-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 15px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .additional-images.scrollable img {
+        width: calc(50% - 10px) !important;
+        height: auto !important;
+        max-width: 150px !important;
+        flex: 0 0 auto !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE OVERFLOW FIX - Prevent horizontal scrolling/swiping
+   ========================================================================== */
+@media screen and (max-width: 600px) {
+    /* Prevent horizontal overflow on mobile */
+    html {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        position: relative !important;
+    }
+    
+    /* Ensure all containers don't exceed viewport width */
+    * {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Fix footer container specifically */
+    .footer,
+    footer {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .footer-container {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 15px !important;
+        box-sizing: border-box !important;
+    }
+    
+    .footer-info,
+    .footer-links,
+    .footer-social,
+    .footer-logo {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* Fix any long text or links that might cause overflow */
+    .footer-info p,
+    .footer-links ul li,
+    .footer-social a {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        max-width: 100% !important;
+    }
+    
+    /* Footer social icons container */
+    .footer-social div {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    
+    /* Footer working hours list */
+    .footer-timeschedule {
+        width: 100% !important;
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+    }
+    
+    .footer-timeschedule li {
+        font-size: 14px !important;
+        word-wrap: break-word !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE VIEWPORT AND TOUCH FIXES
+   ========================================================================== */
+@media screen and (max-width: 600px) {
+    /* Prevent zoom and horizontal scroll on mobile */
+    html {
+        -webkit-text-size-adjust: 100% !important;
+        -ms-text-size-adjust: 100% !important;
+        touch-action: pan-y !important;
+    }
+    
+    /* Prevent horizontal swipe/pan */
+    body {
+        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* Ensure header doesn't cause overflow */
+    header,
+    .header-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Mobile navigation controls shouldn't overflow */
+    .mobile-nav-controls {
+        flex-shrink: 0 !important;
+        min-width: auto !important;
+    }
+    
+    /* Ensure main content areas don't overflow */
+    main,
+    .main-content,
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        box-sizing: border-box !important;
     }
 }
 
@@ -554,3 +731,110 @@
     color: #e00 !important;
     font-weight: 600;
 }
+
+/* ==========================================================================
+   DESKTOP STYLES (min-width: 769px)
+   ======================================================================= */
+
+@media screen and (min-width: 769px) {
+    /* Ensure scrollable images work properly on desktop */
+    .additional-images.scrollable {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+    }
+    
+    .additional-images.scrollable .scroll-container {
+        display: inline-flex !important;
+        flex-wrap: nowrap !important;
+        gap: 20px !important;
+    }
+    
+    .additional-images.scrollable img {
+        width: auto !important;
+        height: 300px !important;
+        max-width: none !important;
+        flex: 0 0 auto !important;
+    }
+}
+
+/* =======================================================================
+       LANDING PAGE: Additional Mobile Safeguards
+       ======================================================================= */
+    
+    /* Ensure hero section doesn't cause overflow */
+    .hero {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .hero-video {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: cover !important;
+    }
+    
+    .hero-text {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Ensure product section doesn't overflow */
+    .product-section {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+    }
+    
+    /* Additional safeguards for all sections */
+    section {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+/* =======================================================================
+       UNIVERSAL MOBILE FIXES: Prevent any white bar/overflow
+       ======================================================================= */
+    
+    /* Root container fixes */
+    #app {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Catch-all for any remaining elements */
+    * {
+        max-width: 100% !important;
+    }
+    
+    *::before,
+    *::after {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* Specific element overrides */
+    div, section, article, main, aside, nav, header, footer {
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    img, video, iframe, embed, object {
+        max-width: 100% !important;
+        height: auto !important;
+        box-sizing: border-box !important;
+    }

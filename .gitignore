@@ -1,3 +1,36 @@
+# Dependencies
 node_modules
 node_modules/*
+
+# Environment variables - NEVER commit these!
 .env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# API Keys and sensitive configuration
+config/keys.js
+config/secrets.js
+**/config/production.js
+**/config/local.js
+
+# Google Maps API keys (if stored in files)
+**/google-maps-key.js
+**/api-keys.js
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

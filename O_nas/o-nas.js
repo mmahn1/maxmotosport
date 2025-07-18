@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeTimelineControls();
     
+    // Initialize Google Maps if map container exists
+    if (document.getElementById('map')) {
+        loadGoogleMaps();
+    }
+    
     fetch('./timline.json')
         .then(response => {
             if (!response.ok) {
