@@ -1,22 +1,23 @@
-<<<<<<< HEAD
-const serverUrl = "http://localhost:3000"; // Update this to match your server's URL
+// Automatically detect environment and set server URL
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isCustomDomain = window.location.hostname === 'maxmotosport.eu';
+
+let serverUrl;
+if (isLocalhost) {
+    serverUrl = "http://localhost:3000";
+} else if (isCustomDomain) {
+    serverUrl = "https://maxmotosport.eu";
+} else {
+    serverUrl = "https://maxmotosport-production.up.railway.app";
+}
 
 console.log("🔹 admin-dashboard.js script loaded successfully.");
-=======
-let serverUrl = "";
 
-fetch("/api/config")
-    .then(response => response.json())
-    .then(config => {
-        serverUrl = config.serverUrl;
-        fetchSubscribers();
-        fetchOrders();
-    })
-    .catch(error => {
-        console.error("❌ Failed to load server configuration:", error);
-        alert("Failed to load server configuration. Please try again later.");
-    });
->>>>>>> fix-crash-version
+// Initialize the dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    fetchSubscribers();
+    fetchOrders();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     const ordersTableBody = document.querySelector("#orders-table tbody");
@@ -100,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ordersTableBody.appendChild(row);
         });
     }
-<<<<<<< HEAD
 
     // Handle order expansion
     ordersTableBody.addEventListener("click", (e) => {
@@ -245,10 +245,4 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 
-    // Initial fetch
-    console.log("🔹 Initializing fetch for subscribers and orders...");
-    fetchSubscribers();
-    fetchOrders();
-=======
->>>>>>> fix-crash-version
 });

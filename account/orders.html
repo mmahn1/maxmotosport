@@ -119,13 +119,24 @@
             <div class="loading">Loading your orders...</div>
         </div>
         
-        <a href="/account/my-account.html" class="back-button">Back to My Account</a>
+        <a href="/account/account.html" class="back-button">Back to My Account</a>
     </div>
 
     <div id="footer-placeholder"></div>
     
     <script src="/header-footer/header-footer.js"></script>
     <script>
+        // Automatically detect environment and set server URL
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        let serverUrl;
+        if (isLocalhost) {
+            serverUrl = "http://localhost:3000";
+        } else {
+            // Both maxmotosport.eu and the Railway URL point to the same server
+            serverUrl = "https://maxmotosport-production.up.railway.app";
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('token');
             
@@ -140,7 +151,7 @@
         function fetchOrders() {
             const ordersContainer = document.getElementById('orders-container');
             
-            fetch('/api/orders', {
+            fetch(`${serverUrl}/api/orders`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }

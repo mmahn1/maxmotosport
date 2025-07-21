@@ -1,3 +1,8 @@
+/**
+ * Consolidated Server for MaxMotoSport
+ * All routes and middleware integrated in a single file
+ */
+
 require('dotenv').config(); 
 
 const express = require("express");
@@ -11,18 +16,27 @@ const path = require("path");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { exec } = require('child_process');
+const { body, validationResult } = require('express-validator');
 
+// Application setup
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
 const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
 
+// JWT Secret
+const JWT_SECRET = process.env.JWT_SECRET || "maxmotosport_secret_key";
+if (JWT_SECRET === "maxmotosport_secret_key") {
+  console.warn('⚠️ Warning: Using default JWT secret. Set JWT_SECRET in environment variables for production.');
+}
+
+// MySQL Database connection
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME, 
-  port: process.env.DB_PORT
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'maxmotosport_db', 
+  port: process.env.DB_PORT || 3306
 });
 
 db.connect(err => {
@@ -33,223 +47,189 @@ db.connect(err => {
   console.log('✅ Connected to MySQL!');
 });
 
+// Test the database connection
 db.query('SELECT DATABASE()', (err, results) => {
-    if (err) console.error('Database connection error:', err);
-    else console.log('Connected to database:', results[0]['DATABASE()']);
+  if (err) console.error('Database connection error:', err);
+  else console.log('Connected to database:', results[0]['DATABASE()']);
 });
+
+// Enhanced database methods (similar to server/db.js)
+const dbUtils = {
+  query: (sql, params) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+  },
+  
+  get: (sql, params) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results.length > 0 ? results[0] : null);
+      });
+    });
+  },
+  
+  run: (sql, params) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+  }
+};
+
+// Middleware Configuration
+app.use(cors({
+  origin: isProduction ? 'https://maxmotosport.eu' : 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: [
-        'https://maxmotosport-production.up.railway.app', 
-        'https://example.com',
-        'http://localhost:3000',
-        'http://localhost:8080',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:8080'
-    ], 
-    credentials: true
-}));
+
 app.use(session({
-    secret: "maxmotosport_secret_key",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false, maxAge: 3600000 } 
+  secret: process.env.SESSION_SECRET || 'maxmotosport_session_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: isProduction,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
+  }
 }));
 
-app.get('/api/config', (req, res) => {
-    res.json({ serverUrl: process.env.SERVER_URL });
-});
+// Set static folders
+app.use(express.static(path.join(__dirname)));
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.sendStatus(401);
+// Middleware for authentication verification
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; 
-    jwt.verify(token, jwtSecret, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
-}
+  if (!token) return res.status(401).json({ error: 'Access denied. No token provided.' });
+
+  try {
+    const verified = jwt.verify(token, JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
+};
+
+// Middleware to check if user is admin
+const isAdmin = (req, res, next) => {
+  if (!req.user) return res.status(401).json({ error: 'Authentication required' });
+  
+  const sql = 'SELECT role FROM users WHERE id = ?';
+  db.query(sql, [req.user.id], (err, results) => {
+    if (err) return res.status(500).json({ error: 'Database error' });
+    
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const user = results[0];
+    if (user.role !== 'admin') {
+      return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
+    }
+    
+    next();
+  });
+};
 
 // ===============================
 // AUTHENTICATION ROUTES
 // ===============================
 
-// Backward compatibility routes (old frontend still uses these)
-app.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
-  console.log("Registration attempt:", { username, email, passwordLength: password?.length });
-
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
-
+// Register a new user
+app.post('/api/register', [
+  body('email').isEmail().withMessage('Invalid email format'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('name').notEmpty().withMessage('Name is required'),
+  body('surname').notEmpty().withMessage('Surname is required'),
+  body('phone').optional()
+], async (req, res) => {
   try {
-    // First check if user already exists
-    const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
-    db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
-      if (checkErr) {
-        console.error('Registration check error:', checkErr);
-        return res.status(500).json({ error: 'Database error during user check' });
-      }
-      
-      if (checkResults && checkResults.length > 0) {
-        const existingUser = checkResults[0];
-        if (existingUser.username === username) {
-          return res.status(400).json({ error: 'Username already exists' });
-        } else {
-          return res.status(400).json({ error: 'Email already exists' });
-        }
-      }
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-      // If we get here, user doesn't exist, so create them
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const insertQuery = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
-        
-        db.query(insertQuery, [username, email, hashedPassword], (insertErr, result) => {
-          if (insertErr) {
-            console.error('Registration insert error:', insertErr);
-            return res.status(500).json({ error: 'Database error during user creation' });
-          }
-          
-          console.log('User registered successfully:', username);
-          res.status(201).json({ success: true, message: 'User registered successfully' });
-        });
-      } catch (hashError) {
-        console.error('Password hashing error:', hashError);
-        res.status(500).json({ error: 'Error processing password' });
+    const { email, password, name, surname, phone } = req.body;
+    
+    // Check if user already exists
+    const existingUser = await dbUtils.get('SELECT * FROM users WHERE email = ?', [email]);
+    if (existingUser) {
+      return res.status(409).json({ error: 'User with this email already exists' });
+    }
+    
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    
+    // Create new user
+    const role = email.includes('admin@maxmotosport.eu') ? 'admin' : 'user';
+    
+    await dbUtils.run(
+      'INSERT INTO users (email, password, name, surname, phone, role) VALUES (?, ?, ?, ?, ?, ?)',
+      [email, hashedPassword, name, surname, phone || null, role]
+    );
+    
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Internal server error during registration' });
+  }
+});
+
+// User login
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Find user
+    const user = await dbUtils.get('SELECT * FROM users WHERE email = ?', [email]);
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    
+    // Validate password
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    
+    // Create JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+    
+    // Set session
+    req.session.userId = user.id;
+    
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        surname: user.surname,
+        role: user.role
       }
     });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error during login' });
   }
-});
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'All fields are required', source: 'server' });
-  }
-
-  const query = 'SELECT * FROM users WHERE username = ?';
-  db.query(query, [username], async (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Server error', source: 'server' });
-    }
-
-    if (results.length === 0) {
-      return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-    }
-
-    const user = results[0];
-
-    try {
-      const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-
-      if (!isPasswordValid) {
-        return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-      }
-
-      const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-      res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
-    } catch (compareError) {
-      res.status(500).json({ error: 'Server error', source: 'server' });
-    }
-  });
-});
-
-app.post("/register", async (req, res) => {
-    const { username, email, password } = req.body;
-    console.log("Registration attempt:", { username, email, passwordLength: password?.length });
-
-    if (!username || !email || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    try {
-        // First check if user already exists
-        const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
-        db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
-            if (checkErr) {
-                console.error('Registration check error:', checkErr);
-                return res.status(500).json({ error: 'Database error during user check' });
-            }
-            
-            if (checkResults && checkResults.length > 0) {
-                const existingUser = checkResults[0];
-                if (existingUser.username === username) {
-                    return res.status(400).json({ error: 'Username already exists' });
-                } else {
-                    return res.status(400).json({ error: 'Email already exists' });
-                }
-            }
-
-            // If we get here, user doesn't exist, so create them
-            try {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
-                
-                db.query(insertQuery, [username, email, hashedPassword], (insertErr, result) => {
-                    if (insertErr) {
-                        console.error('Registration insert error:', insertErr);
-                        return res.status(500).json({ error: 'Database error during user creation' });
-                    }
-                    
-                    console.log('User registered successfully:', username);
-                    res.status(201).json({ success: true, message: 'User registered successfully' });
-                });
-            } catch (hashError) {
-                console.error('Password hashing error:', hashError);
-                res.status(500).json({ error: 'Error processing password' });
-            }
-        });
-    } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
-        return res.status(400).json({ error: 'All fields are required', source: 'server' });
-    }
-
-    const query = 'SELECT * FROM users WHERE username = ?';
-    db.query(query, [username], async (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Server error', source: 'server' });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-        }
-
-        const user = results[0];
-
-        try {
-            const isPasswordValid = await bcrypt.compare(password, user.password_hash);
-
-            if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-            }
-
-            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-            const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-            res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
-        } catch (compareError) {
-            res.status(500).json({ error: 'Server error', source: 'server' });
-        }
-    });
 });
 
 // Logout
@@ -1178,35 +1158,25 @@ app.get('/api/status', (req, res) => {
   });
 });
 
-// Get server configuration
-app.get('/api/config', (req, res) => {
-  res.json({ 
-    SERVER_URL: process.env.SERVER_URL || (isProduction ? 'https://maxmotosport.eu' : 'http://localhost:3000') 
+// Route for handling production static assets
+if (isProduction) {
+  app.use(express.static(path.join(__dirname)));
+  
+  // Serve index.html for all routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
   });
-});
+}
 
-app.use(express.static(__dirname));
-app.use("/ponudba", express.static(__dirname + "/ponudba"));
-app.use("/Slike", express.static(__dirname + "/Slike"));
-app.use("/Landing_page", express.static(__dirname + "/Landing_page"));
-app.use("/account", express.static(__dirname + "/account"));
-app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
-app.use("/Cart", express.static(__dirname + "/Cart"));
-
-const emailTransporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'maxmotosport.shop@gmail.com',
-        pass: 'gmir ejjf outo whkm'
-    }
-});
-
+// Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}/`);
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
+  console.log(`✅ Server running on port ${PORT}`);
+  
+  if (isProduction) {
+    console.log('🚀 Running in production mode');
+  } else {
+    console.log('🔧 Running in development mode');
+    console.log(`📁 Serving static files from ${__dirname}`);
+    console.log(`🌐 Access the site at http://localhost:${PORT}`);
+  }
 });

@@ -1,0 +1,290 @@
+require('dotenv').config(); 
+
+const express = require("express");
+const fs = require("fs");
+const mysql = require("mysql2");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const session = require("express-session");
+const cors = require("cors");
+const path = require("path");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const { exec } = require('child_process');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
+const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
+
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME, 
+  port: process.env.DB_PORT
+});
+
+db.connect(err => {
+  if (err) {
+    console.error('❌ Error connecting to MySQL:', err.stack);
+    return;
+  }
+  console.log('✅ Connected to MySQL!');
+});
+
+db.query('SELECT DATABASE()', (err, results) => {
+    if (err) console.error('Database connection error:', err);
+    else console.log('Connected to database:', results[0]['DATABASE()']);
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+    origin: [
+        'https://maxmotosport-production.up.railway.app', 
+        'https://example.com',
+        'http://localhost:3000',
+        'http://localhost:8080',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:8080'
+    ], 
+    credentials: true
+}));
+app.use(session({
+    secret: "maxmotosport_secret_key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 3600000 } 
+}));
+
+app.get('/api/config', (req, res) => {
+    res.json({ serverUrl: process.env.SERVER_URL });
+});
+
+app.post("/register", async (req, res) => {
+    const { username, email, password } = req.body;
+    console.log("Registration attempt:", { username, email, passwordLength: password?.length });
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    try {
+        // First check if user already exists
+        const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
+        db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
+            if (checkErr) {
+                console.error('Registration check error:', checkErr);
+                return res.status(500).json({ error: 'Database error during user check' });
+            }
+            
+            if (checkResults && checkResults.length > 0) {
+                const existingUser = checkResults[0];
+                if (existingUser.username === username) {
+                    return res.status(400).json({ error: 'Username already exists' });
+                } else {
+                    return res.status(400).json({ error: 'Email already exists' });
+                }
+            }
+
+            // If we get here, user doesn't exist, so create them
+            try {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const insertQuery = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
+                
+                db.query(insertQuery, [username, email, hashedPassword], (insertErr, result) => {
+                    if (insertErr) {
+                        console.error('Registration insert error:', insertErr);
+                        return res.status(500).json({ error: 'Database error during user creation' });
+                    }
+                    
+                    console.log('User registered successfully:', username);
+                    res.status(201).json({ success: true, message: 'User registered successfully' });
+                });
+            } catch (hashError) {
+                console.error('Password hashing error:', hashError);
+                res.status(500).json({ error: 'Error processing password' });
+            }
+        });
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ error: 'All fields are required', source: 'server' });
+    }
+
+    const query = 'SELECT * FROM users WHERE username = ?';
+    db.query(query, [username], async (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Server error', source: 'server' });
+        }
+
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
+        }
+
+        const user = results[0];
+
+        try {
+            const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
+            }
+
+            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
+            const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
+            res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
+        } catch (compareError) {
+            res.status(500).json({ error: 'Server error', source: 'server' });
+        }
+    });
+});
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+
+    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; 
+    jwt.verify(token, jwtSecret, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+}
+
+app.get("/api/profile", authenticateToken, (req, res) => {
+    res.json({ message: `Hello ${req.user.id}, you are logged in as ${req.user.role}` });
+});
+
+app.post("/api/orders", authenticateToken, (req, res) => {
+    const { cart } = req.body;
+
+    console.log("🚀 New order request received");
+    console.log("User ID:", req.user.id);
+    console.log("Cart data:", cart);
+
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        console.error("❌ Invalid or empty cart data");
+        return res.status(400).json({ error: "Cart is empty or invalid" });
+    }
+
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
+        if (err) {
+            console.error("❌ Error reading products file:", err);
+            return res.status(500).json({ error: "Server error" });
+        }
+
+        try {
+            const products = JSON.parse(data);
+            let totalPrice = 0;
+            const productDetails = [];
+
+            for (const item of cart) {
+                const product = products.find(p => p.id === item.product_id);
+                if (!product) {
+                    console.error(`❌ Product with ID ${item.product_id} not found`);
+                    return res.status(400).json({ error: `Product with ID ${item.product_id} not found` });
+                }
+
+                const itemTotalPrice = product.price * item.quantity;
+                totalPrice += itemTotalPrice;
+
+                productDetails.push({
+                    name: product.name,
+                    price: product.price,
+                    quantity: item.quantity,
+                    total_price: itemTotalPrice
+                });
+            }
+
+            console.log("🛒 Order details prepared:", productDetails);
+
+            const query = `
+                INSERT INTO orders (user_id, product_details, total_price)
+                VALUES (?, ?, ?)
+            `;
+            db.query(query, [req.user.id, JSON.stringify(productDetails), totalPrice], (err, result) => {
+                if (err) {
+                    console.error("❌ Error inserting order into database:", err);
+                    return res.status(500).json({ error: "Server error" });
+                }
+                console.log("✅ Order successfully inserted with ID:", result.insertId);
+                res.status(201).json({ success: true, message: "Order created successfully", orderId: result.insertId });
+            });
+        } catch (parseError) {
+            console.error("❌ Error parsing products file:", parseError);
+            res.status(500).json({ error: "Server error" });
+        }
+    });
+});
+
+app.get("/api/orders", authenticateToken, (req, res) => {
+    const query = `
+        SELECT id, product_details, total_price, order_date, status
+        FROM orders
+        WHERE user_id = ?
+    `;
+    db.query(query, [req.user.id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: "Server error" });
+        }
+        res.json({ success: true, orders: results });
+    });
+});
+
+app.get("/api/admin/orders", authenticateToken, (req, res) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ error: "Access denied" });
+    }
+
+    const query = `
+        SELECT id, user_id, product_details, total_price, order_date, status
+        FROM orders
+        ORDER BY order_date DESC
+    `;
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('❌ Error fetching orders:', err);
+            return res.status(500).json({ error: "Server error" });
+        }
+        if (!results.length) {
+            return res.status(404).json({ success: false, message: "No orders found" });
+        }
+        res.json({ success: true, orders: results });
+    });
+});
+
+app.use(express.static(__dirname));
+app.use("/ponudba", express.static(__dirname + "/ponudba"));
+app.use("/Slike", express.static(__dirname + "/Slike"));
+app.use("/Landing_page", express.static(__dirname + "/Landing_page"));
+app.use("/account", express.static(__dirname + "/account"));
+app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
+app.use("/Cart", express.static(__dirname + "/Cart"));
+
+const emailTransporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+        user: 'maxmotosport.shop@gmail.com',
+        pass: 'gmir ejjf outo whkm'
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}/`);
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
+});

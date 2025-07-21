@@ -15,41 +15,10 @@ if (JWT_SECRET === 'your_jwt_secret_key') {
  * @route   POST /register
  * @desc    Register a new user
  * @access  Public
+ * 
+ * Note: This route is handled directly in server.js to avoid conflicts
+ * between different database implementations.
  */
-router.post(
-    '/register',
-    [
-        body('username').not().isEmpty().withMessage('Username is required'),
-        body('email').isEmail().withMessage('Please include a valid email'),
-        body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
-    ],
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ error: errors.array()[0].msg });
-        }
-
-        const { username, email, password } = req.body;
-
-        try {
-            const existingUser = await db.get('SELECT * FROM users WHERE username = ? OR email = ?', [username, email]);
-            if (existingUser) {
-                return res.status(400).json({ error: 'Username or email already exists' });
-            }
-
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await db.run(
-                'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-                [username, email, hashedPassword]
-            );
-
-            res.status(201).json({ success: true, message: 'Registration successful' });
-        } catch (error) {
-            console.error('Registration error:', error);
-            res.status(500).json({ error: 'Server error' });
-        }
-    }
-);
 
 /**
  * @route   POST /login

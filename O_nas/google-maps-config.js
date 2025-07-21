@@ -1,120 +1,62 @@
 /**
- * Google Maps Configuration
- * Handles different API keys for development and production
+ * Super Fast Google Maps - Load only when needed
  */
 
-// Check if we're in development or production
-const isDevelopment = window.location.hostname === 'localhost' || 
-                     window.location.hostname === '127.0.0.1' ||
-                     window.location.hostname.includes('localhost');
+let mapLoaded = false;
 
-const isProduction = window.location.hostname === 'maxmotosport.eu' ||
-                    window.location.hostname.includes('maxmotosport.eu');
-
-// Configuration object
-const GoogleMapsConfig = {
-    // Single API Key for both development and production
-    apiKey: 'AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU', // Replace this with your actual Google Cloud API key
-    
-    // Get the API key (same for both environments now)
-    getApiKey: function() {
-        return this.apiKey;
-    },
-    
-    // Get the current environment
-    getEnvironment: function() {
-        if (isDevelopment) return 'development';
-        if (isProduction) return 'production';
-        return 'unknown';
-    },
-    
-    // Map configuration
-    mapOptions: {
-        // Max MotoSport location in Ljubljana
-        center: { lat: 46.0569, lng: 14.5058 }, // Ljubljana coordinates
-        zoom: 15,
-        mapTypeId: 'roadmap'
-    }
-};
-
-// Initialize Google Maps
+// Ultra simple map initialization
 function initMap() {
-    try {
-        const map = new google.maps.Map(document.getElementById('map'), GoogleMapsConfig.mapOptions);
+    const map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 46.0569, lng: 14.5058 },
+        zoom: 15
+    });
+    
+    new google.maps.Marker({
+        position: { lat: 46.0569, lng: 14.5058 },
+        map: map,
+        title: 'MaX Motosport'
+    });
+}
+
+// Load map only when user scrolls near it
+function loadMapWhenVisible() {
+    if (mapLoaded) return;
+    
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+    
+    // Check if map is visible on screen
+    const rect = mapContainer.getBoundingClientRect();
+    const isVisible = (rect.top < window.innerHeight && rect.bottom > 0);
+    
+    if (isVisible) {
+        mapLoaded = true;
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDjQjGwU0QXo_VxQfuGvYJvHsuUgPbaqsU&callback=initMap';
+        document.head.appendChild(script);
         
-        // Add marker for Max MotoSport using the new AdvancedMarkerElement
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-            position: GoogleMapsConfig.mapOptions.center,
-            map: map,
-            title: 'MaX Motosport - Ducati Dealer'
-        });
-        
-        // Add info window
-        const infoWindow = new google.maps.InfoWindow({
-            content: `
-                <div style="padding: 10px; max-width: 200px;">
-                    <h3 style="margin: 0 0 10px 0; color: #e00;">MaX Motosport</h3>
-                    <p style="margin: 0; font-size: 14px;">
-                        <strong>Official Ducati Dealer</strong><br>
-                        Kotnikova ulica 5<br>
-                        1000 Ljubljana, Slovenia
-                    </p>
-                </div>
-            `
-        });
-        
-        marker.addListener('click', function() {
-            infoWindow.open(map, marker);
-        });
-        
-        console.log(`Maps loaded successfully in ${GoogleMapsConfig.getEnvironment()} mode`);
-        
-    } catch (error) {
-        console.error('Error initializing Google Maps:', error);
-        handleMapError();
+        // Remove scroll listener to avoid multiple loads
+        window.removeEventListener('scroll', loadMapWhenVisible);
     }
 }
 
-// Handle map loading errors
-function handleMapError() {
+// Start watching for map visibility after page loads
+window.addEventListener('load', function() {
+    // Try immediate load first
+    setTimeout(loadMapWhenVisible, 1000);
+    
+    // Also watch scroll events
+    window.addEventListener('scroll', loadMapWhenVisible);
+});
+
+// Fallback: load map when user clicks the map area
+document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
-        mapContainer.innerHTML = `
-            <div style="
-                padding: 20px; 
-                text-align: center; 
-                background: #f5f5f5; 
-                border-radius: 10px;
-                color: #666;
-            ">
-                <i class="fas fa-map-marker-alt" style="font-size: 48px; color: #e00; margin-bottom: 10px;"></i>
-                <h3>Map Currently Unavailable</h3>
-                <p>Visit us at: Kotnikova ulica 5, 1000 Ljubljana</p>
-            </div>
-        `;
+        mapContainer.addEventListener('click', function() {
+            if (!mapLoaded) {
+                loadMapWhenVisible();
+            }
+        });
     }
-}
-
-// Load Google Maps script dynamically
-function loadGoogleMaps() {
-    const apiKey = GoogleMapsConfig.getApiKey();
-    
-    if (!apiKey || apiKey.includes('YOUR_API_KEY_HERE')) {
-        console.warn('Google Maps API key not configured properly');
-        handleMapError();
-        return;
-    }
-    
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap&libraries=marker`;
-    script.async = true;
-    script.defer = true;
-    script.onerror = handleMapError;
-    
-    document.head.appendChild(script);
-}
-
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = GoogleMapsConfig;
-}
+});

@@ -76,24 +76,27 @@ function loadFooter() {
 }
 
 function loadNewsletter() {
-    fetch("/Newsletter/newsletter.html")
+    fetch("/Newsletter/index.html")
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Failed to load newsletter: ${response.status} ${response.statusText}`);
+                console.warn(`Newsletter not loaded: ${response.status} ${response.statusText}. This is normal if the page doesn't use the newsletter.`);
+                return null;
             }
             return response.text();
         })
         .then(html => {
+            if (!html) return; // Skip if the fetch failed
+            
             const newsletterPlaceholder = document.getElementById("newsletter-placeholder");
             if (newsletterPlaceholder) {
                 newsletterPlaceholder.innerHTML = html;
                 console.log("✅ Newsletter loaded successfully");
             } else {
-                console.error("⚠️ Error: 'newsletter-placeholder' div is missing in HTML.");
+                console.warn("⚠️ Note: 'newsletter-placeholder' div not found. This is normal if the current page doesn't use the newsletter.");
             }
         })
         .catch(error => {
-            console.error("❌ Error loading newsletter:", error);
+            console.warn("⚠️ Newsletter could not be loaded:", error);
         });
 }
 

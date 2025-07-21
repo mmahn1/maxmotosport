@@ -1,8 +1,19 @@
 const useCustomDomain1 = true; 
 
-const CUSTOM_DOMAIN_1 = "https://maxmotosport-production.up.railway.app";
+// Automatically detect environment and set server URL
+const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const isCustomDomain = typeof window !== 'undefined' && window.location.hostname === 'maxmotosport.eu';
 
-const serverUrl =CUSTOM_DOMAIN_1;
+let CUSTOM_DOMAIN_1;
+if (isLocalhost) {
+    CUSTOM_DOMAIN_1 = "http://localhost:3000";
+} else if (isCustomDomain) {
+    CUSTOM_DOMAIN_1 = "https://maxmotosport.eu";
+} else {
+    CUSTOM_DOMAIN_1 = "https://maxmotosport-production.up.railway.app";
+}
+
+const serverUrl = CUSTOM_DOMAIN_1;
 
 function login() {
   const username = document.getElementById("loginUsername").value;

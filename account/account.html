@@ -9,12 +9,11 @@
     style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
     img-src 'self' data:;
-    connect-src 'self' https://maxmotosport-production.up.railway.app https://maxmotosport.eu;">
+    connect-src 'self' https://maxmotosport-production.up.railway.app https://maxmotosport.eu http://localhost:3000 http://127.0.0.1:3000;">
     <title>Account - Login / Register</title>
     <link rel="stylesheet" href="account.css">
     <link rel="stylesheet" href="/media_queries.css">
-    <link rel="stylesheet" href="/media_queries.css">
-    <script defer src="/header-footer/header-footer.js"></script>
+    <!-- Removed duplicate CSS link and moved script to bottom -->
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -40,15 +39,16 @@
         <div id="registerForm" class="form-container hidden">
             <h3>Register</h3>
             <form onsubmit="event.preventDefault(); register();">
-                <input type="text" id="registerUsername" placeholder="Username" required>
-                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="text" id="registerUsername" placeholder="Username" required autocomplete="username">
+                <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
                 <input type="password" id="registerPassword" placeholder="Password" required autocomplete="new-password">
                 <button type="submit">Register</button>
             </form>
+            <p class="form-text">&nbsp;</p><!-- Empty space to match login form layout -->
         </div>
 
         <div id="logoutSection" class="form-container hidden">
-            <h3>Logouti</h3>
+            <h3>Account</h3>
             <p>You are logged in as <span id="loggedInUsername"></span>.</p>
             <button id="logoutButton">Logout</button>
         </div>
@@ -59,6 +59,6 @@
     <div id="footer-placeholder"></div>
     
     <script src="/header-footer/header-footer.js"></script>
-    <script defer src="account.js"></script> 
+    <script src="account.js"></script> 
 </body>
 </html>

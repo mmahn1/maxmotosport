@@ -1,10 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeTimelineControls();
     
-    // Initialize Google Maps if map container exists
-    if (document.getElementById('map')) {
-        loadGoogleMaps();
-    }
+    // Google Maps now loads directly in HTML
     
     fetch('./timline.json')
         .then(response => {

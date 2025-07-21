@@ -1,3 +1,16 @@
+// Automatically detect environment and set server URL
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isCustomDomain = window.location.hostname === 'maxmotosport.eu';
+
+let serverUrl;
+if (isLocalhost) {
+    serverUrl = "http://localhost:3000";
+} else if (isCustomDomain) {
+    serverUrl = "https://maxmotosport.eu";
+} else {
+    serverUrl = "https://maxmotosport-production.up.railway.app";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartTableBody = document.querySelector("#cart-table tbody");

@@ -1,30 +1,59 @@
+// Automatically detect environment and set server URL
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+// Use a different variable name to avoid conflicts with header-footer.js
+let accountServerUrl;
+if (isLocalhost) {
+    accountServerUrl = "http://localhost:3000";
+} else {
+    // Both maxmotosport.eu and the Railway URL point to the same server
+    accountServerUrl = "https://maxmotosport-production.up.railway.app";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("🔹 Login/Register Page Loaded");
 
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    const showLogin = document.getElementById("showLogin");
-    const showRegister = document.getElementById("showRegister");
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
+    // Initialize login/register toggle functionality
+    initToggleButtons();
 
-    if (showLogin && showRegister && loginForm && registerForm) {
-        showLogin.addEventListener("click", () => {
-            loginForm.classList.remove("hidden");
-            registerForm.classList.add("hidden");
-            showLogin.classList.add("active");
-            showRegister.classList.remove("active");
+    // Helper function to initialize toggle buttons with debug output
+    function initToggleButtons() {
+        const showLogin = document.getElementById("showLogin");
+        const showRegister = document.getElementById("showRegister");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+
+        console.log("Toggle elements:", { 
+            showLogin: showLogin, 
+            showRegister: showRegister, 
+            loginForm: loginForm, 
+            registerForm: registerForm 
         });
 
-        showRegister.addEventListener("click", () => {
-            registerForm.classList.remove("hidden");
-            loginForm.classList.add("hidden");
-            showRegister.classList.add("active");
-            showLogin.classList.remove("active");
-        });
-    } else {
-        console.error("❌ Elements not found: Ensure login/register buttons exist.");
+        if (showLogin && showRegister && loginForm && registerForm) {
+            showLogin.addEventListener("click", function() {
+                console.log("Login button clicked");
+                loginForm.classList.remove("hidden");
+                registerForm.classList.add("hidden");
+                showLogin.classList.add("active");
+                showRegister.classList.remove("active");
+            });
+
+            showRegister.addEventListener("click", function() {
+                console.log("Register button clicked");
+                registerForm.classList.remove("hidden");
+                loginForm.classList.add("hidden");
+                showRegister.classList.add("active");
+                showLogin.classList.remove("active");
+            });
+            
+            console.log("✅ Toggle event listeners added successfully");
+        } else {
+            console.error("❌ Elements not found: Ensure login/register buttons exist.");
+        }
     }
 
     const logoutSection = document.getElementById("logoutSection");
@@ -61,7 +90,7 @@ async function login() {
     }
 
     try {
-        const response = await fetch("https://maxmotosport-production.up.railway.app/login", {
+        const response = await fetch(`${accountServerUrl}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
@@ -112,13 +141,17 @@ async function register() {
     }
 
     try {
-        const response = await fetch(`${serverUrl}/register`, {
+        console.log("Attempting to register with:", { username, email, passwordLength: password.length });
+        
+        const response = await fetch(`${accountServerUrl}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password })
         });
 
         const data = await response.json();
+        console.log("Registration response:", data);
+        
         if (response.ok) {
             showMessage("Registration successful! You can now log in.", "success");
             setTimeout(() => {
