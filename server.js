@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require("dotenv").config();
 
 const express = require("express");
 const fs = require("fs");
@@ -10,906 +10,1132 @@ const cors = require("cors");
 const path = require("path");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const { exec } = require('child_process');
+const { exec } = require("child_process");
+const { body, validationResult } = require("express-validator");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json"); 
-const isProduction = process.env.NODE_ENV === 'production' || process.env.DB_HOST !== 'localhost';
+const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json");
+const isProduction =
+  process.env.NODE_ENV === "production" || process.env.DB_HOST !== "localhost";
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME, 
-  port: process.env.DB_PORT
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
-    console.error('❌ Error connecting to MySQL:', err.stack);
+    console.error("❌ Error connecting to MySQL:", err.stack);
     return;
   }
-  console.log('✅ Connected to MySQL!');
+  console.log("✅ Connected to MySQL!");
 });
 
-db.query('SELECT DATABASE()', (err, results) => {
-    if (err) console.error('Database connection error:', err);
-    else console.log('Connected to database:', results[0]['DATABASE()']);
+db.query("SELECT DATABASE()", (err, results) => {
+  if (err) console.error("Database connection error:", err);
+  else console.log("Connected to database:", results[0]["DATABASE()"]);
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
+app.use(
+  cors({
     origin: [
-        'https://maxmotosport-production.up.railway.app', 
-        'https://example.com',
-        'http://localhost:3000',
-        'http://localhost:8080',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:8080'
-    ], 
-    credentials: true
-}));
-app.use(session({
+      "https://maxmotosport-production.up.railway.app",
+      "https://example.com",
+      "http://localhost:3000",
+      "http://localhost:8080",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:8080",
+    ],
+    credentials: true,
+  })
+);
+app.use(
+  session({
     secret: "maxmotosport_secret_key",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 3600000 } 
-}));
+    cookie: { secure: false, maxAge: 3600000 },
+  })
+);
 
-app.get('/api/config', (req, res) => {
-    res.json({ serverUrl: process.env.SERVER_URL });
+app.get("/api/config", (req, res) => {
+  res.json({ serverUrl: process.env.SERVER_URL });
 });
 
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.sendStatus(401);
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) return res.sendStatus(401);
 
-    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key"; 
-    jwt.verify(token, jwtSecret, (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
+  const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
 }
+
+// Admin middleware
+function isAdmin(req, res, next) {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(403).json({ error: "Admin access required" });
+  }
+}
+
+// Database utility functions
+const dbUtils = {
+  query: (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+  },
+
+  get: (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results[0] || null);
+      });
+    });
+  },
+
+  run: (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+      db.query(sql, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+  },
+};
 
 // ===============================
 // AUTHENTICATION ROUTES
 // ===============================
 
 // Backward compatibility routes (old frontend still uses these)
-app.post('/register', async (req, res) => {
+app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  console.log("Registration attempt:", { username, email, passwordLength: password?.length });
+  console.log("Registration attempt:", {
+    username,
+    email,
+    passwordLength: password?.length,
+  });
 
   if (!username || !email || !password) {
-    return res.status(400).json({ error: 'All fields are required' });
+    return res.status(400).json({ error: "All fields are required" });
   }
 
   try {
     // First check if user already exists
-    const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
+    const checkQuery = "SELECT * FROM users WHERE username = ? OR email = ?";
     db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
       if (checkErr) {
-        console.error('Registration check error:', checkErr);
-        return res.status(500).json({ error: 'Database error during user check' });
+        console.error("Registration check error:", checkErr);
+        return res
+          .status(500)
+          .json({ error: "Database error during user check" });
       }
-      
+
       if (checkResults && checkResults.length > 0) {
         const existingUser = checkResults[0];
         if (existingUser.username === username) {
-          return res.status(400).json({ error: 'Username already exists' });
+          return res.status(400).json({ error: "Username already exists" });
         } else {
-          return res.status(400).json({ error: 'Email already exists' });
+          return res.status(400).json({ error: "Email already exists" });
         }
       }
 
       // If we get here, user doesn't exist, so create them
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const insertQuery = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
-        
-        db.query(insertQuery, [username, email, hashedPassword], (insertErr, result) => {
-          if (insertErr) {
-            console.error('Registration insert error:', insertErr);
-            return res.status(500).json({ error: 'Database error during user creation' });
+        const insertQuery =
+          "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+
+        db.query(
+          insertQuery,
+          [username, email, hashedPassword],
+          (insertErr, result) => {
+            if (insertErr) {
+              console.error("Registration insert error:", insertErr);
+              return res
+                .status(500)
+                .json({ error: "Database error during user creation" });
+            }
+
+            console.log("User registered successfully:", username);
+            res
+              .status(201)
+              .json({ success: true, message: "User registered successfully" });
           }
-          
-          console.log('User registered successfully:', username);
-          res.status(201).json({ success: true, message: 'User registered successfully' });
-        });
+        );
       } catch (hashError) {
-        console.error('Password hashing error:', hashError);
-        res.status(500).json({ error: 'Error processing password' });
+        console.error("Password hashing error:", hashError);
+        res.status(500).json({ error: "Error processing password" });
       }
     });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ error: 'All fields are required', source: 'server' });
+    return res
+      .status(400)
+      .json({ error: "All fields are required", source: "server" });
   }
 
-  const query = 'SELECT * FROM users WHERE username = ?';
+  const query = "SELECT * FROM users WHERE username = ?";
   db.query(query, [username], async (err, results) => {
     if (err) {
-      return res.status(500).json({ error: 'Server error', source: 'server' });
+      return res.status(500).json({ error: "Server error", source: "server" });
     }
 
     if (results.length === 0) {
-      return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
+      return res
+        .status(401)
+        .json({ error: "Invalid credentials", source: "server" });
     }
 
     const user = results[0];
 
     try {
-      const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user.password_hash
+      );
 
       if (!isPasswordValid) {
-        return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
+        return res
+          .status(401)
+          .json({ error: "Invalid credentials", source: "server" });
       }
 
       const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-      res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
+      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
+        expiresIn: "1h",
+      });
+      res.json({
+        success: true,
+        token,
+        username: user.username,
+        role: user.role,
+        id: user.id,
+      });
     } catch (compareError) {
-      res.status(500).json({ error: 'Server error', source: 'server' });
+      res.status(500).json({ error: "Server error", source: "server" });
     }
   });
 });
 
 app.post("/register", async (req, res) => {
-    const { username, email, password } = req.body;
-    console.log("Registration attempt:", { username, email, passwordLength: password?.length });
+  const { username, email, password } = req.body;
+  console.log("Registration attempt:", {
+    username,
+    email,
+    passwordLength: password?.length,
+  });
 
-    if (!username || !email || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
-    try {
-        // First check if user already exists
-        const checkQuery = 'SELECT * FROM users WHERE username = ? OR email = ?';
-        db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
-            if (checkErr) {
-                console.error('Registration check error:', checkErr);
-                return res.status(500).json({ error: 'Database error during user check' });
-            }
-            
-            if (checkResults && checkResults.length > 0) {
-                const existingUser = checkResults[0];
-                if (existingUser.username === username) {
-                    return res.status(400).json({ error: 'Username already exists' });
-                } else {
-                    return res.status(400).json({ error: 'Email already exists' });
-                }
+  try {
+    // First check if user already exists
+    const checkQuery = "SELECT * FROM users WHERE username = ? OR email = ?";
+    db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
+      if (checkErr) {
+        console.error("Registration check error:", checkErr);
+        return res
+          .status(500)
+          .json({ error: "Database error during user check" });
+      }
+
+      if (checkResults && checkResults.length > 0) {
+        const existingUser = checkResults[0];
+        if (existingUser.username === username) {
+          return res.status(400).json({ error: "Username already exists" });
+        } else {
+          return res.status(400).json({ error: "Email already exists" });
+        }
+      }
+
+      // If we get here, user doesn't exist, so create them
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const insertQuery =
+          "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+
+        db.query(
+          insertQuery,
+          [username, email, hashedPassword],
+          (insertErr, result) => {
+            if (insertErr) {
+              console.error("Registration insert error:", insertErr);
+              return res
+                .status(500)
+                .json({ error: "Database error during user creation" });
             }
 
-            // If we get here, user doesn't exist, so create them
-            try {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                const insertQuery = 'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)';
-                
-                db.query(insertQuery, [username, email, hashedPassword], (insertErr, result) => {
-                    if (insertErr) {
-                        console.error('Registration insert error:', insertErr);
-                        return res.status(500).json({ error: 'Database error during user creation' });
-                    }
-                    
-                    console.log('User registered successfully:', username);
-                    res.status(201).json({ success: true, message: 'User registered successfully' });
-                });
-            } catch (hashError) {
-                console.error('Password hashing error:', hashError);
-                res.status(500).json({ error: 'Error processing password' });
-            }
-        });
-    } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ error: 'Server error' });
-    }
+            console.log("User registered successfully:", username);
+            res
+              .status(201)
+              .json({ success: true, message: "User registered successfully" });
+          }
+        );
+      } catch (hashError) {
+        console.error("Password hashing error:", hashError);
+        res.status(500).json({ error: "Error processing password" });
+      }
+    });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 app.post("/login", (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ error: 'All fields are required', source: 'server' });
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "All fields are required", source: "server" });
+  }
+
+  const query = "SELECT * FROM users WHERE username = ?";
+  db.query(query, [username], async (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Server error", source: "server" });
     }
 
-    const query = 'SELECT * FROM users WHERE username = ?';
-    db.query(query, [username], async (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Server error', source: 'server' });
-        }
+    if (results.length === 0) {
+      return res
+        .status(401)
+        .json({ error: "Invalid credentials", source: "server" });
+    }
 
-        if (results.length === 0) {
-            return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-        }
+    const user = results[0];
 
-        const user = results[0];
+    try {
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        user.password_hash
+      );
 
-        try {
-            const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+      if (!isPasswordValid) {
+        return res
+          .status(401)
+          .json({ error: "Invalid credentials", source: "server" });
+      }
 
-            if (!isPasswordValid) {
-                return res.status(401).json({ error: 'Invalid credentials', source: 'server' });
-            }
-
-            const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-            const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, { expiresIn: '1h' });
-            res.json({ success: true, token, username: user.username, role: user.role, id: user.id });
-        } catch (compareError) {
-            res.status(500).json({ error: 'Server error', source: 'server' });
-        }
-    });
+      const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
+      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
+        expiresIn: "1h",
+      });
+      res.json({
+        success: true,
+        token,
+        username: user.username,
+        role: user.role,
+        id: user.id,
+      });
+    } catch (compareError) {
+      res.status(500).json({ error: "Server error", source: "server" });
+    }
+  });
 });
 
 // Logout
-app.post('/api/logout', (req, res) => {
-  req.session.destroy(err => {
+app.post("/api/logout", (req, res) => {
+  req.session.destroy((err) => {
     if (err) {
-      return res.status(500).json({ error: 'Error logging out' });
+      return res.status(500).json({ error: "Error logging out" });
     }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Logged out successfully' });
+    res.clearCookie("connect.sid");
+    res.json({ message: "Logged out successfully" });
   });
 });
 
 // Get current user
-app.get('/api/user', authenticateToken, async (req, res) => {
+app.get("/api/user", authenticateToken, async (req, res) => {
   try {
-    const user = await dbUtils.get('SELECT id, email, name, surname, phone, role FROM users WHERE id = ?', [req.user.id]);
+    const user = await dbUtils.get(
+      "SELECT id, email, name, surname, phone, role FROM users WHERE id = ?",
+      [req.user.id]
+    );
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
     res.json(user);
   } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get user error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Password reset request
-app.post('/api/reset-password-request', async (req, res) => {
+app.post("/api/reset-password-request", async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     // Check if user exists
-    const user = await dbUtils.get('SELECT * FROM users WHERE email = ?', [email]);
+    const user = await dbUtils.get("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
     if (!user) {
       // For security reasons, don't reveal that the email doesn't exist
-      return res.json({ message: 'If your email exists in our system, you will receive a password reset link' });
+      return res.json({
+        message:
+          "If your email exists in our system, you will receive a password reset link",
+      });
     }
-    
+
     // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpires = new Date(Date.now() + 3600000); // 1 hour
-    
+
     // Save token to database
     await dbUtils.run(
-      'UPDATE users SET resetToken = ?, resetTokenExpires = ? WHERE id = ?',
+      "UPDATE users SET resetToken = ?, resetTokenExpires = ? WHERE id = ?",
       [resetToken, resetTokenExpires, user.id]
     );
-    
+
     // Set up email transporter
     const transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE || 'gmail',
+      service: process.env.EMAIL_SERVICE || "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
-      }
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
-    
-    const resetUrl = `${isProduction ? 'https://maxmotosport.eu' : 'http://localhost:3000'}/reset-password/${resetToken}`;
-    
+
+    const resetUrl = `${
+      isProduction ? "https://maxmotosport.eu" : "http://localhost:3000"
+    }/reset-password/${resetToken}`;
+
     // Send email
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
-      subject: 'Password Reset Request',
+      subject: "Password Reset Request",
       html: `
         <p>You requested a password reset</p>
         <p>Click <a href="${resetUrl}">here</a> to reset your password</p>
         <p>This link is valid for 1 hour</p>
-      `
+      `,
     };
-    
+
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
-        console.error('Email sending error:', error);
-        return res.status(500).json({ error: 'Error sending reset email' });
+        console.error("Email sending error:", error);
+        return res.status(500).json({ error: "Error sending reset email" });
       }
-      res.json({ message: 'Password reset email sent' });
+      res.json({ message: "Password reset email sent" });
     });
   } catch (error) {
-    console.error('Reset password request error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Reset password request error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Reset password with token
-app.post('/api/reset-password/:token', [
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+app.post(
+  "/api/reset-password/:token",
+  [
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters"),
+  ],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { token } = req.params;
+      const { password } = req.body;
+
+      // Find user with valid token
+      const user = await dbUtils.get(
+        "SELECT * FROM users WHERE resetToken = ? AND resetTokenExpires > ?",
+        [token, new Date()]
+      );
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ error: "Invalid or expired reset token" });
+      }
+
+      // Hash new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Update user password and clear token
+      await dbUtils.run(
+        "UPDATE users SET password = ?, resetToken = NULL, resetTokenExpires = NULL WHERE id = ?",
+        [hashedPassword, user.id]
+      );
+
+      res.json({ message: "Password reset successful" });
+    } catch (error) {
+      console.error("Reset password error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    const { token } = req.params;
-    const { password } = req.body;
-    
-    // Find user with valid token
-    const user = await dbUtils.get(
-      'SELECT * FROM users WHERE resetToken = ? AND resetTokenExpires > ?',
-      [token, new Date()]
-    );
-    
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid or expired reset token' });
-    }
-    
-    // Hash new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    
-    // Update user password and clear token
-    await dbUtils.run(
-      'UPDATE users SET password = ?, resetToken = NULL, resetTokenExpires = NULL WHERE id = ?',
-      [hashedPassword, user.id]
-    );
-    
-    res.json({ message: 'Password reset successful' });
-  } catch (error) {
-    console.error('Reset password error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // ===============================
 // USER PROFILE ROUTES
 // ===============================
 
 // Update user profile
-app.put('/api/user', authenticateToken, async (req, res) => {
+app.put("/api/user", authenticateToken, async (req, res) => {
   try {
     const { name, surname, phone, email } = req.body;
-    
+
     // Validate email uniqueness if changing email
     if (email) {
       const existingUser = await dbUtils.get(
-        'SELECT * FROM users WHERE email = ? AND id != ?', 
+        "SELECT * FROM users WHERE email = ? AND id != ?",
         [email, req.user.id]
       );
-      
+
       if (existingUser) {
-        return res.status(409).json({ error: 'Email already in use' });
+        return res.status(409).json({ error: "Email already in use" });
       }
     }
-    
+
     // Update user information
     await dbUtils.run(
-      'UPDATE users SET name = ?, surname = ?, phone = ?, email = ? WHERE id = ?',
+      "UPDATE users SET name = ?, surname = ?, phone = ?, email = ? WHERE id = ?",
       [name, surname, phone, email, req.user.id]
     );
-    
-    res.json({ message: 'Profile updated successfully' });
+
+    res.json({ message: "Profile updated successfully" });
   } catch (error) {
-    console.error('Update profile error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Update profile error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Change password
-app.put('/api/user/password', authenticateToken, [
-  body('currentPassword').notEmpty().withMessage('Current password is required'),
-  body('newPassword').isLength({ min: 6 }).withMessage('New password must be at least 6 characters')
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+app.put(
+  "/api/user/password",
+  authenticateToken,
+  [
+    body("currentPassword")
+      .notEmpty()
+      .withMessage("Current password is required"),
+    body("newPassword")
+      .isLength({ min: 6 })
+      .withMessage("New password must be at least 6 characters"),
+  ],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { currentPassword, newPassword } = req.body;
+
+      // Get user with password
+      const user = await dbUtils.get("SELECT * FROM users WHERE id = ?", [
+        req.user.id,
+      ]);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Verify current password
+      const validPassword = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+      if (!validPassword) {
+        return res.status(401).json({ error: "Current password is incorrect" });
+      }
+
+      // Hash new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      // Update password
+      await dbUtils.run("UPDATE users SET password = ? WHERE id = ?", [
+        hashedPassword,
+        req.user.id,
+      ]);
+
+      res.json({ message: "Password changed successfully" });
+    } catch (error) {
+      console.error("Change password error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    const { currentPassword, newPassword } = req.body;
-    
-    // Get user with password
-    const user = await dbUtils.get('SELECT * FROM users WHERE id = ?', [req.user.id]);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    
-    // Verify current password
-    const validPassword = await bcrypt.compare(currentPassword, user.password);
-    if (!validPassword) {
-      return res.status(401).json({ error: 'Current password is incorrect' });
-    }
-    
-    // Hash new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-    
-    // Update password
-    await dbUtils.run(
-      'UPDATE users SET password = ? WHERE id = ?',
-      [hashedPassword, req.user.id]
-    );
-    
-    res.json({ message: 'Password changed successfully' });
-  } catch (error) {
-    console.error('Change password error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // ===============================
 // ADMIN ROUTES
 // ===============================
 
 // Get all users (admin only)
-app.get('/api/admin/users', authenticateToken, isAdmin, async (req, res) => {
+app.get("/api/admin/users", authenticateToken, isAdmin, async (req, res) => {
   try {
     const users = await dbUtils.query(
-      'SELECT id, email, name, surname, phone, role FROM users ORDER BY id DESC'
+      "SELECT id, email, name, surname, phone, role FROM users ORDER BY id DESC"
     );
     res.json(users);
   } catch (error) {
-    console.error('Get users error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get users error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get user by ID (admin only)
-app.get('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const user = await dbUtils.get(
-      'SELECT id, email, name, surname, phone, role FROM users WHERE id = ?',
-      [id]
-    );
-    
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+app.get(
+  "/api/admin/users/:id",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const user = await dbUtils.get(
+        "SELECT id, email, name, surname, phone, role FROM users WHERE id = ?",
+        [id]
+      );
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json(user);
+    } catch (error) {
+      console.error("Get user by ID error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    res.json(user);
-  } catch (error) {
-    console.error('Get user by ID error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // Update user (admin only)
-app.put('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, surname, email, phone, role } = req.body;
-    
-    // Validate email uniqueness if changing email
-    if (email) {
-      const existingUser = await dbUtils.get(
-        'SELECT * FROM users WHERE email = ? AND id != ?', 
-        [email, id]
-      );
-      
-      if (existingUser) {
-        return res.status(409).json({ error: 'Email already in use' });
+app.put(
+  "/api/admin/users/:id",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, surname, email, phone, role } = req.body;
+
+      // Validate email uniqueness if changing email
+      if (email) {
+        const existingUser = await dbUtils.get(
+          "SELECT * FROM users WHERE email = ? AND id != ?",
+          [email, id]
+        );
+
+        if (existingUser) {
+          return res.status(409).json({ error: "Email already in use" });
+        }
       }
+
+      // Update user
+      await dbUtils.run(
+        "UPDATE users SET name = ?, surname = ?, email = ?, phone = ?, role = ? WHERE id = ?",
+        [name, surname, email, phone, role, id]
+      );
+
+      res.json({ message: "User updated successfully" });
+    } catch (error) {
+      console.error("Update user error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    // Update user
-    await dbUtils.run(
-      'UPDATE users SET name = ?, surname = ?, email = ?, phone = ?, role = ? WHERE id = ?',
-      [name, surname, email, phone, role, id]
-    );
-    
-    res.json({ message: 'User updated successfully' });
-  } catch (error) {
-    console.error('Update user error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // Delete user (admin only)
-app.delete('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    // Check if user exists
-    const user = await dbUtils.get('SELECT id FROM users WHERE id = ?', [id]);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+app.delete(
+  "/api/admin/users/:id",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Check if user exists
+      const user = await dbUtils.get("SELECT id FROM users WHERE id = ?", [id]);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Delete user
+      await dbUtils.run("DELETE FROM users WHERE id = ?", [id]);
+
+      res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.error("Delete user error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    // Delete user
-    await dbUtils.run('DELETE FROM users WHERE id = ?', [id]);
-    
-    res.json({ message: 'User deleted successfully' });
-  } catch (error) {
-    console.error('Delete user error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // ===============================
 // NEWSLETTER ROUTES
 // ===============================
 
 // Subscribe to newsletter
-app.post('/api/newsletter/subscribe', [
-  body('email').isEmail().withMessage('Invalid email format')
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    
-    const { email } = req.body;
-    
-    // Check if already subscribed
-    const existing = await dbUtils.get('SELECT * FROM newsletter WHERE email = ?', [email]);
-    if (existing) {
-      return res.status(409).json({ error: 'Email is already subscribed' });
-    }
-    
-    // Add to newsletter list
-    await dbUtils.run('INSERT INTO newsletter (email) VALUES (?)', [email]);
-    
-    // Send confirmation email
-    const transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE || 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+app.post(
+  "/api/newsletter/subscribe",
+  [body("email").isEmail().withMessage("Invalid email format")],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
-    });
-    
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Newsletter Subscription Confirmation',
-      html: `
+
+      const { email } = req.body;
+
+      // Check if already subscribed
+      const existing = await dbUtils.get(
+        "SELECT * FROM newsletter WHERE email = ?",
+        [email]
+      );
+      if (existing) {
+        return res.status(409).json({ error: "Email is already subscribed" });
+      }
+
+      // Add to newsletter list
+      await dbUtils.run("INSERT INTO newsletter (email) VALUES (?)", [email]);
+
+      // Send confirmation email
+      const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE || "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Newsletter Subscription Confirmation",
+        html: `
         <h1>Thanks for subscribing!</h1>
         <p>You have successfully subscribed to the MaxMotoSport newsletter.</p>
-      `
-    };
-    
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.error('Newsletter confirmation email error:', error);
-      }
-    });
-    
-    res.status(201).json({ message: 'Successfully subscribed to newsletter' });
-  } catch (error) {
-    console.error('Newsletter subscription error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+      `,
+      };
+
+      transporter.sendMail(mailOptions, (error) => {
+        if (error) {
+          console.error("Newsletter confirmation email error:", error);
+        }
+      });
+
+      res
+        .status(201)
+        .json({ message: "Successfully subscribed to newsletter" });
+    } catch (error) {
+      console.error("Newsletter subscription error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // Unsubscribe from newsletter
-app.post('/api/newsletter/unsubscribe', [
-  body('email').isEmail().withMessage('Invalid email format')
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+app.post(
+  "/api/newsletter/unsubscribe",
+  [body("email").isEmail().withMessage("Invalid email format")],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { email } = req.body;
+
+      // Check if subscribed
+      const subscriber = await dbUtils.get(
+        "SELECT * FROM newsletter WHERE email = ?",
+        [email]
+      );
+      if (!subscriber) {
+        return res
+          .status(404)
+          .json({ error: "Email not found in newsletter list" });
+      }
+
+      // Remove from newsletter list
+      await dbUtils.run("DELETE FROM newsletter WHERE email = ?", [email]);
+
+      res.json({ message: "Successfully unsubscribed from newsletter" });
+    } catch (error) {
+      console.error("Newsletter unsubscription error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    const { email } = req.body;
-    
-    // Check if subscribed
-    const subscriber = await dbUtils.get('SELECT * FROM newsletter WHERE email = ?', [email]);
-    if (!subscriber) {
-      return res.status(404).json({ error: 'Email not found in newsletter list' });
-    }
-    
-    // Remove from newsletter list
-    await dbUtils.run('DELETE FROM newsletter WHERE email = ?', [email]);
-    
-    res.json({ message: 'Successfully unsubscribed from newsletter' });
-  } catch (error) {
-    console.error('Newsletter unsubscription error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // Get all newsletter subscribers (admin only)
-app.get('/api/admin/newsletter', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const subscribers = await dbUtils.query('SELECT * FROM newsletter ORDER BY id DESC');
-    res.json(subscribers);
-  } catch (error) {
-    console.error('Get newsletter subscribers error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+app.get(
+  "/api/admin/newsletter",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const subscribers = await dbUtils.query(
+        "SELECT * FROM newsletter ORDER BY id DESC"
+      );
+      res.json(subscribers);
+    } catch (error) {
+      console.error("Get newsletter subscribers error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // ===============================
 // MAINTENANCE ROUTES
 // ===============================
 
 // Schedule maintenance service
-app.post('/api/maintenance', authenticateToken, [
-  body('bikeModel').notEmpty().withMessage('Bike model is required'),
-  body('serviceType').notEmpty().withMessage('Service type is required'),
-  body('preferredDate').notEmpty().withMessage('Preferred date is required'),
-  body('notes').optional()
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+app.post(
+  "/api/maintenance",
+  authenticateToken,
+  [
+    body("bikeModel").notEmpty().withMessage("Bike model is required"),
+    body("serviceType").notEmpty().withMessage("Service type is required"),
+    body("preferredDate").notEmpty().withMessage("Preferred date is required"),
+    body("notes").optional(),
+  ],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { bikeModel, serviceType, preferredDate, notes } = req.body;
+
+      // Insert maintenance request
+      await dbUtils.run(
+        "INSERT INTO maintenance (user_id, bike_model, service_type, preferred_date, notes, status) VALUES (?, ?, ?, ?, ?, ?)",
+        [req.user.id, bikeModel, serviceType, preferredDate, notes, "pending"]
+      );
+
+      res
+        .status(201)
+        .json({ message: "Maintenance request submitted successfully" });
+    } catch (error) {
+      console.error("Maintenance scheduling error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    const { bikeModel, serviceType, preferredDate, notes } = req.body;
-    
-    // Insert maintenance request
-    await dbUtils.run(
-      'INSERT INTO maintenance (user_id, bike_model, service_type, preferred_date, notes, status) VALUES (?, ?, ?, ?, ?, ?)',
-      [req.user.id, bikeModel, serviceType, preferredDate, notes, 'pending']
-    );
-    
-    res.status(201).json({ message: 'Maintenance request submitted successfully' });
-  } catch (error) {
-    console.error('Maintenance scheduling error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // Get user's maintenance requests
-app.get('/api/maintenance', authenticateToken, async (req, res) => {
+app.get("/api/maintenance", authenticateToken, async (req, res) => {
   try {
     const maintenanceRequests = await dbUtils.query(
-      'SELECT * FROM maintenance WHERE user_id = ? ORDER BY id DESC',
+      "SELECT * FROM maintenance WHERE user_id = ? ORDER BY id DESC",
       [req.user.id]
     );
     res.json(maintenanceRequests);
   } catch (error) {
-    console.error('Get maintenance requests error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get maintenance requests error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get all maintenance requests (admin only)
-app.get('/api/admin/maintenance', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const maintenanceRequests = await dbUtils.query(`
+app.get(
+  "/api/admin/maintenance",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const maintenanceRequests = await dbUtils.query(`
       SELECT m.*, u.name, u.surname, u.email, u.phone 
       FROM maintenance m 
       JOIN users u ON m.user_id = u.id 
       ORDER BY m.id DESC
     `);
-    res.json(maintenanceRequests);
-  } catch (error) {
-    console.error('Get all maintenance requests error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+      res.json(maintenanceRequests);
+    } catch (error) {
+      console.error("Get all maintenance requests error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // Update maintenance status (admin only)
-app.put('/api/admin/maintenance/:id', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status, notes } = req.body;
-    
-    // Update maintenance request
-    await dbUtils.run(
-      'UPDATE maintenance SET status = ?, admin_notes = ? WHERE id = ?',
-      [status, notes, id]
-    );
-    
-    // Get maintenance request with user details
-    const maintenanceRequest = await dbUtils.get(`
+app.put(
+  "/api/admin/maintenance/:id",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, notes } = req.body;
+
+      // Update maintenance request
+      await dbUtils.run(
+        "UPDATE maintenance SET status = ?, admin_notes = ? WHERE id = ?",
+        [status, notes, id]
+      );
+
+      // Get maintenance request with user details
+      const maintenanceRequest = await dbUtils.get(
+        `
       SELECT m.*, u.email 
       FROM maintenance m 
       JOIN users u ON m.user_id = u.id 
       WHERE m.id = ?
-    `, [id]);
-    
-    if (!maintenanceRequest) {
-      return res.status(404).json({ error: 'Maintenance request not found' });
-    }
-    
-    // Send email notification to user
-    const transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE || 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+    `,
+        [id]
+      );
+
+      if (!maintenanceRequest) {
+        return res.status(404).json({ error: "Maintenance request not found" });
       }
-    });
-    
-    const statusMessages = {
-      'pending': 'Your maintenance request is pending review.',
-      'approved': 'Your maintenance request has been approved!',
-      'in_progress': 'Your maintenance service is now in progress.',
-      'completed': 'Your maintenance service has been completed!',
-      'cancelled': 'Your maintenance request has been cancelled.'
-    };
-    
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: maintenanceRequest.email,
-      subject: `Maintenance Request Update: ${statusMessages[status] || status}`,
-      html: `
+
+      // Send email notification to user
+      const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE || "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      const statusMessages = {
+        pending: "Your maintenance request is pending review.",
+        approved: "Your maintenance request has been approved!",
+        in_progress: "Your maintenance service is now in progress.",
+        completed: "Your maintenance service has been completed!",
+        cancelled: "Your maintenance request has been cancelled.",
+      };
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: maintenanceRequest.email,
+        subject: `Maintenance Request Update: ${
+          statusMessages[status] || status
+        }`,
+        html: `
         <h1>Maintenance Request Update</h1>
         <p><strong>Status:</strong> ${status}</p>
         <p><strong>Bike Model:</strong> ${maintenanceRequest.bike_model}</p>
         <p><strong>Service Type:</strong> ${maintenanceRequest.service_type}</p>
-        <p><strong>Date:</strong> ${new Date(maintenanceRequest.preferred_date).toLocaleDateString()}</p>
-        ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
+        <p><strong>Date:</strong> ${new Date(
+          maintenanceRequest.preferred_date
+        ).toLocaleDateString()}</p>
+        ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ""}
         <p>If you have any questions, please contact our service department.</p>
-      `
-    };
-    
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.error('Maintenance update email error:', error);
-      }
-    });
-    
-    res.json({ message: 'Maintenance request updated successfully' });
-  } catch (error) {
-    console.error('Update maintenance status error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+      `,
+      };
+
+      transporter.sendMail(mailOptions, (error) => {
+        if (error) {
+          console.error("Maintenance update email error:", error);
+        }
+      });
+
+      res.json({ message: "Maintenance request updated successfully" });
+    } catch (error) {
+      console.error("Update maintenance status error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // ===============================
 // ORDER MANAGEMENT ROUTES
 // ===============================
 
 // Create new order
-app.post('/api/orders', authenticateToken, [
-  body('items').isArray().withMessage('Items must be an array'),
-  body('totalPrice').isNumeric().withMessage('Total price must be a number'),
-  body('shippingAddress').notEmpty().withMessage('Shipping address is required')
-], async (req, res) => {
-  try {
-    // Validate input
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    
-    const { items, totalPrice, shippingAddress, paymentMethod } = req.body;
-    
-    // Create order
-    const result = await dbUtils.run(
-      'INSERT INTO orders (user_id, total_price, shipping_address, payment_method, status, order_date) VALUES (?, ?, ?, ?, ?, ?)',
-      [req.user.id, totalPrice, shippingAddress, paymentMethod, 'pending', new Date()]
-    );
-    
-    const orderId = result.insertId;
-    
-    // Add order items
-    for (const item of items) {
-      await dbUtils.run(
-        'INSERT INTO order_items (order_id, product_id, product_name, quantity, price) VALUES (?, ?, ?, ?, ?)',
-        [orderId, item.id, item.name, item.quantity, item.price]
-      );
-    }
-    
-    // Send confirmation email
-    const transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE || 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+app.post(
+  "/api/orders",
+  authenticateToken,
+  [
+    body("items").isArray().withMessage("Items must be an array"),
+    body("totalPrice").isNumeric().withMessage("Total price must be a number"),
+    body("shippingAddress")
+      .notEmpty()
+      .withMessage("Shipping address is required"),
+  ],
+  async (req, res) => {
+    try {
+      // Validate input
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
-    });
-    
-    // Get user email
-    const user = await dbUtils.get('SELECT email FROM users WHERE id = ?', [req.user.id]);
-    
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: 'Order Confirmation',
-      html: `
+
+      const { items, totalPrice, shippingAddress, paymentMethod } = req.body;
+
+      // Create order
+      const result = await dbUtils.run(
+        "INSERT INTO orders (user_id, total_price, shipping_address, payment_method, status, order_date) VALUES (?, ?, ?, ?, ?, ?)",
+        [
+          req.user.id,
+          totalPrice,
+          shippingAddress,
+          paymentMethod,
+          "pending",
+          new Date(),
+        ]
+      );
+
+      const orderId = result.insertId;
+
+      // Add order items
+      for (const item of items) {
+        await dbUtils.run(
+          "INSERT INTO order_items (order_id, product_id, product_name, quantity, price) VALUES (?, ?, ?, ?, ?)",
+          [orderId, item.id, item.name, item.quantity, item.price]
+        );
+      }
+
+      // Send confirmation email
+      const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE || "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      // Get user email
+      const user = await dbUtils.get("SELECT email FROM users WHERE id = ?", [
+        req.user.id,
+      ]);
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: user.email,
+        subject: "Order Confirmation",
+        html: `
         <h1>Thank You for Your Order!</h1>
         <p>Order #${orderId} has been received and is being processed.</p>
         <h2>Order Summary:</h2>
         <ul>
-          ${items.map(item => `<li>${item.name} x ${item.quantity} - €${item.price * item.quantity}</li>`).join('')}
+          ${items
+            .map(
+              (item) =>
+                `<li>${item.name} x ${item.quantity} - €${
+                  item.price * item.quantity
+                }</li>`
+            )
+            .join("")}
         </ul>
         <p><strong>Total:</strong> €${totalPrice}</p>
         <p><strong>Shipping Address:</strong> ${shippingAddress}</p>
         <p><strong>Payment Method:</strong> ${paymentMethod}</p>
         <p>You will receive another email when your order ships.</p>
-      `
-    };
-    
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.error('Order confirmation email error:', error);
-      }
-    });
-    
-    res.status(201).json({ 
-      message: 'Order created successfully', 
-      orderId 
-    });
-  } catch (error) {
-    console.error('Create order error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+      `,
+      };
+
+      transporter.sendMail(mailOptions, (error) => {
+        if (error) {
+          console.error("Order confirmation email error:", error);
+        }
+      });
+
+      res.status(201).json({
+        message: "Order created successfully",
+        orderId,
+      });
+    } catch (error) {
+      console.error("Create order error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-});
+);
 
 // Get user's orders
-app.get('/api/orders', authenticateToken, async (req, res) => {
+app.get("/api/orders", authenticateToken, async (req, res) => {
   try {
     const orders = await dbUtils.query(
-      'SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC',
+      "SELECT * FROM orders WHERE user_id = ? ORDER BY order_date DESC",
       [req.user.id]
     );
-    
+
     // Get order items for each order
     for (const order of orders) {
       const items = await dbUtils.query(
-        'SELECT * FROM order_items WHERE order_id = ?',
+        "SELECT * FROM order_items WHERE order_id = ?",
         [order.id]
       );
       order.items = items;
     }
-    
+
     res.json(orders);
   } catch (error) {
-    console.error('Get orders error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get orders error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get specific order
-app.get('/api/orders/:id', authenticateToken, async (req, res) => {
+app.get("/api/orders/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     // Get order (ensure it belongs to user or user is admin)
     const order = await dbUtils.get(
       'SELECT * FROM orders WHERE id = ? AND (user_id = ? OR ? IN (SELECT id FROM users WHERE role = "admin" AND id = ?))',
       [id, req.user.id, req.user.id, req.user.id]
     );
-    
+
     if (!order) {
-      return res.status(404).json({ error: 'Order not found or access denied' });
+      return res
+        .status(404)
+        .json({ error: "Order not found or access denied" });
     }
-    
+
     // Get order items
     const items = await dbUtils.query(
-      'SELECT * FROM order_items WHERE order_id = ?',
+      "SELECT * FROM order_items WHERE order_id = ?",
       [id]
     );
-    
+
     order.items = items;
-    
+
     res.json(order);
   } catch (error) {
-    console.error('Get order error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get order error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get all orders (admin only)
-app.get('/api/admin/orders', authenticateToken, isAdmin, async (req, res) => {
+app.get("/api/admin/orders", authenticateToken, isAdmin, async (req, res) => {
   try {
     const orders = await dbUtils.query(`
       SELECT o.*, u.name, u.surname, u.email 
@@ -917,251 +1143,277 @@ app.get('/api/admin/orders', authenticateToken, isAdmin, async (req, res) => {
       JOIN users u ON o.user_id = u.id 
       ORDER BY o.order_date DESC
     `);
-    
+
     // Get order items for each order
     for (const order of orders) {
       const items = await dbUtils.query(
-        'SELECT * FROM order_items WHERE order_id = ?',
+        "SELECT * FROM order_items WHERE order_id = ?",
         [order.id]
       );
       order.items = items;
     }
-    
+
     res.json(orders);
   } catch (error) {
-    console.error('Get all orders error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get all orders error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Update order status (admin only)
-app.put('/api/admin/orders/:id', authenticateToken, isAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status, trackingNumber } = req.body;
-    
-    // Update order
-    await dbUtils.run(
-      'UPDATE orders SET status = ?, tracking_number = ? WHERE id = ?',
-      [status, trackingNumber, id]
-    );
-    
-    // Get order with user details for email notification
-    const order = await dbUtils.get(`
+app.put(
+  "/api/admin/orders/:id",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, trackingNumber } = req.body;
+
+      // Update order
+      await dbUtils.run(
+        "UPDATE orders SET status = ?, tracking_number = ? WHERE id = ?",
+        [status, trackingNumber, id]
+      );
+
+      // Get order with user details for email notification
+      const order = await dbUtils.get(
+        `
       SELECT o.*, u.email 
       FROM orders o 
       JOIN users u ON o.user_id = u.id 
       WHERE o.id = ?
-    `, [id]);
-    
-    if (!order) {
-      return res.status(404).json({ error: 'Order not found' });
-    }
-    
-    // Send email notification to user
-    const transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE || 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+    `,
+        [id]
+      );
+
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
       }
-    });
-    
-    const statusMessages = {
-      'pending': 'Your order is pending processing.',
-      'processing': 'Your order is now being processed!',
-      'shipped': 'Your order has been shipped!',
-      'delivered': 'Your order has been delivered!',
-      'cancelled': 'Your order has been cancelled.'
-    };
-    
-    // Only send email for important status changes
-    if (['processing', 'shipped', 'delivered', 'cancelled'].includes(status)) {
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: order.email,
-        subject: `Order #${order.id} Update: ${statusMessages[status] || status}`,
-        html: `
+
+      // Send email notification to user
+      const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE || "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      const statusMessages = {
+        pending: "Your order is pending processing.",
+        processing: "Your order is now being processed!",
+        shipped: "Your order has been shipped!",
+        delivered: "Your order has been delivered!",
+        cancelled: "Your order has been cancelled.",
+      };
+
+      // Only send email for important status changes
+      if (
+        ["processing", "shipped", "delivered", "cancelled"].includes(status)
+      ) {
+        const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: order.email,
+          subject: `Order #${order.id} Update: ${
+            statusMessages[status] || status
+          }`,
+          html: `
           <h1>Order Status Update</h1>
           <p>Your order #${order.id} status: ${status}</p>
-          ${trackingNumber ? `<p><strong>Tracking Number:</strong> ${trackingNumber}</p>` : ''}
-          ${status === 'shipped' ? '<p>You can track your package with the tracking number above.</p>' : ''}
-          ${status === 'cancelled' ? '<p>If you have questions about this cancellation, please contact customer support.</p>' : ''}
+          ${
+            trackingNumber
+              ? `<p><strong>Tracking Number:</strong> ${trackingNumber}</p>`
+              : ""
+          }
+          ${
+            status === "shipped"
+              ? "<p>You can track your package with the tracking number above.</p>"
+              : ""
+          }
+          ${
+            status === "cancelled"
+              ? "<p>If you have questions about this cancellation, please contact customer support.</p>"
+              : ""
+          }
           <p>Thank you for shopping with MaxMotoSport!</p>
-        `
-      };
-      
-      transporter.sendMail(mailOptions, (error) => {
-        if (error) {
-          console.error('Order update email error:', error);
-        }
-      });
+        `,
+        };
+
+        transporter.sendMail(mailOptions, (error) => {
+          if (error) {
+            console.error("Order update email error:", error);
+          }
+        });
+      }
+
+      res.json({ message: "Order status updated successfully" });
+    } catch (error) {
+      console.error("Update order status error:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-    
-    res.json({ message: 'Order status updated successfully' });
-  } catch (error) {
-    console.error('Update order status error:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-});
+);
 
 // ===============================
 // PRODUCTS AND BIKES ROUTES
 // ===============================
 
 // Get all bikes
-app.get('/api/bikes', (req, res) => {
+app.get("/api/bikes", (req, res) => {
   try {
-    fs.readFile(JSON_FILE, 'utf8', (err, data) => {
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
       if (err) {
-        console.error('Error reading bikes data:', err);
-        return res.status(500).json({ error: 'Error reading bike data' });
+        console.error("Error reading bikes data:", err);
+        return res.status(500).json({ error: "Error reading bike data" });
       }
-      
+
       const bikes = JSON.parse(data);
       res.json(bikes);
     });
   } catch (error) {
-    console.error('Get bikes error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get bikes error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Get bike by ID
-app.get('/api/bikes/:id', (req, res) => {
+app.get("/api/bikes/:id", (req, res) => {
   try {
     const { id } = req.params;
-    
-    fs.readFile(JSON_FILE, 'utf8', (err, data) => {
+
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
       if (err) {
-        console.error('Error reading bikes data:', err);
-        return res.status(500).json({ error: 'Error reading bike data' });
+        console.error("Error reading bikes data:", err);
+        return res.status(500).json({ error: "Error reading bike data" });
       }
-      
+
       const bikes = JSON.parse(data);
-      const bike = bikes.find(bike => bike.id.toString() === id);
-      
+      const bike = bikes.find((bike) => bike.id.toString() === id);
+
       if (!bike) {
-        return res.status(404).json({ error: 'Bike not found' });
+        return res.status(404).json({ error: "Bike not found" });
       }
-      
+
       res.json(bike);
     });
   } catch (error) {
-    console.error('Get bike error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Get bike error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Update bike data (admin only)
-app.put('/api/admin/bikes/:id', authenticateToken, isAdmin, (req, res) => {
+app.put("/api/admin/bikes/:id", authenticateToken, isAdmin, (req, res) => {
   try {
     const { id } = req.params;
     const updatedBike = req.body;
-    
-    fs.readFile(JSON_FILE, 'utf8', (err, data) => {
+
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
       if (err) {
-        console.error('Error reading bikes data:', err);
-        return res.status(500).json({ error: 'Error reading bike data' });
+        console.error("Error reading bikes data:", err);
+        return res.status(500).json({ error: "Error reading bike data" });
       }
-      
+
       let bikes = JSON.parse(data);
-      const index = bikes.findIndex(bike => bike.id.toString() === id);
-      
+      const index = bikes.findIndex((bike) => bike.id.toString() === id);
+
       if (index === -1) {
-        return res.status(404).json({ error: 'Bike not found' });
+        return res.status(404).json({ error: "Bike not found" });
       }
-      
+
       // Update bike data
       bikes[index] = { ...bikes[index], ...updatedBike, id: bikes[index].id };
-      
+
       // Write updated data back to file
-      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), err => {
+      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), (err) => {
         if (err) {
-          console.error('Error writing bikes data:', err);
-          return res.status(500).json({ error: 'Error updating bike data' });
+          console.error("Error writing bikes data:", err);
+          return res.status(500).json({ error: "Error updating bike data" });
         }
-        
-        res.json({ message: 'Bike updated successfully', bike: bikes[index] });
+
+        res.json({ message: "Bike updated successfully", bike: bikes[index] });
       });
     });
   } catch (error) {
-    console.error('Update bike error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Update bike error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Add new bike (admin only)
-app.post('/api/admin/bikes', authenticateToken, isAdmin, (req, res) => {
+app.post("/api/admin/bikes", authenticateToken, isAdmin, (req, res) => {
   try {
     const newBike = req.body;
-    
-    fs.readFile(JSON_FILE, 'utf8', (err, data) => {
+
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
       if (err) {
-        console.error('Error reading bikes data:', err);
-        return res.status(500).json({ error: 'Error reading bike data' });
+        console.error("Error reading bikes data:", err);
+        return res.status(500).json({ error: "Error reading bike data" });
       }
-      
+
       let bikes = JSON.parse(data);
-      
+
       // Generate new ID
       const maxId = bikes.reduce((max, bike) => Math.max(max, bike.id), 0);
       const newId = maxId + 1;
-      
+
       // Add new bike
       const bikeWithId = { ...newBike, id: newId };
       bikes.push(bikeWithId);
-      
+
       // Write updated data back to file
-      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), err => {
+      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), (err) => {
         if (err) {
-          console.error('Error writing bikes data:', err);
-          return res.status(500).json({ error: 'Error adding bike data' });
+          console.error("Error writing bikes data:", err);
+          return res.status(500).json({ error: "Error adding bike data" });
         }
-        
-        res.status(201).json({ message: 'Bike added successfully', bike: bikeWithId });
+
+        res
+          .status(201)
+          .json({ message: "Bike added successfully", bike: bikeWithId });
       });
     });
   } catch (error) {
-    console.error('Add bike error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Add bike error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
 // Delete bike (admin only)
-app.delete('/api/admin/bikes/:id', authenticateToken, isAdmin, (req, res) => {
+app.delete("/api/admin/bikes/:id", authenticateToken, isAdmin, (req, res) => {
   try {
     const { id } = req.params;
-    
-    fs.readFile(JSON_FILE, 'utf8', (err, data) => {
+
+    fs.readFile(JSON_FILE, "utf8", (err, data) => {
       if (err) {
-        console.error('Error reading bikes data:', err);
-        return res.status(500).json({ error: 'Error reading bike data' });
+        console.error("Error reading bikes data:", err);
+        return res.status(500).json({ error: "Error reading bike data" });
       }
-      
+
       let bikes = JSON.parse(data);
       const initialLength = bikes.length;
-      
+
       // Filter out the bike to delete
-      bikes = bikes.filter(bike => bike.id.toString() !== id);
-      
+      bikes = bikes.filter((bike) => bike.id.toString() !== id);
+
       if (bikes.length === initialLength) {
-        return res.status(404).json({ error: 'Bike not found' });
+        return res.status(404).json({ error: "Bike not found" });
       }
-      
+
       // Write updated data back to file
-      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), err => {
+      fs.writeFile(JSON_FILE, JSON.stringify(bikes, null, 2), (err) => {
         if (err) {
-          console.error('Error writing bikes data:', err);
-          return res.status(500).json({ error: 'Error deleting bike data' });
+          console.error("Error writing bikes data:", err);
+          return res.status(500).json({ error: "Error deleting bike data" });
         }
-        
-        res.json({ message: 'Bike deleted successfully' });
+
+        res.json({ message: "Bike deleted successfully" });
       });
     });
   } catch (error) {
-    console.error('Delete bike error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Delete bike error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -1170,18 +1422,20 @@ app.delete('/api/admin/bikes/:id', authenticateToken, isAdmin, (req, res) => {
 // ===============================
 
 // Get server status
-app.get('/api/status', (req, res) => {
+app.get("/api/status", (req, res) => {
   res.json({
-    status: 'ok',
+    status: "ok",
     serverTime: new Date().toISOString(),
-    version: '1.0.0'
+    version: "1.0.0",
   });
 });
 
 // Get server configuration
-app.get('/api/config', (req, res) => {
-  res.json({ 
-    SERVER_URL: process.env.SERVER_URL || (isProduction ? 'https://maxmotosport.eu' : 'http://localhost:3000') 
+app.get("/api/config", (req, res) => {
+  res.json({
+    SERVER_URL:
+      process.env.SERVER_URL ||
+      (isProduction ? "https://maxmotosport.eu" : "http://localhost:3000"),
   });
 });
 
@@ -1194,19 +1448,19 @@ app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
 app.use("/Cart", express.static(__dirname + "/Cart"));
 
 const emailTransporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'maxmotosport.shop@gmail.com',
-        pass: 'gmir ejjf outo whkm'
-    }
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "maxmotosport.shop@gmail.com",
+    pass: "gmir ejjf outo whkm",
+  },
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}/`);
+  console.log(`🚀 Server running at http://localhost:${PORT}/`);
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Landing_page', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "Landing_page", "index.html"));
 });

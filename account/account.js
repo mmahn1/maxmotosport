@@ -16,8 +16,93 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    // Initialize login/register toggle functionality
-    initToggleButtons();
+    // Initialize the page based on login status
+    initializeAccountPage();
+
+    // Initialize login/register toggle functionality only if user is not logged in
+    if (!token) {
+        initToggleButtons();
+    }
+
+    // Helper function to initialize the account page based on login status
+    function initializeAccountPage() {
+        const token = localStorage.getItem("token");
+        const username = localStorage.getItem("username");
+        const role = localStorage.getItem("role");
+
+        // Get all the page elements
+        const toggleButtons = document.querySelector(".toggle-buttons");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        const logoutSection = document.getElementById("logoutSection");
+        const logoutButton = document.getElementById("logoutButton");
+        const loggedInUsername = document.getElementById("loggedInUsername");
+        const pageTitle = document.querySelector(".account-container h2");
+
+        if (token && username) {
+            // User is logged in - show logout section only
+            console.log("✅ User is logged in as:", username, "with role:", role);
+            
+            // Hide login/register elements
+            if (toggleButtons) toggleButtons.style.display = "none";
+            if (loginForm) loginForm.classList.add("hidden");
+            if (registerForm) registerForm.classList.add("hidden");
+            
+            // Show logout section
+            if (logoutSection) logoutSection.classList.remove("hidden");
+            if (loggedInUsername) {
+                if (role === "admin") {
+                    loggedInUsername.innerHTML = `<strong>${username}</strong> <span style="color: #e00;">(Administrator)</span>`;
+                } else {
+                    loggedInUsername.textContent = username;
+                }
+            }
+            if (pageTitle) pageTitle.textContent = `Welcome back, ${username}!`;
+
+            // Set up logout functionality
+            if (logoutButton) {
+                logoutButton.addEventListener("click", function () {
+                    if (confirm("Are you sure you want to log out?")) {
+                        // Clear all stored data
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("username");
+                        localStorage.removeItem("role");
+                        
+                        // Update header to reflect logout
+                        if (typeof updateUserDisplay === "function") {
+                            updateUserDisplay();
+                        }
+                        
+                        // Reload the page to show login form
+                        window.location.reload();
+                    }
+                });
+            }
+
+            // Set up dashboard button functionality
+            const dashboardButton = document.getElementById("dashboardButton");
+            if (dashboardButton) {
+                dashboardButton.addEventListener("click", function() {
+                    // For now, redirect to user dashboard or orders page
+                    // You can create a user dashboard page later
+                    alert("Dashboard feature coming soon! This will show your order history and account details.");
+                    // window.location.href = "/user-dashboard/dashboard.html";
+                });
+            }
+        } else {
+            // User is not logged in - show login/register forms
+            console.log("ℹ️ User is not logged in");
+            
+            // Show login/register elements
+            if (toggleButtons) toggleButtons.style.display = "flex";
+            if (loginForm) loginForm.classList.remove("hidden");
+            if (registerForm) registerForm.classList.add("hidden");
+            
+            // Hide logout section
+            if (logoutSection) logoutSection.classList.add("hidden");
+            if (pageTitle) pageTitle.textContent = "Welcome to MaX Motosport";
+        }
+    }
 
     // Helper function to initialize toggle buttons with debug output
     function initToggleButtons() {
@@ -54,26 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             console.error("❌ Elements not found: Ensure login/register buttons exist.");
         }
-    }
-
-    const logoutSection = document.getElementById("logoutSection");
-    const logoutButton = document.getElementById("logoutButton");
-    const loggedInUsername = document.getElementById("loggedInUsername");
-
-    const username = localStorage.getItem("username");
-
-    if (token && username) {
-        logoutSection.classList.remove("hidden");
-        loggedInUsername.textContent = username;
-
-        logoutButton.addEventListener("click", function () {
-            if (confirm("Are you sure you want to log out?")) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-                localStorage.removeItem("role");
-                window.location.href = "/account/account.html";
-            }
-        });
     }
 });
 

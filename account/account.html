@@ -48,9 +48,16 @@
         </div>
 
         <div id="logoutSection" class="form-container hidden">
-            <h3>Account</h3>
-            <p>You are logged in as <span id="loggedInUsername"></span>.</p>
-            <button id="logoutButton">Logout</button>
+            <h3>Your Account</h3>
+            <div class="user-info">
+                <p><strong>Logged in as:</strong> <span id="loggedInUsername"></span></p>
+                <p><strong>Account Status:</strong> <span style="color: #00ff00;">Active</span></p>
+            </div>
+            
+            <div class="account-actions">
+                <button id="logoutButton" class="logout-btn">Logout</button>
+                <button id="dashboardButton" class="dashboard-btn">My Orders</button>
+            </div>
         </div>
         
         <div id="message-container" class="message" style="display: none;"></div>
