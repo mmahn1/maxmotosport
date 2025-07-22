@@ -22,7 +22,7 @@ const isProduction =
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
 });
@@ -57,15 +57,19 @@ app.use(
       "http://127.0.0.1:8080",
     ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 // Additional CORS debugging middleware
 app.use((req, res, next) => {
-  console.log(`CORS Debug - Origin: ${req.get('Origin')}, Method: ${req.method}, URL: ${req.url}`);
-  
+  console.log(
+    `CORS Debug - Origin: ${req.get("Origin")}, Method: ${req.method}, URL: ${
+      req.url
+    }`
+  );
+
   // Set CORS headers manually as backup
   const allowedOrigins = [
     "https://maxmotosport-production.up.railway.app",
@@ -77,19 +81,22 @@ app.use((req, res, next) => {
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8080",
   ];
-  
-  const origin = req.get('Origin');
+
+  const origin = req.get("Origin");
   if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
+    res.header("Access-Control-Allow-Origin", origin);
   }
-  
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-  
+
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
+
   // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    console.log('CORS Debug - Handling OPTIONS preflight request');
+  if (req.method === "OPTIONS") {
+    console.log("CORS Debug - Handling OPTIONS preflight request");
     res.sendStatus(200);
   } else {
     next();
