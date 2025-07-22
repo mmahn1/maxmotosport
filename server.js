@@ -22,9 +22,18 @@ const isProduction =
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  password: process.env.DB_PASS || process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
+});
+
+// Debug database connection
+console.log("Database connection config:", {
+  host: process.env.DB_HOST ? "✅" : "❌",
+  user: process.env.DB_USER ? "✅" : "❌", 
+  password: (process.env.DB_PASS || process.env.DB_PASSWORD) ? "✅" : "❌",
+  database: process.env.DB_NAME ? "✅" : "❌",
+  port: process.env.DB_PORT ? "✅" : "❌",
 });
 
 db.connect((err) => {
