@@ -239,44 +239,60 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+  console.log("🔹 Login attempt received:", { username: req.body.username, hasPassword: !!req.body.password });
+  
   const { username, password } = req.body;
 
   if (!username || !password) {
+    console.log("❌ Missing credentials");
     return res
       .status(400)
       .json({ error: "All fields are required", source: "server" });
   }
 
+  console.log("🔹 Querying database for user:", username);
   const query = "SELECT * FROM users WHERE username = ?";
   db.query(query, [username], async (err, results) => {
     if (err) {
+      console.error("❌ Database query error:", err);
       return res.status(500).json({ error: "Server error", source: "server" });
     }
 
+    console.log("🔹 Database query results:", { userFound: results.length > 0 });
+
     if (results.length === 0) {
+      console.log("❌ User not found");
       return res
         .status(401)
         .json({ error: "Invalid credentials", source: "server" });
     }
 
     const user = results[0];
+    console.log("🔹 User found:", { id: user.id, role: user.role, hasPasswordHash: !!user.password_hash });
 
     try {
+      console.log("🔹 Comparing passwords...");
       const isPasswordValid = await bcrypt.compare(
         password,
         user.password_hash
       );
 
+      console.log("🔹 Password comparison result:", isPasswordValid);
+
       if (!isPasswordValid) {
+        console.log("❌ Invalid password");
         return res
           .status(401)
           .json({ error: "Invalid credentials", source: "server" });
       }
 
+      console.log("🔹 Generating JWT token...");
       const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
       const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
         expiresIn: "1h",
       });
+      
+      console.log("✅ Login successful for user:", username);
       res.json({
         success: true,
         token,
@@ -285,6 +301,7 @@ app.post("/login", (req, res) => {
         id: user.id,
       });
     } catch (compareError) {
+      console.error("❌ Password comparison error:", compareError);
       res.status(500).json({ error: "Server error", source: "server" });
     }
   });
@@ -354,58 +371,6 @@ app.post("/register", async (req, res) => {
     console.error("Registration error:", error);
     res.status(500).json({ error: "Server error" });
   }
-});
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res
-      .status(400)
-      .json({ error: "All fields are required", source: "server" });
-  }
-
-  const query = "SELECT * FROM users WHERE username = ?";
-  db.query(query, [username], async (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: "Server error", source: "server" });
-    }
-
-    if (results.length === 0) {
-      return res
-        .status(401)
-        .json({ error: "Invalid credentials", source: "server" });
-    }
-
-    const user = results[0];
-
-    try {
-      const isPasswordValid = await bcrypt.compare(
-        password,
-        user.password_hash
-      );
-
-      if (!isPasswordValid) {
-        return res
-          .status(401)
-          .json({ error: "Invalid credentials", source: "server" });
-      }
-
-      const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
-        expiresIn: "1h",
-      });
-      res.json({
-        success: true,
-        token,
-        username: user.username,
-        role: user.role,
-        id: user.id,
-      });
-    } catch (compareError) {
-      res.status(500).json({ error: "Server error", source: "server" });
-    }
-  });
 });
 
 // Logout
