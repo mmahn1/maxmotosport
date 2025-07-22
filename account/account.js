@@ -6,8 +6,9 @@ let accountServerUrl;
 if (isLocalhost) {
     accountServerUrl = "http://localhost:3000";
 } else {
-    // Both maxmotosport.eu and the Railway URL point to the same server
-    accountServerUrl = "https://maxmotosport-production.up.railway.app";
+    // When in production (maxmotosport.eu), use relative URLs to avoid CORS issues
+    // This assumes both the frontend and backend are served from the same domain
+    accountServerUrl = "";  // Empty string means relative URLs
 }
 
 document.addEventListener("DOMContentLoaded", function () {

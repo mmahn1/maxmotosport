@@ -46,6 +46,8 @@ app.use(
   cors({
     origin: [
       "https://maxmotosport-production.up.railway.app",
+      "https://maxmotosport.eu",
+      "https://www.maxmotosport.eu",
       "https://example.com",
       "http://localhost:3000",
       "http://localhost:8080",
