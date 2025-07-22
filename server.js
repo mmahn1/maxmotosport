@@ -19,13 +19,22 @@ const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json");
 const isProduction =
   process.env.NODE_ENV === "production" || process.env.DB_HOST !== "localhost";
 
-const db = mysql.createConnection({
+// Use connection pool for better reliability in production
+const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS || process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
-});
+  connectionLimit: 10,
+  acquireTimeout: 60000,
+  timeout: 60000,
+  reconnect: true,
+  idleTimeout: 300000,
+  dateStrings: true
+};
+
+const db = isProduction ? mysql.createPool(dbConfig) : mysql.createConnection(dbConfig);
 
 // Debug database connection
 console.log("Database connection config:", {
@@ -34,16 +43,21 @@ console.log("Database connection config:", {
   password: process.env.DB_PASS || process.env.DB_PASSWORD ? "✅" : "❌",
   database: process.env.DB_NAME ? "✅" : "❌",
   port: process.env.DB_PORT ? "✅" : "❌",
+  isProduction: isProduction ? "✅" : "❌"
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("❌ Error connecting to MySQL:", err.stack);
-    return;
-  }
-  console.log("✅ Connected to MySQL!");
-});
+if (!isProduction) {
+  // Only for local development - connect single connection
+  db.connect((err) => {
+    if (err) {
+      console.error("❌ Error connecting to MySQL:", err.stack);
+      return;
+    }
+    console.log("✅ Connected to MySQL!");
+  });
+}
 
+// Test database connection
 db.query("SELECT DATABASE()", (err, results) => {
   if (err) console.error("Database connection error:", err);
   else console.log("Connected to database:", results[0]["DATABASE()"]);
@@ -146,32 +160,83 @@ function isAdmin(req, res, next) {
   }
 }
 
-// Database utility functions
+// Database utility functions with retry logic
 const dbUtils = {
   query: (sql, params = []) => {
     return new Promise((resolve, reject) => {
-      db.query(sql, params, (err, results) => {
-        if (err) reject(err);
-        else resolve(results);
-      });
+      const executeQuery = (attempt = 1) => {
+        db.query(sql, params, (err, results) => {
+          if (err) {
+            console.error(`Database query error (attempt ${attempt}):`, err.message);
+            
+            // Retry on connection errors
+            if ((err.code === 'PROTOCOL_CONNECTION_LOST' || 
+                 err.code === 'ECONNRESET' || 
+                 err.fatal === true) && 
+                 attempt < 3) {
+              console.log(`Retrying database query (attempt ${attempt + 1})...`);
+              setTimeout(() => executeQuery(attempt + 1), 1000);
+              return;
+            }
+            reject(err);
+          } else {
+            resolve(results);
+          }
+        });
+      };
+      executeQuery();
     });
   },
 
   get: (sql, params = []) => {
     return new Promise((resolve, reject) => {
-      db.query(sql, params, (err, results) => {
-        if (err) reject(err);
-        else resolve(results[0] || null);
-      });
+      const executeQuery = (attempt = 1) => {
+        db.query(sql, params, (err, results) => {
+          if (err) {
+            console.error(`Database get error (attempt ${attempt}):`, err.message);
+            
+            // Retry on connection errors
+            if ((err.code === 'PROTOCOL_CONNECTION_LOST' || 
+                 err.code === 'ECONNRESET' || 
+                 err.fatal === true) && 
+                 attempt < 3) {
+              console.log(`Retrying database get (attempt ${attempt + 1})...`);
+              setTimeout(() => executeQuery(attempt + 1), 1000);
+              return;
+            }
+            reject(err);
+          } else {
+            resolve(results[0] || null);
+          }
+        });
+      };
+      executeQuery();
     });
   },
 
   run: (sql, params = []) => {
     return new Promise((resolve, reject) => {
-      db.query(sql, params, (err, results) => {
-        if (err) reject(err);
-        else resolve(results);
-      });
+      const executeQuery = (attempt = 1) => {
+        db.query(sql, params, (err, results) => {
+          if (err) {
+            console.error(`Database run error (attempt ${attempt}):`, err.message);
+            
+            // Retry on connection errors
+            if ((err.code === 'PROTOCOL_CONNECTION_LOST' || 
+                 err.code === 'ECONNRESET' || 
+                 err.fatal === true) && 
+                 attempt < 3) {
+              console.log(`Retrying database run (attempt ${attempt + 1})...`);
+              setTimeout(() => executeQuery(attempt + 1), 1000);
+              return;
+            }
+            reject(err);
+          } else {
+            resolve(results);
+          }
+        });
+      };
+      executeQuery();
     });
   },
 };
