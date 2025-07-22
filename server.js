@@ -30,8 +30,8 @@ const db = mysql.createConnection({
 // Debug database connection
 console.log("Database connection config:", {
   host: process.env.DB_HOST ? "✅" : "❌",
-  user: process.env.DB_USER ? "✅" : "❌", 
-  password: (process.env.DB_PASS || process.env.DB_PASSWORD) ? "✅" : "❌",
+  user: process.env.DB_USER ? "✅" : "❌",
+  password: process.env.DB_PASS || process.env.DB_PASSWORD ? "✅" : "❌",
   database: process.env.DB_NAME ? "✅" : "❌",
   port: process.env.DB_PORT ? "✅" : "❌",
 });
@@ -195,61 +195,43 @@ app.post("/register", async (req, res) => {
 
   try {
     // First check if user already exists
-    const checkQuery = "SELECT * FROM users WHERE username = ? OR email = ?";
-    db.query(checkQuery, [username, email], async (checkErr, checkResults) => {
-      if (checkErr) {
-        console.error("Registration check error:", checkErr);
-        return res
-          .status(500)
-          .json({ error: "Database error during user check" });
+    const checkResults = await dbUtils.query(
+      "SELECT * FROM users WHERE username = ? OR email = ?",
+      [username, email]
+    );
+
+    if (checkResults && checkResults.length > 0) {
+      const existingUser = checkResults[0];
+      if (existingUser.username === username) {
+        return res.status(400).json({ error: "Username already exists" });
+      } else {
+        return res.status(400).json({ error: "Email already exists" });
       }
+    }
 
-      if (checkResults && checkResults.length > 0) {
-        const existingUser = checkResults[0];
-        if (existingUser.username === username) {
-          return res.status(400).json({ error: "Username already exists" });
-        } else {
-          return res.status(400).json({ error: "Email already exists" });
-        }
-      }
+    // If we get here, user doesn't exist, so create them
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await dbUtils.run(
+      "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
+      [username, email, hashedPassword]
+    );
 
-      // If we get here, user doesn't exist, so create them
-      try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const insertQuery =
-          "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
-
-        db.query(
-          insertQuery,
-          [username, email, hashedPassword],
-          (insertErr, result) => {
-            if (insertErr) {
-              console.error("Registration insert error:", insertErr);
-              return res
-                .status(500)
-                .json({ error: "Database error during user creation" });
-            }
-
-            console.log("User registered successfully:", username);
-            res
-              .status(201)
-              .json({ success: true, message: "User registered successfully" });
-          }
-        );
-      } catch (hashError) {
-        console.error("Password hashing error:", hashError);
-        res.status(500).json({ error: "Error processing password" });
-      }
-    });
+    console.log("User registered successfully:", username);
+    res
+      .status(201)
+      .json({ success: true, message: "User registered successfully" });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-app.post("/login", (req, res) => {
-  console.log("🔹 Login attempt received:", { username: req.body.username, hasPassword: !!req.body.password });
-  
+app.post("/login", async (req, res) => {
+  console.log("🔹 Login attempt received:", {
+    username: req.body.username,
+    hasPassword: !!req.body.password,
+  });
+
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -259,15 +241,16 @@ app.post("/login", (req, res) => {
       .json({ error: "All fields are required", source: "server" });
   }
 
-  console.log("🔹 Querying database for user:", username);
-  const query = "SELECT * FROM users WHERE username = ?";
-  db.query(query, [username], async (err, results) => {
-    if (err) {
-      console.error("❌ Database query error:", err);
-      return res.status(500).json({ error: "Server error", source: "server" });
-    }
+  try {
+    console.log("🔹 Querying database for user:", username);
+    const results = await dbUtils.query(
+      "SELECT * FROM users WHERE username = ?",
+      [username]
+    );
 
-    console.log("🔹 Database query results:", { userFound: results.length > 0 });
+    console.log("🔹 Database query results:", {
+      userFound: results.length > 0,
+    });
 
     if (results.length === 0) {
       console.log("❌ User not found");
@@ -277,43 +260,42 @@ app.post("/login", (req, res) => {
     }
 
     const user = results[0];
-    console.log("🔹 User found:", { id: user.id, role: user.role, hasPasswordHash: !!user.password_hash });
+    console.log("🔹 User found:", {
+      id: user.id,
+      role: user.role,
+      hasPasswordHash: !!user.password_hash,
+    });
 
-    try {
-      console.log("🔹 Comparing passwords...");
-      const isPasswordValid = await bcrypt.compare(
-        password,
-        user.password_hash
-      );
+    console.log("🔹 Comparing passwords...");
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
-      console.log("🔹 Password comparison result:", isPasswordValid);
+    console.log("🔹 Password comparison result:", isPasswordValid);
 
-      if (!isPasswordValid) {
-        console.log("❌ Invalid password");
-        return res
-          .status(401)
-          .json({ error: "Invalid credentials", source: "server" });
-      }
-
-      console.log("🔹 Generating JWT token...");
-      const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
-      const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
-        expiresIn: "1h",
-      });
-      
-      console.log("✅ Login successful for user:", username);
-      res.json({
-        success: true,
-        token,
-        username: user.username,
-        role: user.role,
-        id: user.id,
-      });
-    } catch (compareError) {
-      console.error("❌ Password comparison error:", compareError);
-      res.status(500).json({ error: "Server error", source: "server" });
+    if (!isPasswordValid) {
+      console.log("❌ Invalid password");
+      return res
+        .status(401)
+        .json({ error: "Invalid credentials", source: "server" });
     }
-  });
+
+    console.log("🔹 Generating JWT token...");
+    const jwtSecret = process.env.JWT_SECRET || "fallback_secret_key";
+    const token = jwt.sign({ id: user.id, role: user.role }, jwtSecret, {
+      expiresIn: "1h",
+    });
+
+    console.log("✅ Login successful for user:", username);
+    res.json({
+      success: true,
+      token,
+      username: user.username,
+      role: user.role,
+      id: user.id,
+    });
+  } catch (error) {
+    console.error("❌ Database/Login error:", error);
+    res.status(500).json({ error: "Server error", source: "server" });
+  }
 });
 
 // Logout
