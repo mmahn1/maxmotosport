@@ -1,71 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' 'unsafe-eval';
     style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
     img-src 'self' data:;
-    connect-src 'self' https://maxmotosport-production.up.railway.app https://maxmotosport.eu http://localhost:3000 http://127.0.0.1:3000;">
+    connect-src 'self' https://maxmotosport-production.up.railway.app https://maxmotosport.eu http://localhost:3000 http://127.0.0.1:3000;"
+    />
     <title>Account - Login / Register</title>
-    <link rel="stylesheet" href="account.css">
-    <link rel="stylesheet" href="/media_queries.css">
+    <link rel="stylesheet" href="account.css" />
+    <link rel="stylesheet" href="/media_queries.css" />
     <!-- Removed duplicate CSS link and moved script to bottom -->
-</head>
-<body>
+  </head>
+  <body>
     <div id="header-placeholder"></div>
 
     <div class="account-container">
-        <h2>Welcome to MaX Motosport</h2>
-        
-        <div class="toggle-buttons">
-            <button id="showLogin" class="active">Login</button>
-            <button id="showRegister">Register</button>
+      <h2>Welcome to MaX Motosport</h2>
+
+      <div class="toggle-buttons">
+        <button id="showLogin" class="active">Login</button>
+        <button id="showRegister">Register</button>
+      </div>
+
+      <div id="loginForm" class="form-container">
+        <h3>Login</h3>
+        <form onsubmit="event.preventDefault(); login();">
+          <input
+            type="text"
+            id="loginUsername"
+            placeholder="Username"
+            required
+            autocomplete="username"
+          />
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+            required
+            autocomplete="current-password"
+          />
+          <button type="submit">Login</button>
+        </form>
+        <p class="form-text">
+          Forgot your password?
+          <a href="#" id="forgotPassword">Reset it here</a>
+        </p>
+      </div>
+
+      <div id="registerForm" class="form-container hidden">
+        <h3>Register</h3>
+        <form onsubmit="event.preventDefault(); register();">
+          <input
+            type="text"
+            id="registerUsername"
+            placeholder="Username"
+            required
+            autocomplete="username"
+          />
+          <input
+            type="email"
+            id="registerEmail"
+            placeholder="Email"
+            required
+            autocomplete="email"
+          />
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="Password"
+            required
+            autocomplete="new-password"
+          />
+          <button type="submit">Register</button>
+        </form>
+        <p class="form-text">&nbsp;</p>
+        <!-- Empty space to match login form layout -->
+      </div>
+
+      <div id="logoutSection" class="form-container hidden">
+        <h3>Your Account</h3>
+        <div class="user-info">
+          <p>
+            <strong>Logged in as:</strong> <span id="loggedInUsername"></span>
+          </p>
+          <p>
+            <strong>Account Status:</strong>
+            <span style="color: #00ff00">Active</span>
+          </p>
         </div>
 
-        <div id="loginForm" class="form-container">
-            <h3>Login</h3>
-            <form onsubmit="event.preventDefault(); login();">
-                <input type="text" id="loginUsername" placeholder="Username" required autocomplete="username">
-                <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
-                <button type="submit">Login</button>
-            </form>
-            <p class="form-text">Forgot your password? <a href="#" id="forgotPassword">Reset it here</a></p>
+        <div class="account-actions">
+          <button id="logoutButton" class="logout-btn">Logout</button>
+          <button id="dashboardButton" class="dashboard-btn">My Orders</button>
         </div>
+      </div>
 
-        <div id="registerForm" class="form-container hidden">
-            <h3>Register</h3>
-            <form onsubmit="event.preventDefault(); register();">
-                <input type="text" id="registerUsername" placeholder="Username" required autocomplete="username">
-                <input type="email" id="registerEmail" placeholder="Email" required autocomplete="email">
-                <input type="password" id="registerPassword" placeholder="Password" required autocomplete="new-password">
-                <button type="submit">Register</button>
-            </form>
-            <p class="form-text">&nbsp;</p><!-- Empty space to match login form layout -->
-        </div>
-
-        <div id="logoutSection" class="form-container hidden">
-            <h3>Your Account</h3>
-            <div class="user-info">
-                <p><strong>Logged in as:</strong> <span id="loggedInUsername"></span></p>
-                <p><strong>Account Status:</strong> <span style="color: #00ff00;">Active</span></p>
-            </div>
-            
-            <div class="account-actions">
-                <button id="logoutButton" class="logout-btn">Logout</button>
-                <button id="dashboardButton" class="dashboard-btn">My Orders</button>
-            </div>
-        </div>
-        
-        <div id="message-container" class="message" style="display: none;"></div>
+      <div id="message-container" class="message" style="display: none"></div>
     </div>
 
     <div id="footer-placeholder"></div>
-    
+
     <script src="/header-footer/header-footer.js"></script>
-    <script src="account.js"></script> 
-</body>
+    <script src="account.js"></script>
+  </body>
 </html>

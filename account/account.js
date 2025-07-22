@@ -1,256 +1,273 @@
 // Automatically detect environment and set server URL
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
 
 // Use a different variable name to avoid conflicts with header-footer.js
 let accountServerUrl;
 if (isLocalhost) {
-    accountServerUrl = "http://localhost:3000";
+  accountServerUrl = "http://localhost:3000";
 } else {
-    // When in production (maxmotosport.eu), use relative URLs to avoid CORS issues
-    // This assumes both the frontend and backend are served from the same domain
-    accountServerUrl = "";  // Empty string means relative URLs
+  // When in production (maxmotosport.eu), use relative URLs to avoid CORS issues
+  // This assumes both the frontend and backend are served from the same domain
+  accountServerUrl = ""; // Empty string means relative URLs
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("🔹 Login/Register Page Loaded");
+  console.log("🔹 Login/Register Page Loaded");
 
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  // Initialize the page based on login status
+  initializeAccountPage();
+
+  // Initialize login/register toggle functionality only if user is not logged in
+  if (!token) {
+    initToggleButtons();
+  }
+
+  // Helper function to initialize the account page based on login status
+  function initializeAccountPage() {
     const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
     const role = localStorage.getItem("role");
 
-    // Initialize the page based on login status
-    initializeAccountPage();
+    // Get all the page elements
+    const toggleButtons = document.querySelector(".toggle-buttons");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const logoutSection = document.getElementById("logoutSection");
+    const logoutButton = document.getElementById("logoutButton");
+    const loggedInUsername = document.getElementById("loggedInUsername");
+    const pageTitle = document.querySelector(".account-container h2");
 
-    // Initialize login/register toggle functionality only if user is not logged in
-    if (!token) {
-        initToggleButtons();
-    }
+    if (token && username) {
+      // User is logged in - show logout section only
+      console.log("✅ User is logged in as:", username, "with role:", role);
 
-    // Helper function to initialize the account page based on login status
-    function initializeAccountPage() {
-        const token = localStorage.getItem("token");
-        const username = localStorage.getItem("username");
-        const role = localStorage.getItem("role");
+      // Hide login/register elements
+      if (toggleButtons) toggleButtons.style.display = "none";
+      if (loginForm) loginForm.classList.add("hidden");
+      if (registerForm) registerForm.classList.add("hidden");
 
-        // Get all the page elements
-        const toggleButtons = document.querySelector(".toggle-buttons");
-        const loginForm = document.getElementById("loginForm");
-        const registerForm = document.getElementById("registerForm");
-        const logoutSection = document.getElementById("logoutSection");
-        const logoutButton = document.getElementById("logoutButton");
-        const loggedInUsername = document.getElementById("loggedInUsername");
-        const pageTitle = document.querySelector(".account-container h2");
-
-        if (token && username) {
-            // User is logged in - show logout section only
-            console.log("✅ User is logged in as:", username, "with role:", role);
-            
-            // Hide login/register elements
-            if (toggleButtons) toggleButtons.style.display = "none";
-            if (loginForm) loginForm.classList.add("hidden");
-            if (registerForm) registerForm.classList.add("hidden");
-            
-            // Show logout section
-            if (logoutSection) logoutSection.classList.remove("hidden");
-            if (loggedInUsername) {
-                if (role === "admin") {
-                    loggedInUsername.innerHTML = `<strong>${username}</strong> <span style="color: #e00;">(Administrator)</span>`;
-                } else {
-                    loggedInUsername.textContent = username;
-                }
-            }
-            if (pageTitle) pageTitle.textContent = `Welcome back, ${username}!`;
-
-            // Set up logout functionality
-            if (logoutButton) {
-                logoutButton.addEventListener("click", function () {
-                    if (confirm("Are you sure you want to log out?")) {
-                        // Clear all stored data
-                        localStorage.removeItem("token");
-                        localStorage.removeItem("username");
-                        localStorage.removeItem("role");
-                        
-                        // Update header to reflect logout
-                        if (typeof updateUserDisplay === "function") {
-                            updateUserDisplay();
-                        }
-                        
-                        // Reload the page to show login form
-                        window.location.reload();
-                    }
-                });
-            }
-
-            // Set up dashboard button functionality
-            const dashboardButton = document.getElementById("dashboardButton");
-            if (dashboardButton) {
-                dashboardButton.addEventListener("click", function() {
-                    // For now, redirect to user dashboard or orders page
-                    // You can create a user dashboard page later
-                    alert("Dashboard feature coming soon! This will show your order history and account details.");
-                    // window.location.href = "/user-dashboard/dashboard.html";
-                });
-            }
+      // Show logout section
+      if (logoutSection) logoutSection.classList.remove("hidden");
+      if (loggedInUsername) {
+        if (role === "admin") {
+          loggedInUsername.innerHTML = `<strong>${username}</strong> <span style="color: #e00;">(Administrator)</span>`;
         } else {
-            // User is not logged in - show login/register forms
-            console.log("ℹ️ User is not logged in");
-            
-            // Show login/register elements
-            if (toggleButtons) toggleButtons.style.display = "flex";
-            if (loginForm) loginForm.classList.remove("hidden");
-            if (registerForm) registerForm.classList.add("hidden");
-            
-            // Hide logout section
-            if (logoutSection) logoutSection.classList.add("hidden");
-            if (pageTitle) pageTitle.textContent = "Welcome to MaX Motosport";
+          loggedInUsername.textContent = username;
         }
-    }
+      }
+      if (pageTitle) pageTitle.textContent = `Welcome back, ${username}!`;
 
-    // Helper function to initialize toggle buttons with debug output
-    function initToggleButtons() {
-        const showLogin = document.getElementById("showLogin");
-        const showRegister = document.getElementById("showRegister");
-        const loginForm = document.getElementById("loginForm");
-        const registerForm = document.getElementById("registerForm");
+      // Set up logout functionality
+      if (logoutButton) {
+        logoutButton.addEventListener("click", function () {
+          if (confirm("Are you sure you want to log out?")) {
+            // Clear all stored data
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
 
-        console.log("Toggle elements:", { 
-            showLogin: showLogin, 
-            showRegister: showRegister, 
-            loginForm: loginForm, 
-            registerForm: registerForm 
+            // Update header to reflect logout
+            if (typeof updateUserDisplay === "function") {
+              updateUserDisplay();
+            }
+
+            // Reload the page to show login form
+            window.location.reload();
+          }
         });
+      }
 
-        if (showLogin && showRegister && loginForm && registerForm) {
-            showLogin.addEventListener("click", function() {
-                console.log("Login button clicked");
-                loginForm.classList.remove("hidden");
-                registerForm.classList.add("hidden");
-                showLogin.classList.add("active");
-                showRegister.classList.remove("active");
-            });
+      // Set up dashboard button functionality
+      const dashboardButton = document.getElementById("dashboardButton");
+      if (dashboardButton) {
+        dashboardButton.addEventListener("click", function () {
+          // For now, redirect to user dashboard or orders page
+          // You can create a user dashboard page later
+          alert(
+            "Dashboard feature coming soon! This will show your order history and account details."
+          );
+          // window.location.href = "/user-dashboard/dashboard.html";
+        });
+      }
+    } else {
+      // User is not logged in - show login/register forms
+      console.log("ℹ️ User is not logged in");
 
-            showRegister.addEventListener("click", function() {
-                console.log("Register button clicked");
-                registerForm.classList.remove("hidden");
-                loginForm.classList.add("hidden");
-                showRegister.classList.add("active");
-                showLogin.classList.remove("active");
-            });
-            
-            console.log("✅ Toggle event listeners added successfully");
-        } else {
-            console.error("❌ Elements not found: Ensure login/register buttons exist.");
-        }
+      // Show login/register elements
+      if (toggleButtons) toggleButtons.style.display = "flex";
+      if (loginForm) loginForm.classList.remove("hidden");
+      if (registerForm) registerForm.classList.add("hidden");
+
+      // Hide logout section
+      if (logoutSection) logoutSection.classList.add("hidden");
+      if (pageTitle) pageTitle.textContent = "Welcome to MaX Motosport";
     }
+  }
+
+  // Helper function to initialize toggle buttons with debug output
+  function initToggleButtons() {
+    const showLogin = document.getElementById("showLogin");
+    const showRegister = document.getElementById("showRegister");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    console.log("Toggle elements:", {
+      showLogin: showLogin,
+      showRegister: showRegister,
+      loginForm: loginForm,
+      registerForm: registerForm,
+    });
+
+    if (showLogin && showRegister && loginForm && registerForm) {
+      showLogin.addEventListener("click", function () {
+        console.log("Login button clicked");
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        showLogin.classList.add("active");
+        showRegister.classList.remove("active");
+      });
+
+      showRegister.addEventListener("click", function () {
+        console.log("Register button clicked");
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        showRegister.classList.add("active");
+        showLogin.classList.remove("active");
+      });
+
+      console.log("✅ Toggle event listeners added successfully");
+    } else {
+      console.error(
+        "❌ Elements not found: Ensure login/register buttons exist."
+      );
+    }
+  }
 });
 
 async function login() {
-    const username = document.getElementById("loginUsername").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
 
-    console.log("🔹 Login attempt:", { username, password });
+  console.log("🔹 Login attempt:", { username, password });
 
-    if (!username || !password) {
-        console.error("❌ Missing username or password (client-side)");
-        showMessage("Please enter both username and password.", "error");
-        return;
+  if (!username || !password) {
+    console.error("❌ Missing username or password (client-side)");
+    showMessage("Please enter both username and password.", "error");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${accountServerUrl}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+    console.log("🔹 Server response:", data);
+
+    if (response.ok) {
+      console.log("✅ Login successful (client-side)");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("role", data.role);
+      showMessage("Login successful! Redirecting...", "success");
+
+      if (typeof updateUserDisplay === "function") {
+        updateUserDisplay();
+      } else {
+        console.error("❌ updateUserDisplay function not found.");
+      }
+
+      setTimeout(
+        () => (window.location.href = "/Landing_page/index.html"),
+        1000
+      );
+    } else {
+      console.error(`❌ Login failed (server-side): ${data.error}`);
+      showMessage(
+        data.error || "Login failed. Please check your credentials.",
+        "error"
+      );
     }
-
-    try {
-        const response = await fetch(`${accountServerUrl}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-        console.log("🔹 Server response:", data); 
-
-        if (response.ok) {
-            console.log("✅ Login successful (client-side)");
-            localStorage.setItem("token", data.token); 
-            localStorage.setItem("username", data.username); 
-            localStorage.setItem("role", data.role); 
-            showMessage("Login successful! Redirecting...", "success");
-
-            if (typeof updateUserDisplay === "function") {
-                updateUserDisplay(); 
-            } else {
-                console.error("❌ updateUserDisplay function not found.");
-            }
-
-            setTimeout(() => window.location.href = "/Landing_page/index.html", 1000);
-        } else {
-            console.error(`❌ Login failed (server-side): ${data.error}`);
-            showMessage(data.error || "Login failed. Please check your credentials.", "error");
-        }
-    } catch (error) {
-        console.error("❌ Login failed (client-side):", error);
-        showMessage("An error occurred. Please try again later.", "error");
-    }
+  } catch (error) {
+    console.error("❌ Login failed (client-side):", error);
+    showMessage("An error occurred. Please try again later.", "error");
+  }
 }
 
 async function register() {
-    const username = document.getElementById("registerUsername").value.trim();
-    const email = document.getElementById("registerEmail").value.trim();
-    const password = document.getElementById("registerPassword").value.trim();
+  const username = document.getElementById("registerUsername").value.trim();
+  const email = document.getElementById("registerEmail").value.trim();
+  const password = document.getElementById("registerPassword").value.trim();
 
-    const registerButton = document.querySelector("#registerForm button");
-    const originalButtonText = registerButton.textContent;
-    registerButton.disabled = true;
-    registerButton.textContent = "Registering...";
+  const registerButton = document.querySelector("#registerForm button");
+  const originalButtonText = registerButton.textContent;
+  registerButton.disabled = true;
+  registerButton.textContent = "Registering...";
 
-    if (!username || !email || !password) {
-        showMessage("Please fill in all fields.", "error");
-        registerButton.disabled = false;
-        registerButton.textContent = originalButtonText;
-        return;
+  if (!username || !email || !password) {
+    showMessage("Please fill in all fields.", "error");
+    registerButton.disabled = false;
+    registerButton.textContent = originalButtonText;
+    return;
+  }
+
+  try {
+    console.log("Attempting to register with:", {
+      username,
+      email,
+      passwordLength: password.length,
+    });
+
+    const response = await fetch(`${accountServerUrl}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    const data = await response.json();
+    console.log("Registration response:", data);
+
+    if (response.ok) {
+      showMessage("Registration successful! You can now log in.", "success");
+      setTimeout(() => {
+        document.getElementById("showLogin").click();
+        document.getElementById("loginUsername").value = username;
+      }, 1500);
+    } else {
+      showMessage(data.error || "Registration failed.", "error");
     }
-
-    try {
-        console.log("Attempting to register with:", { username, email, passwordLength: password.length });
-        
-        const response = await fetch(`${accountServerUrl}/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, email, password })
-        });
-
-        const data = await response.json();
-        console.log("Registration response:", data);
-        
-        if (response.ok) {
-            showMessage("Registration successful! You can now log in.", "success");
-            setTimeout(() => {
-                document.getElementById("showLogin").click();
-                document.getElementById("loginUsername").value = username;
-            }, 1500);
-        } else {
-            showMessage(data.error || "Registration failed.", "error");
-        }
-    } catch (error) {
-        console.error("Registration failed:", error);
-        showMessage("An error occurred. Please try again later.", "error");
-    } finally {
-        registerButton.disabled = false;
-        registerButton.textContent = originalButtonText;
-    }
+  } catch (error) {
+    console.error("Registration failed:", error);
+    showMessage("An error occurred. Please try again later.", "error");
+  } finally {
+    registerButton.disabled = false;
+    registerButton.textContent = originalButtonText;
+  }
 }
 
 function showMessage(message, type) {
-    const messageContainer = document.getElementById("message-container") || createMessageContainer();
-    messageContainer.textContent = message;
-    messageContainer.className = `message ${type}`;
-    messageContainer.style.display = "block";
+  const messageContainer =
+    document.getElementById("message-container") || createMessageContainer();
+  messageContainer.textContent = message;
+  messageContainer.className = `message ${type}`;
+  messageContainer.style.display = "block";
 
-    setTimeout(() => {
-        messageContainer.style.display = "none";
-    }, 4000);
+  setTimeout(() => {
+    messageContainer.style.display = "none";
+  }, 4000);
 }
 
 function createMessageContainer() {
-    const container = document.createElement("div");
-    container.id = "message-container";
-    container.className = "message";
-    document.querySelector(".account-container").appendChild(container);
-    return container;
+  const container = document.createElement("div");
+  container.id = "message-container";
+  container.className = "message";
+  document.querySelector(".account-container").appendChild(container);
+  return container;
 }

@@ -1,289 +1,291 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 
 .account-container {
-    max-width: 500px;
-    margin: 80px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 h2 {
-    color: #333;
-    margin-bottom: 20px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 h3 {
-    color: #555;
-    margin-bottom: 20px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
 .toggle-buttons {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 /* Override general button styles for toggle buttons */
 .toggle-buttons button {
-    padding: 10px 25px;
-    background-color: transparent !important; /* Force override */
-    border: none !important; /* Force override */
-    border-bottom: 2px solid #ddd !important; /* Force override */
-    font-size: 16px;
-    color: #777;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0 5px; /* Add some spacing between buttons */
-    box-shadow: none !important; /* Remove any shadow */
+  padding: 10px 25px;
+  background-color: transparent !important; /* Force override */
+  border: none !important; /* Force override */
+  border-bottom: 2px solid #ddd !important; /* Force override */
+  font-size: 16px;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 5px; /* Add some spacing between buttons */
+  box-shadow: none !important; /* Remove any shadow */
 }
 
 /* Hover effect for toggle buttons - red underline */
 .toggle-buttons button:hover {
-    color: #ff0000;
-    border-bottom: 2px solid #ff0000 !important;
-    background-color: transparent !important;
+  color: #ff0000;
+  border-bottom: 2px solid #ff0000 !important;
+  background-color: transparent !important;
 }
 
 /* Active toggle button */
 .toggle-buttons button.active {
-    color: #ff0000;
-    border-bottom: 2px solid #ff0000 !important;
-    background-color: transparent !important;
+  color: #ff0000;
+  border-bottom: 2px solid #ff0000 !important;
+  background-color: transparent !important;
 }
 
 .form-container {
-    text-align: left;
-    transition: all 0.3s ease;
-    min-height: 280px; /* Ensure consistent height for both forms */
+  text-align: left;
+  transition: all 0.3s ease;
+  min-height: 280px; /* Ensure consistent height for both forms */
 }
 
 /* Center the logout section specifically */
 #logoutSection {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 #logoutSection h3 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #logoutSection p {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #555;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #555;
 }
 
 #loggedInUsername {
-    font-weight: bold;
-    color: #ff0000;
+  font-weight: bold;
+  color: #ff0000;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 input:focus {
-    border-color: #ff0000;
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+  border-color: #ff0000;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
 }
 
 form {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 form input {
-    width: 100%;
-    max-width: 400px;
+  width: 100%;
+  max-width: 400px;
 }
 
 /* General button styles */
 button {
-    display: block;
-    margin: 10px auto 0; 
-    background-color: #ff0000; 
-    color: #fff;
-    border: 2px solid #ff0000; 
-    padding: 10px 30px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-    text-align: center;
+  display: block;
+  margin: 10px auto 0;
+  background-color: #ff0000;
+  color: #fff;
+  border: 2px solid #ff0000;
+  padding: 10px 30px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  text-align: center;
 }
 
 /* Ensure logout button is centered */
 #logoutButton {
-    display: block;
-    margin: 20px auto;
-    min-width: 120px;
+  display: block;
+  margin: 20px auto;
+  min-width: 120px;
 }
 
 /* Form submit buttons hover effect */
 form button:hover:not(:disabled) {
-    background-color: #cc0000; 
-    border-color: #cc0000;
+  background-color: #cc0000;
+  border-color: #cc0000;
 }
 
 /* Logout button hover effect */
 #logoutButton:hover:not(:disabled) {
-    background-color: #cc0000; 
-    border-color: #cc0000;
+  background-color: #cc0000;
+  border-color: #cc0000;
 }
 
 button:disabled {
-    background-color: #ff9999;
-    cursor: not-allowed;
+  background-color: #ff9999;
+  cursor: not-allowed;
 }
 
 .form-text {
-    text-align: center;
-    font-size: 14px;
-    color: #777;
-    margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+  margin-top: 15px;
 }
 
 .password-requirements {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 4px;
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
 }
 
 .password-requirements ul {
-    margin: 5px 0 0 20px;
-    padding: 0;
+  margin: 5px 0 0 20px;
+  padding: 0;
 }
 
 .form-text {
-    font-size: 14px;
-    color: #777;
-    margin-top: 15px;
-    text-align: center;
+  font-size: 14px;
+  color: #777;
+  margin-top: 15px;
+  text-align: center;
 }
 
 .form-text a {
-    color: #ff0000;
-    text-decoration: none;
+  color: #ff0000;
+  text-decoration: none;
 }
 
 .form-text a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .message {
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 4px;
-    text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 .message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 /* User Info Section Styles */
 .user-info {
-    text-align: left;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    border-left: 4px solid #e00;
+  text-align: left;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #e00;
 }
 
 .user-info p {
-    margin: 10px 0;
-    font-size: 16px;
-    color: #333;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
 }
 
 .user-info strong {
-    color: #555;
+  color: #555;
 }
 
 /* Account Actions */
 .account-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 25px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
 }
 
-.logout-btn, .dashboard-btn {
-    padding: 12px 25px !important;
-    border: none !important;
-    border-radius: 6px !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    text-decoration: none !important;
-    display: inline-block !important;
+.logout-btn,
+.dashboard-btn {
+  padding: 12px 25px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+  display: inline-block !important;
 }
 
 .logout-btn {
-    background-color: #dc3545 !important;
-    color: white !important;
+  background-color: #dc3545 !important;
+  color: white !important;
 }
 
 .logout-btn:hover {
-    background-color: #c82333 !important;
-    transform: translateY(-2px) !important;
+  background-color: #c82333 !important;
+  transform: translateY(-2px) !important;
 }
 
 .dashboard-btn {
-    background-color: #007bff !important;
-    color: white !important;
+  background-color: #007bff !important;
+  color: white !important;
 }
 
 .dashboard-btn:hover {
-    background-color: #0056b3 !important;
-    transform: translateY(-2px) !important;
+  background-color: #0056b3 !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Mobile responsiveness */
 @media (max-width: 600px) {
-    .account-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .logout-btn, .dashboard-btn {
-        width: 100%;
-    }
+  .account-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logout-btn,
+  .dashboard-btn {
+    width: 100%;
+  }
 }
