@@ -42,6 +42,8 @@ db.query("SELECT DATABASE()", (err, results) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Enhanced CORS configuration with debugging
 app.use(
   cors({
     origin: [
@@ -55,8 +57,44 @@ app.use(
       "http://127.0.0.1:8080",
     ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+// Additional CORS debugging middleware
+app.use((req, res, next) => {
+  console.log(`CORS Debug - Origin: ${req.get('Origin')}, Method: ${req.method}, URL: ${req.url}`);
+  
+  // Set CORS headers manually as backup
+  const allowedOrigins = [
+    "https://maxmotosport-production.up.railway.app",
+    "https://maxmotosport.eu",
+    "https://www.maxmotosport.eu",
+    "https://example.com",
+    "http://localhost:3000",
+    "http://localhost:8080",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8080",
+  ];
+  
+  const origin = req.get('Origin');
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    console.log('CORS Debug - Handling OPTIONS preflight request');
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 app.use(
   session({
     secret: "maxmotosport_secret_key",
