@@ -343,11 +343,25 @@ nav ul li a:hover::after {
   transform: translateY(-3px);
 }
 
+.footer-logo {
+  flex: 0 0 auto;
+  max-width: 60px;
+  text-align: center;
+}
+
 .footer-logo img {
-  max-width: 120px;
+  max-width: 200px;
   height: auto;
   display: block;
   margin: 0 auto 10px;
+  filter: brightness(0.9) contrast(1.1);
+  transition: all 0.3s ease;
+  max-height: 200px;
+}
+
+.footer-logo img:hover {
+  filter: brightness(1.1) contrast(1.2);
+  transform: scale(1.05);
 }
 
 .footer-timeschedule {
@@ -472,5 +486,77 @@ nav ul li a:hover::after {
 
   .mobile-only {
     display: none !important;
+  }
+}
+
+/* Header scrolled styles */
+.header-scrolled {
+  background-color: rgba(0, 0, 0, 0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* User dropdown styles */
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-top: 2px solid #e00;
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  display: none;
+  z-index: 1001;
+}
+
+.user-dropdown.show-dropdown {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 10px 15px;
+  color: #ddd;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.user-dropdown a:hover {
+  background-color: #333;
+  color: #e00;
+}
+
+.user-dropdown a:not(:last-child) {
+  border-bottom: 1px solid #333;
+}
+
+/* Animation styles */
+.pulse-animation {
+  animation: pulse 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
   }
 }
