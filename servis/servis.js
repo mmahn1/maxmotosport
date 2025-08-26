@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const submitButton = serviceForm.querySelector('.btn-submit');
             submitButton.disabled = true;
-            submitButton.textContent = 'Pošiljanje...';
+            submitButton.textContent = 'Sending...';
             
             const formData = new FormData(serviceForm);
             
@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 submissionStatus.innerHTML = `
                     <div class="success-message">
-                        <h3>Rezervacija uspešno poslana!</h3>
-                        <p>Hvala za vašo rezervacijo. Oglasilimo se vam v najkrajšem možnem času za potrditev termina.</p>
+                        <h3>Booking sent successfully!</h3>
+                        <p>Thank you for your request. We'll contact you shortly to confirm your appointment.</p>
                     </div>
                 `;
                 
@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 submissionStatus.innerHTML = `
                     <div class="error-message">
-                        <h3>Napaka</h3>
-                        <p>Prišlo je do napake pri pošiljanju rezervacije. Prosimo, poskusite znova ali nas kontaktirajte po telefonu.</p>
+                        <h3>Error</h3>
+                        <p>There was an error submitting your booking. Please try again or contact us by phone.</p>
                     </div>
                 `;
                 console.error('Error:', error);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .finally(() => {
                 
                 submitButton.disabled = false;
-                submitButton.textContent = 'Pošlji povpraševanje';
+                submitButton.textContent = 'Send an inquiry';
                 
                
                 submissionStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });

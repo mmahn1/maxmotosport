@@ -37,8 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const heroSection = document.querySelector('.about-hero');
     if (heroSection) {
         const testImg = new Image();
-        testImg.onload = function() {
-        };
         testImg.onerror = function() {
             heroSection.classList.add('no-image');
         };
@@ -60,7 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     (function() {
-        emailjs.init("YOUR_EMAILJS_USER_ID"); 
+        if (window.emailjs && typeof emailjs.init === 'function') {
+            emailjs.init("YOUR_EMAILJS_USER_ID"); 
+        } else {
+            console.warn('emailjs not loaded; contact form email sending will be disabled.');
+        }
     })();
     
     const showContactBtn = document.getElementById('showContactForm');
@@ -788,11 +790,10 @@ function openDetailOverlay(item) {
             yearsEl.textContent = dateRange;
         }
         
-        const detailImage = overlay.querySelector('.detail-image');
+    const detailImage = overlay.querySelector('.detail-image');
         if (detailImage) {
             detailImage.innerHTML = `
                 <img src="${imagePath}" alt="${item.name}" loading="eager" 
-                     onload="console.log('Image loaded successfully:', this.src)" 
                      onerror="this.parentElement.innerHTML='<div class=\\'placeholder-img\\'><span>${item.name}</span></div>'">
             `;
         }

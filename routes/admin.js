@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/check-admin', (req, res) => {
-  console.log('Admin check endpoint accessed');
-  
-  
   return res.status(200).json({
     success: false,
     message: 'Not authorized',

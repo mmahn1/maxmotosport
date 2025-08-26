@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    
+    padding-top: 60px; /* account for fixed header */
     background-color: #f9f9f9;
 }
 
@@ -71,7 +71,7 @@ form input {
     border-radius: 3px;
 }
 
-center-text {
+.center-text {
     text-align: center;
     margin-bottom: 20px;
 }

@@ -14,7 +14,7 @@ if (isLocalhost) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("🔹 Login/Register Page Loaded");
+  // Page init
 
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (token && username) {
       // User is logged in - show logout section only
-      console.log("✅ User is logged in as:", username, "with role:", role);
+  // Logged in
 
       // Hide login/register elements
       if (toggleButtons) toggleButtons.style.display = "none";
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } else {
       // User is not logged in - show login/register forms
-      console.log("ℹ️ User is not logged in");
+  // Not logged in
 
       // Show login/register elements
       if (toggleButtons) toggleButtons.style.display = "flex";
@@ -116,16 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");
 
-    console.log("Toggle elements:", {
-      showLogin: showLogin,
-      showRegister: showRegister,
-      loginForm: loginForm,
-      registerForm: registerForm,
-    });
+  // Prepare toggle elements
 
     if (showLogin && showRegister && loginForm && registerForm) {
       showLogin.addEventListener("click", function () {
-        console.log("Login button clicked");
         loginForm.classList.remove("hidden");
         registerForm.classList.add("hidden");
         showLogin.classList.add("active");
@@ -133,14 +127,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       showRegister.addEventListener("click", function () {
-        console.log("Register button clicked");
         registerForm.classList.remove("hidden");
         loginForm.classList.add("hidden");
         showRegister.classList.add("active");
         showLogin.classList.remove("active");
       });
 
-      console.log("✅ Toggle event listeners added successfully");
+  // Toggle wired
     } else {
       console.error(
         "❌ Elements not found: Ensure login/register buttons exist."
@@ -153,7 +146,7 @@ async function login() {
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPassword").value.trim();
 
-  console.log("🔹 Login attempt:", { username, password });
+  // Login attempt
 
   if (!username || !password) {
     console.error("❌ Missing username or password (client-side)");
@@ -172,7 +165,7 @@ async function login() {
     console.log("🔹 Server response:", data);
 
     if (response.ok) {
-      console.log("✅ Login successful (client-side)");
+    // Login successful
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
       localStorage.setItem("role", data.role);
@@ -181,7 +174,7 @@ async function login() {
       if (typeof updateUserDisplay === "function") {
         updateUserDisplay();
       } else {
-        console.error("❌ updateUserDisplay function not found.");
+  // updateUserDisplay not found
       }
 
       setTimeout(
@@ -189,14 +182,14 @@ async function login() {
         1000
       );
     } else {
-      console.error(`❌ Login failed (server-side): ${data.error}`);
+  // Login failed (server-side)
       showMessage(
         data.error || "Login failed. Please check your credentials.",
         "error"
       );
     }
   } catch (error) {
-    console.error("❌ Login failed (client-side):", error);
+  console.error("Login failed (client-side):", error);
     showMessage("An error occurred. Please try again later.", "error");
   }
 }
@@ -219,11 +212,7 @@ async function register() {
   }
 
   try {
-    console.log("Attempting to register with:", {
-      username,
-      email,
-      passwordLength: password.length,
-    });
+  // Attempting to register
 
     const response = await fetch(`${accountServerUrl}/register`, {
       method: "POST",
@@ -232,7 +221,7 @@ async function register() {
     });
 
     const data = await response.json();
-    console.log("Registration response:", data);
+  // Registration response
 
     if (response.ok) {
       showMessage("Registration successful! You can now log in.", "success");

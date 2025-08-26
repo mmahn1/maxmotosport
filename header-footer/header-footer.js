@@ -3,12 +3,7 @@ fetch("/api/config")
   .then((response) => response.json())
   .then((config) => {
     serverUrl = config.SERVER_URL;
-    console.log("Server URL:", serverUrl);
-    loadHeader();
-    loadFooter();
-    loadNewsletter();
-    adjustFooterPosition();
-    updateCartCount();
+  // server url loaded
   })
   .catch((error) => {
     console.error("❌ Error fetching server URL:", error);
@@ -17,12 +12,12 @@ fetch("/api/config")
 document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", adjustFooterPosition);
   window.addEventListener("scroll", handleHeaderScroll);
-});
-
-document.addEventListener("click", function (e) {
-  if (e.target.tagName === "A") {
-    console.log("Link clicked:", e.target.href);
-  }
+  // Initialize dynamic parts once DOM is ready
+  loadHeader();
+  loadFooter();
+  loadNewsletter();
+  adjustFooterPosition();
+  updateCartCount();
 });
 
 function loadHeader() {
@@ -37,7 +32,7 @@ function loadHeader() {
       const headerPlaceholder = document.getElementById("header-placeholder");
       if (headerPlaceholder) {
         headerPlaceholder.innerHTML = html;
-        console.log("✅ Header loaded successfully");
+  // header loaded
 
         // Wait for DOM elements to be available, then update user display
         setTimeout(() => {
@@ -46,13 +41,7 @@ function loadHeader() {
 
           // Force check admin status on every page load
           const role = localStorage.getItem("role");
-          console.log(
-            "🔍 Checking admin status on header load. Current role:",
-            role
-          );
-
           if (role === "admin") {
-            console.log("👑 Admin user detected, forcing admin button display");
             showAdminButton();
           }
         }, 100); // Increased timeout to ensure DOM is ready
@@ -65,9 +54,7 @@ function loadHeader() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadHeader();
-});
+// (Removed duplicate DOMContentLoaded that redundantly called loadHeader)
 
 function loadFooter() {
   fetch("/header-footer/footer.html")
@@ -79,7 +66,7 @@ function loadFooter() {
     })
     .then((html) => {
       document.getElementById("footer-placeholder").innerHTML = html;
-      console.log("✅ Footer loaded successfully");
+  // footer loaded
     })
     .catch((error) => {
       console.error("❌ Error loading footer:", error);
@@ -105,7 +92,7 @@ function loadNewsletter() {
       );
       if (newsletterPlaceholder) {
         newsletterPlaceholder.innerHTML = html;
-        console.log("✅ Newsletter loaded successfully");
+  // newsletter loaded
       } else {
         console.warn(
           "⚠️ Note: 'newsletter-placeholder' div not found. This is normal if the current page doesn't use the newsletter."
@@ -208,19 +195,11 @@ function updateUserDisplay() {
     "adminDashboardNavMobile"
   );
 
-  console.log("Admin role check:", {
-    username,
-    role,
-    isAdmin: role === "admin",
-  });
-
   if (role === "admin") {
-    console.log("✅ Showing admin panel button for admin user");
     if (adminDashboardNav) adminDashboardNav.classList.remove("hidden");
     if (adminDashboardNavMobile)
       adminDashboardNavMobile.classList.remove("hidden");
   } else {
-    console.log("ℹ️ Hiding admin panel button for non-admin user");
     if (adminDashboardNav) adminDashboardNav.classList.add("hidden");
     if (adminDashboardNavMobile)
       adminDashboardNavMobile.classList.add("hidden");
@@ -229,8 +208,6 @@ function updateUserDisplay() {
 
 // Dedicated function to show admin button
 function showAdminButton() {
-  console.log("🔧 Forcing admin button display...");
-
   const adminDashboardNav = document.getElementById("adminDashboardNav");
   const adminDashboardNavMobile = document.getElementById(
     "adminDashboardNavMobile"
@@ -238,101 +215,21 @@ function showAdminButton() {
 
   if (adminDashboardNav) {
     adminDashboardNav.classList.remove("hidden");
-    adminDashboardNav.style.display = "block";
-    adminDashboardNav.style.visibility = "visible";
-    adminDashboardNav.style.opacity = "1";
-    console.log("✅ Desktop admin button shown");
-    console.log("Desktop admin button final state:", {
-      classes: adminDashboardNav.className,
-      display: adminDashboardNav.style.display,
-      visibility: adminDashboardNav.style.visibility,
-    });
+  adminDashboardNav.style.display = "";
+  adminDashboardNav.style.visibility = "";
+  adminDashboardNav.style.opacity = "";
   } else {
-    console.error("❌ Desktop admin button element not found");
+  // element not found
   }
 
   if (adminDashboardNavMobile) {
     adminDashboardNavMobile.classList.remove("hidden");
-    adminDashboardNavMobile.style.display = "block";
-    adminDashboardNavMobile.style.visibility = "visible";
-    adminDashboardNavMobile.style.opacity = "1";
-    console.log("✅ Mobile admin button shown");
-    console.log("Mobile admin button final state:", {
-      classes: adminDashboardNavMobile.className,
-      display: adminDashboardNavMobile.style.display,
-      visibility: adminDashboardNavMobile.style.visibility,
-    });
+  adminDashboardNavMobile.style.display = "";
+  adminDashboardNavMobile.style.visibility = "";
+  adminDashboardNavMobile.style.opacity = "";
   } else {
-    console.error("❌ Mobile admin button element not found");
+  // element not found
   }
-
-  // Force a repaint
-  document.body.style.display = "none";
-  document.body.offsetHeight; // Trigger reflow
-  document.body.style.display = "";
-}
-
-function checkAdminStatus() {
-  fetch("/api/check-admin")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Server responded with 404 (Not Found)");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if (data.isAdmin) {
-        console.log("✅ Admin check passed");
-      } else {
-        console.log("⚠️ Admin check skipped: Not an admin");
-      }
-    })
-    .catch((error) => {
-      console.error("❌ Error checking admin status:", error);
-    });
-}
-
-function setupSearchBar() {
-  const searchIcon = document.getElementById("search-icon");
-  const searchBar = document.getElementById("search-bar");
-  const searchContainer = document.querySelector(".search-container");
-
-  if (!searchIcon || !searchBar || !searchContainer) {
-    console.error("❌ Search elements not found.");
-    return;
-  }
-
-  searchIcon.addEventListener("click", function () {
-    searchContainer.classList.toggle("active");
-    searchBar.focus();
-  });
-
-  searchBar.addEventListener("blur", function () {
-    if (searchBar.value.trim() === "") {
-      searchContainer.classList.remove("active");
-    }
-  });
-
-  searchBar.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const query = searchBar.value.trim();
-      if (query) {
-        window.location.href = `/ponudba/ponudba.html?search=${encodeURIComponent(
-          query
-        )}`;
-      }
-    }
-  });
-
-  document.addEventListener("click", function (event) {
-    if (
-      !searchContainer.contains(event.target) &&
-      event.target !== searchIcon
-    ) {
-      searchContainer.classList.remove("active");
-    }
-  });
 }
 
 function adjustFooterPosition() {
@@ -365,38 +262,7 @@ function handleHeaderScroll() {
   }
 }
 
-function setupDropdownMenus() {
-  const dropdowns = document.querySelectorAll(".dropdown");
-  if (dropdowns.length === 0) {
-    return;
-  }
-  dropdowns.forEach((dropdown) => {
-    const dropdownToggle = dropdown.querySelector(".dropdown-toggle");
-    const dropdownContent = dropdown.querySelector(".dropdown-content");
-    if (!dropdownToggle || !dropdownContent) return;
-    dropdownToggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      document
-        .querySelectorAll(".dropdown-content.active")
-        .forEach((content) => {
-          if (content !== dropdownContent) {
-            content.classList.remove("active");
-          }
-        });
-      dropdownContent.classList.toggle("active");
-    });
-  });
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".dropdown")) {
-      document
-        .querySelectorAll(".dropdown-content.active")
-        .forEach((content) => {
-          content.classList.remove("active");
-        });
-    }
-  });
-}
+// (Removed unused: checkAdminStatus, setupSearchBar, setupDropdownMenus)
 
 function setupBurgerMenu() {
   const burgerMenu = document.getElementById("burgerMenu");
@@ -460,79 +326,4 @@ function setupBurgerMenu() {
   }
 }
 
-// Debug function - you can call this from browser console
-function debugAdminButton() {
-  console.log("🔍 Debug Admin Button Status:");
-  console.log("- Username:", localStorage.getItem("username"));
-  console.log("- Role:", localStorage.getItem("role"));
-  console.log("- Token:", localStorage.getItem("token"));
-
-  const adminDashboardNav = document.getElementById("adminDashboardNav");
-  const adminDashboardNavMobile = document.getElementById(
-    "adminDashboardNavMobile"
-  );
-
-  console.log("- Desktop admin button element:", adminDashboardNav);
-  console.log("- Mobile admin button element:", adminDashboardNavMobile);
-
-  if (adminDashboardNav) {
-    console.log("- Desktop admin button classes:", adminDashboardNav.className);
-    console.log(
-      "- Desktop admin button style:",
-      adminDashboardNav.style.cssText
-    );
-    console.log(
-      "- Desktop admin button computed style:",
-      window.getComputedStyle(adminDashboardNav).display
-    );
-
-    // Highlight the button with a red border for testing
-    adminDashboardNav.style.border = "3px solid red";
-    adminDashboardNav.style.backgroundColor = "yellow";
-  }
-
-  if (adminDashboardNavMobile) {
-    console.log(
-      "- Mobile admin button classes:",
-      adminDashboardNavMobile.className
-    );
-    console.log(
-      "- Mobile admin button style:",
-      adminDashboardNavMobile.style.cssText
-    );
-    console.log(
-      "- Mobile admin button computed style:",
-      window.getComputedStyle(adminDashboardNavMobile).display
-    );
-
-    // Highlight the button with a red border for testing
-    adminDashboardNavMobile.style.border = "3px solid red";
-    adminDashboardNavMobile.style.backgroundColor = "yellow";
-  }
-
-  // Force show admin button for testing
-  if (localStorage.getItem("role") === "admin") {
-    console.log("👑 Admin role detected, showing admin button...");
-    showAdminButton();
-  } else {
-    console.log("❌ No admin role found");
-  }
-}
-
-// Test function to add admin button manually if missing
-function testAddAdminButton() {
-  const navRight = document.querySelector(".nav-right");
-  if (navRight) {
-    const adminLi = document.createElement("li");
-    adminLi.id = "testAdminButton";
-    adminLi.innerHTML =
-      '<a href="/Admin/admin-dashboard.html" style="background: red !important; color: white !important; padding: 10px !important;">🔧 TEST ADMIN</a>';
-    navRight.appendChild(adminLi);
-    console.log("✅ Test admin button added to nav-right");
-  }
-}
-
-window.testAddAdminButton = testAddAdminButton;
-
-// Make debug function globally available
-window.debugAdminButton = debugAdminButton;
+// (Removed debug/test helpers and their global exposures)

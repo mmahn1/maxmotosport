@@ -38,9 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
             categoryCard.addEventListener("click", (e) => {
               const target = e.currentTarget;
               const redirect = target.dataset.redirect;
-              console.log(
-                `Clicked on category: ${target.dataset.id}, redirecting to: ${redirect}`
-              );
               window.location.href = `/ponudba/specific-accessories/${redirect}`;
             });
 
@@ -162,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const previewSection = document.getElementById("preview-section");
     const previewTitle = document.getElementById("preview-title");
     const previewImage = document.getElementById("preview-image");
-    const previewText = document.getElementById("preview-text");
     const tabContainer = document.getElementById("tab-container");
 
     previewTitle.textContent = product.name;

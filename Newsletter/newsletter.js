@@ -42,11 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        showMessage('Thank you for subscribing to our newsletter!', 'success');
+                    if (!data.error) {
+                        showMessage(data.message || 'Thank you for subscribing to our newsletter!', 'success');
                         emailInput.value = '';
                     } else {
-                        throw new Error(data.message || 'Failed to subscribe');
+                        throw new Error(data.error || data.message || 'Failed to subscribe');
                     }
                 })
                 .catch(error => {

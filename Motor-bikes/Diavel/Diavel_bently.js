@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log('DOM fully loaded and parsed.');
 
     const thumbnails = document.querySelectorAll('.thumbnail-images img');
     const mainImage = document.getElementById('selected-image');

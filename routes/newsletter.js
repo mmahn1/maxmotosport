@@ -9,26 +9,7 @@ function generateVerificationToken() {
   return crypto.randomBytes(32).toString('hex');
 }
 
-router.post('/subscribe', auth, async (req, res) => {
-    const { email } = req.body;
-
-    console.log('Received subscription request:', email); 
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        console.log('Invalid email address:', email); 
-        return res.status(400).json({ success: false, message: 'Invalid email address' });
-    }
-
-    try {
-        await db.run('INSERT INTO newsletter (email) VALUES (?)', [email]);
-        console.log('Email successfully added to newsletter:', email); 
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Database error:', error); 
-        res.status(500).json({ success: false, message: 'Failed to subscribe' });
-    }
-});
-
+// Unified subscribe handler
 router.post('/subscribe', auth, async (req, res) => {
   console.log('Newsletter subscription request received:', req.body);
   

@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log('DOM fully loaded and parsed.');
 
     const thumbnails = document.querySelectorAll('.thumbnail-images img');
     const mainImage = document.getElementById('selected-image');
@@ -10,58 +9,37 @@ document.addEventListener("DOMContentLoaded", function () {
     const colorSquares = document.querySelectorAll('.color-square');
 
     if (!audio) {
-        console.error('Audio element not found.');
         return;
     }
-
-    console.log('Audio element found:', audio);
 
     // Ensure the audio is loaded and log any errors
-    audio.addEventListener('canplaythrough', function () {
-        console.log('Audio is ready to play.');
-    });
+    audio.addEventListener('canplaythrough', function () {});
 
-    audio.addEventListener('error', function (e) {
-        console.error('Audio failed to load:', e);
-    });
+    audio.addEventListener('error', function (e) {});
 
     if (!playPauseButton) {
-        console.error('Play/pause button not found.');
         return;
     }
 
-    console.log('Play/pause button found:', playPauseButton);
-
     playPauseButton.addEventListener('click', function () {
-        console.log('Play/pause button clicked.');
-
         if (audio.paused) {
-            console.log('Audio is currently paused. Attempting to play...');
             audio.play().then(() => {
-                console.log('Audio is now playing.');
                 playPauseButton.textContent = '⏸'; // Change to pause symbol
-                console.log('Updated button to "pause" symbol.');
             }).catch(error => {
-                console.error('Error playing audio:', error);
+                // ignore autoplay errors
             });
         } else {
-            console.log('Audio is currently playing. Attempting to pause...');
             audio.pause();
-            console.log('Audio is now paused.');
             playPauseButton.textContent = '▶'; // Change back to play symbol
-            console.log('Updated button to "play" symbol.');
         }
     });
 
     // Handle audio end to reset the button text
     audio.addEventListener('ended', function () {
-        console.log('Audio playback ended.');
         playPauseButton.textContent = '▶'; // Reset to play symbol
-        console.log('Reset button to "play" symbol.');
     });
 
     function changeColor(color) {
-        console.log(`Changing color to: ${color}`);
         
         // Update bike name
         bikeName.textContent = `Diavel V4 - ${color}`;
@@ -101,8 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add event listeners to thumbnails
     thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', function () {
-            console.log('Thumbnail clicked:', this.src);
+    thumbnail.addEventListener('click', function () {
 
             // Update main image
             mainImage.src = this.src;

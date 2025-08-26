@@ -11,42 +11,22 @@ if (isLocalhost) {
     serverUrl = "https://maxmotosport-production.up.railway.app";
 }
 
-console.log("🔹 admin-dashboard.js script loaded successfully.");
-
 // Initialize the dashboard
-document.addEventListener('DOMContentLoaded', function() {
-    fetchSubscribers();
-    fetchOrders();
-});
-
 document.addEventListener("DOMContentLoaded", () => {
     const ordersTableBody = document.querySelector("#orders-table tbody");
     const newsletterTableBody = document.querySelector("#newsletter-table tbody");
+    const subscriberCount = document.getElementById("subscriber-count");
+    const addSubscriberForm = document.getElementById("add-subscriber-form");
+    const newSubscriberEmail = document.getElementById("new-subscriber-email");
 
     function fetchSubscribers() {
         fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(result => {
-                if (result.success) {
-                    renderSubscribers(result.subscribers);
-                } else {
-                    alert(result.message || "Failed to fetch subscribers.");
-                }
-            })
-            .catch(error => {
-                console.error("❌ Error fetching subscribers:", error);
-                alert("Failed to fetch subscribers. Please try again later.");
-            });
+            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+            .then(result => { if (result.success) renderSubscribers(result.subscribers); })
+            .catch(() => alert("Failed to fetch subscribers."));
     }
 
     function renderSubscribers(subscribers) {
@@ -64,27 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function fetchOrders() {
         fetch(`${serverUrl}/api/admin/orders`, {
             method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(result => {
-                if (result.success) {
-                    renderOrders(result.orders);
-                } else {
-                    alert(result.message || "Failed to fetch orders.");
-                }
-            })
-            .catch(error => {
-                console.error("❌ Error fetching orders:", error);
-                alert("Failed to fetch orders. Please try again later.");
-            });
+            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+            .then(result => { if (result.success) renderOrders(result.orders); })
+            .catch(() => alert("Failed to fetch orders."));
     }
 
     function renderOrders(orders) {
@@ -133,60 +97,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Fetch and render newsletter subscribers
-    function fetchSubscribers() {
-        console.log("🔹 Fetching newsletter subscribers...");
-        fetch(`${serverUrl}/api/newsletter/subscribers`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-        })
-            .then(response => {
-                console.log("🔹 Response received:", response);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(result => {
-                console.log("🔹 Parsed JSON:", result);
-                if (result.success) {
-                    console.log("✅ Newsletter subscribers fetched successfully.");
-                    renderSubscribers(result.subscribers);
-                } else {
-                    console.error("❌ Failed to fetch subscribers:", result.message || result.error);
-                    alert("❌ " + (result.message || result.error));
-                }
-            })
-            .catch(error => {
-                console.error("❌ Error fetching subscribers:", error);
-                alert("❌ Failed to fetch subscribers: " + error);
-            });
-    }
-
     function renderSubscribers(subscribers) {
-        console.log("🔹 Rendering subscribers...");
-        newsletterTableBody.innerHTML = ""; // Clear existing rows
+        newsletterTableBody.innerHTML = "";
         subscribers.forEach(subscriber => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${subscriber.email}</td>
-                <td>
-                    <button class="remove-subscriber-btn red-button" data-email="${subscriber.email}">Remove</button>
-                </td>
+                <td><button class="remove-subscriber-btn red-button" data-email="${subscriber.email}">Remove</button></td>
             `;
             newsletterTableBody.appendChild(row);
         });
         subscriberCount.textContent = subscribers.length;
-        console.log(`✅ Rendered ${subscribers.length} subscribers.`);
     }
 
     // Handle subscriber removal
     newsletterTableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-subscriber-btn")) {
             const email = e.target.dataset.email;
-            console.log(`🔹 Remove button clicked for email: ${email}`);
             fetch(`${serverUrl}/api/newsletter/subscribers/${encodeURIComponent(email)}`, {
                 method: "DELETE",
                 headers: {
@@ -196,17 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
-                        console.log(`✅ Subscriber with email ${email} removed successfully.`);
                         fetchSubscribers();
                     } else {
-                        console.error(`❌ Failed to remove subscriber: ${result.message || result.error}`);
                         alert("❌ " + (result.message || result.error));
                     }
                 })
-                .catch(error => {
-                    console.error("❌ Error removing subscriber:", error);
-                    alert("❌ Failed to remove subscriber: " + error);
-                });
+                .catch(() => alert("❌ Failed to remove subscriber."));
         }
     });
 
@@ -219,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        console.log(`🔹 Adding new subscriber with email: ${email}`);
         fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "POST",
             headers: {
@@ -231,18 +152,17 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    console.log(`✅ Subscriber with email ${email} added successfully.`);
                     newSubscriberEmail.value = "";
                     fetchSubscribers();
                 } else {
-                    console.error(`❌ Failed to add subscriber: ${result.message || result.error}`);
                     alert("❌ " + (result.message || result.error));
                 }
             })
-            .catch(error => {
-                console.error("❌ Error adding subscriber:", error);
-                alert("❌ Failed to add subscriber: " + error);
-            });
+        .catch(() => alert("❌ Failed to add subscriber."));
     });
+
+    // Initial load
+    fetchSubscribers();
+    fetchOrders();
 
 });

@@ -1,17 +1,6 @@
-const { sendRegistrationEmail } = require('../services/email-service');
+// Placeholder users router (no routes implemented). The server currently uses inline
+// auth routes in server.js. This module is kept to preserve require paths if any.
+const express = require('express');
+const router = express.Router();
 
-router.post('/register', async (req, res) => {
-  try {
-    
-    const newUser = await User.create({
-    });
-    
-    await sendRegistrationEmail({
-      username: req.body.username || newUser.username,
-      email: req.body.email || newUser.email
-    });
-    
-    
-  } catch (error) {
-  }
-});
+module.exports = router;

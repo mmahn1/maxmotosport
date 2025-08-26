@@ -13,39 +13,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+        } else {
+            legacyCopy(text);
+        }
+    }
+
+    function legacyCopy(text) {
         const temp = document.createElement('input');
         temp.value = text;
         document.body.appendChild(temp);
-        
-        
         temp.select();
         document.execCommand('copy');
-        
-        
         document.body.removeChild(temp);
     }
     
     
     function showTooltip(element, message) {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'tooltip';
-        tooltip.innerText = message;
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip tooltip-visible';
+    tooltip.innerText = message;
         
-        
-        const rect = element.getBoundingClientRect();
-        tooltip.style.position = 'absolute';
-        tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
-        tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
-        tooltip.style.transform = 'translateX(-50%)';
-        tooltip.style.backgroundColor = '#333';
-        tooltip.style.color = 'white';
-        tooltip.style.padding = '5px 10px';
-        tooltip.style.borderRadius = '4px';
-        tooltip.style.fontSize = '14px';
-        tooltip.style.zIndex = '1000';
-        
-        
-        document.body.appendChild(tooltip);
+    const rect = element.getBoundingClientRect();
+    tooltip.style.position = 'absolute';
+    tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
+    tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+    tooltip.style.transform = 'translateX(-50%)';
+    document.body.appendChild(tooltip);
         
         setTimeout(() => {
             document.body.removeChild(tooltip);

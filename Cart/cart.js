@@ -72,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
             quantity: item.quantity
         }));
 
-        console.log("🚀 Checkout initiated");
-        console.log("Cart data being sent:", cartData);
-        console.log("Server URL:", serverUrl);
+    console.log("🚀 Checkout initiated");
 
         fetch(`${serverUrl}/api/orders`, {
             method: "POST",
@@ -85,14 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify({ cart: cartData })
         })
             .then(response => {
-                console.log("📥 Response received:", response);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(result => {
-                console.log("✅ Checkout result:", result);
                 if (result.success) {
                     alert("✅ Order placed successfully!");
                     localStorage.removeItem("cart"); // Clear the cart

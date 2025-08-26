@@ -3,21 +3,38 @@ require("dotenv").config();
 const express = require("express");
 const fs = require("fs");
 const mysql = require("mysql2");
-const bcrypt = require("bcrypt");
+// Robust bcrypt import with fallback to bcryptjs on Windows if native binding fails
+let bcrypt;
+try {
+  bcrypt = require("bcrypt");
+} catch (e) {
+  console.warn("[startup] bcrypt native module failed to load; falling back to bcryptjs.", e?.message || e);
+  bcrypt = require("bcryptjs");
+}
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const cors = require("cors");
 const path = require("path");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const { exec } = require("child_process");
+// const { exec } = require("child_process"); // unused
 const { body, validationResult } = require("express-validator");
+
+// Global error handlers to surface startup/runtime errors instead of silent exit code 1
+process.on("uncaughtException", (err) => {
+  console.error("[uncaughtException]", err);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[unhandledRejection]", reason);
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JSON_FILE = path.join(__dirname, "ponudba", "bikes.json");
+// Treat undefined DB_HOST as non-production; only flip when explicitly set and not localhost
 const isProduction =
-  process.env.NODE_ENV === "production" || process.env.DB_HOST !== "localhost";
+  process.env.NODE_ENV === "production" ||
+  (!!process.env.DB_HOST && process.env.DB_HOST !== "localhost");
 
 // Clean MySQL2 connection configuration following ChatGPT's best practices
 const db = mysql.createPool({
@@ -54,7 +71,6 @@ app.use(
       "https://maxmotosport-production.up.railway.app",
       "https://maxmotosport.eu",
       "https://www.maxmotosport.eu",
-      "https://example.com",
       "http://localhost:3000",
       "http://localhost:8080",
       "http://127.0.0.1:3000",
@@ -65,47 +81,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// Additional CORS debugging middleware
-app.use((req, res, next) => {
-  console.log(
-    `CORS Debug - Origin: ${req.get("Origin")}, Method: ${req.method}, URL: ${
-      req.url
-    }`
-  );
-
-  // Set CORS headers manually as backup
-  const allowedOrigins = [
-    "https://maxmotosport-production.up.railway.app",
-    "https://maxmotosport.eu",
-    "https://www.maxmotosport.eu",
-    "https://example.com",
-    "http://localhost:3000",
-    "http://localhost:8080",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8080",
-  ];
-
-  const origin = req.get("Origin");
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Content-Length, X-Requested-With"
-  );
-
-  // Handle preflight requests
-  if (req.method === "OPTIONS") {
-    console.log("CORS Debug - Handling OPTIONS preflight request");
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
 app.use(
   session({
     secret: "maxmotosport_secret_key",
@@ -115,9 +90,7 @@ app.use(
   })
 );
 
-app.get("/api/config", (req, res) => {
-  res.json({ serverUrl: process.env.SERVER_URL });
-});
+// (Removed duplicate /api/config; see single endpoint near SERVER ROUTES)
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
@@ -370,8 +343,8 @@ app.post("/api/reset-password-request", async (req, res) => {
     });
 
     const resetUrl = `${
-      isProduction ? "https://maxmotosport.eu" : "http://localhost:3000"
-    }/reset-password/${resetToken}`;
+        isProduction ? "https://maxmotosport.eu" : "http://localhost:3000"
+      }/reset-password/${resetToken}`;
 
     // Send email
     const mailOptions = {
@@ -435,7 +408,7 @@ app.post(
 
       // Update user password and clear token
       await dbUtils.run(
-        "UPDATE users SET password = ?, resetToken = NULL, resetTokenExpires = NULL WHERE id = ?",
+        "UPDATE users SET password_hash = ?, resetToken = NULL, resetTokenExpires = NULL WHERE id = ?",
         [hashedPassword, user.id]
       );
 
@@ -504,7 +477,7 @@ app.put(
       const { currentPassword, newPassword } = req.body;
 
       // Get user with password
-      const user = await dbUtils.get("SELECT * FROM users WHERE id = ?", [
+  const user = await dbUtils.get("SELECT * FROM users WHERE id = ?", [
         req.user.id,
       ]);
       if (!user) {
@@ -514,7 +487,7 @@ app.put(
       // Verify current password
       const validPassword = await bcrypt.compare(
         currentPassword,
-        user.password
+        user.password_hash
       );
       if (!validPassword) {
         return res.status(401).json({ error: "Current password is incorrect" });
@@ -525,7 +498,7 @@ app.put(
       const hashedPassword = await bcrypt.hash(newPassword, salt);
 
       // Update password
-      await dbUtils.run("UPDATE users SET password = ? WHERE id = ?", [
+      await dbUtils.run("UPDATE users SET password_hash = ? WHERE id = ?", [
         hashedPassword,
         req.user.id,
       ]);
@@ -758,6 +731,73 @@ app.get(
     } catch (error) {
       console.error("Get newsletter subscribers error:", error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  }
+);
+
+// Admin-friendly newsletter endpoints used by the Admin Dashboard
+// List subscribers
+app.get(
+  "/api/newsletter/subscribers",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const rows = await dbUtils.query(
+        "SELECT id, email, subscribed_at FROM newsletter ORDER BY id DESC"
+      );
+      return res.json({ success: true, subscribers: rows });
+    } catch (error) {
+      console.error("List newsletter subscribers error:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+);
+
+// Add a subscriber
+app.post(
+  "/api/newsletter/subscribers",
+  authenticateToken,
+  isAdmin,
+  [body("email").isEmail().withMessage("Invalid email format")],
+  async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ success: false, message: errors.array()[0].msg });
+      }
+
+      const { email } = req.body;
+      const existing = await dbUtils.get("SELECT id FROM newsletter WHERE email = ?", [email]);
+      if (existing) {
+        return res.status(409).json({ success: false, message: "Email is already subscribed" });
+      }
+
+      await dbUtils.run("INSERT INTO newsletter (email, subscribed_at) VALUES (?, NOW())", [email]);
+      return res.status(201).json({ success: true, message: "Subscriber added" });
+    } catch (error) {
+      console.error("Add newsletter subscriber error:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+);
+
+// Remove a subscriber
+app.delete(
+  "/api/newsletter/subscribers/:email",
+  authenticateToken,
+  isAdmin,
+  async (req, res) => {
+    try {
+      const email = decodeURIComponent(req.params.email);
+      const result = await dbUtils.run("DELETE FROM newsletter WHERE email = ?", [email]);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: "Subscriber not found" });
+      }
+      return res.json({ success: true, message: "Subscriber removed" });
+    } catch (error) {
+      console.error("Remove newsletter subscriber error:", error);
+      return res.status(500).json({ success: false, message: "Server error" });
     }
   }
 );
@@ -1391,20 +1431,25 @@ app.use("/account", express.static(__dirname + "/account"));
 app.use("/Newsletter", express.static(__dirname + "/Newsletter"));
 app.use("/Cart", express.static(__dirname + "/Cart"));
 
-const emailTransporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "maxmotosport.shop@gmail.com",
-    pass: "gmir ejjf outo whkm",
-  },
-});
-
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}/`);
 });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "Landing_page", "index.html"));
+});
+
+// Graceful fallback for odd copy/paste URLs like /%E2%80%9D (smart quotes)
+// Redirect any non-API, non-asset GET requests to home instead of 404
+app.get("*", (req, res, next) => {
+  try {
+    // Allow API routes and asset files (with extensions) to pass through
+    if (req.path.startsWith("/api")) return res.status(404).json({ error: "Not found" });
+    if (path.extname(req.path)) return res.status(404).end("Not found");
+
+    // For anything else (e.g., stray encoded quotes), send users to the homepage
+    return res.redirect(302, "/");
+  } catch (_) {
+    return res.redirect(302, "/");
+  }
 });
