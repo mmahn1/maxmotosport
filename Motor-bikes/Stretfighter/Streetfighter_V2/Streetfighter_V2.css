@@ -119,8 +119,9 @@ a {
     margin: 0 auto; /* Remove extra margin */
     max-width: 100%;
     position: relative;
-    top: -420px; /* Adjusted to move it slightly higher */
+    top: -440px !important; /* Adjusted to move it slightly higher */
     z-index: 1;
+
 }
 
 .description-section {
@@ -656,25 +657,86 @@ section:nth-child(even) {
 
 .specs-text {
     text-align: left;
+    background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    padding: 28px 28px 24px;
+    border-radius: 14px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    border-top: 4px solid #e00; /* Ducati red accent */
 }
 
 .specs-text h2 {
     font-size: 2rem;
     color: #e00;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.2px;
+    position: relative;
 }
 
 .specs-text ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.8;
+    display: grid; /* responsive grid */
+    grid-template-columns: 1fr; /* single column by default */
+    gap: 12px 16px; /* row/column gaps */
 }
 
 .specs-text ul li {
-    margin-bottom: 10px;
+    position: relative;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 12px 14px 12px 44px; /* room for the icon */
+    color: #444;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.specs-text ul li:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.specs-text ul li::before {
+    content: '\2713'; /* checkmark */
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffe8e8; /* soft red background */
+    color: #e00;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Optional label/value refinement if strong is used inside li */
+.specs-text ul li strong {
+    color: #222;
+    font-weight: 700;
+}
+
+.specs-text ul li span,
+.specs-text ul li em {
+    color: #555;
+}
+
+/* Two-column layout on wider screens */
+@media (min-width: 768px) {
+    .specs-text {
+        padding: 32px 36px 28px;
+    }
+    .specs-text ul {
+        grid-template-columns: 1fr 1fr; /* two columns */
+    }
 }
 
 .riding-aid-systems {

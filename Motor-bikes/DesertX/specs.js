@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
             category: "Safety",
             title: "Ducati Wheelie Control (DWC)",
             text: "System that controls the wheelie and allows you to achieve maximum acceleration performance with ease and safety.",
-            image: "/Motor-bikes/Slike/Limited_series/Aid system/DWC.png"
+            image: "/Motor-bikes/Slike/Limited_series/Aid_system/DWC.png"
         },
         {
             category: "Safety",

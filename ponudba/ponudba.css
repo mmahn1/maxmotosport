@@ -85,6 +85,13 @@ body {
   scrollbar-color: #ddd transparent;
   height: 400px;
 }
+#bikes-container {
+  /* Center the bikes scroller within the page */
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 80%;
+}
 #accessories-container {
   display: flex;
   justify-content: center;

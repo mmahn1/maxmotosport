@@ -120,6 +120,12 @@
 }
 
 
+/* Ensure page-specific position is kept even with global media query overrides */
+.additional-images .grid-item7 {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+
 
 /* Keep tech-specs content overlay unique to this page */
 .tech-specs-content {
@@ -171,6 +177,81 @@
 }
 .play-button:hover { background-color: #c00; transform: scale(1.1); }
 .play-button:active { transform: scale(0.95); }
+
+
+/* Tech specs section: image left, specs right */
+.tech-specs {
+    background-color: #0b0b0b;
+    color: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.tech-specs-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* make the graph a bit larger */
+    gap: 30px;
+    align-items: center;
+}
+
+.tech-specs-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.tech-specs-details {
+    background: rgba(255,255,255,0.06);
+    padding: 20px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.tech-specs-details h3 {
+    font-size: 2rem;
+    margin: 0 0 14px 0;
+    color: #e00;
+}
+
+.tech-specs-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.tech-specs-details li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.tech-specs-details li:last-child {
+    border-bottom: 0;
+}
+
+.tech-specs-details li::before {
+    content: '✔';
+    color: #e00;
+    margin-top: 2px;
+}
+
+.tech-specs-details strong {
+    color: #fff;
+    min-width: 170px;
+    display: inline-block;
+}
+
+@media (max-width: 900px) {
+    .tech-specs-container { grid-template-columns: 1fr; gap: 20px; }
+}
 
 
 

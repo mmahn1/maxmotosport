@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const playPauseButton = document.getElementById('play-pause-button');
     const audio = document.getElementById('desertx-audio');
     const bikeName = document.getElementById('bike-name');
-    const colorButtons = document.querySelectorAll('.color-option');
     const colorSquares = document.querySelectorAll('.color-square');
 
     if (!audio) {
@@ -55,9 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
             thumbnails[1].src = '/Motor-bikes/Slike/Diavel_V4/Opcija1.png';
         }
 
-        // Update selected color square
-        colorSquares.forEach(square => square.classList.remove('selected'));
-        document.querySelector(`.color-square.${color.toLowerCase()}`).classList.add('selected');
+        // Update selected color square (if present), otherwise ignore
+        if (colorSquares && colorSquares.length) {
+            colorSquares.forEach(square => square.classList.remove('selected'));
+            const sq = document.querySelector(`.color-square.${color.toLowerCase()}`);
+            if (sq) sq.classList.add('selected');
+        }
 
         // Ensure the first thumbnail is selected
         thumbnails.forEach(img => img.classList.remove('selected'));
@@ -69,31 +71,20 @@ document.addEventListener("DOMContentLoaded", function () {
         addToCartButton.dataset.image = mainImage.src;
     }
 
-    // Add event listeners to color squares
-    colorSquares.forEach(square => {
-        square.addEventListener('click', function () {
-            const color = this.classList.contains('red') ? 'Red' : 'Black';
-            changeColor(color);
-        });
-    });
+    // Ignore color squares: we now select color via thumbnails only
 
     // Add event listeners to thumbnails
-    thumbnails.forEach(thumbnail => {
-    thumbnail.addEventListener('click', function () {
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', function () {
+            // First thumbnail = Red, Second = Black
+            const color = index === 0 ? 'Red' : 'Black';
 
-            // Update main image
-            mainImage.src = this.src;
-
-            // Update selected thumbnail
+            // Update selected thumbnail styles
             thumbnails.forEach(img => img.classList.remove('selected'));
             this.classList.add('selected');
 
-            // Update bike name and color square based on the selected thumbnail
-            if (this.src.includes('Opcija 1')) {
-                changeColor('Red');
-            } else if (this.src.includes('opcija 2')) {
-                changeColor('Black');
-            }
+            // Apply canonical images, name, and cart data for chosen color
+            changeColor(color);
         });
     });
 

@@ -48,14 +48,6 @@
         "torque": "93 Nm",
         "displacement": "1158 cc",
         "button": "/Motor-bikes/Diavel/Diavel_bently.html"
-      },
-      {
-        "name": "XDiavel V4",
-        "image": "/Motor-bikes/Slike/XDiavel_V4/blazing_red.webp",
-        "power": "168 hp",
-        "torque": "93 Nm",
-        "weight": "229kg",
-        "button": "/Motor-bikes/Diavel/XDiavel_V4.html"
       }
     ]
   },

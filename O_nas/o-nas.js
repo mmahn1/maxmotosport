@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     (function() {
         if (window.emailjs && typeof emailjs.init === 'function') {
-            emailjs.init("YOUR_EMAILJS_USER_ID"); 
+            emailjs.init("YOUR_EMAILJS_USER_ID");
         } else {
             console.warn('emailjs not loaded; contact form email sending will be disabled.');
         }
@@ -157,9 +157,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: document.getElementById('message').value
             };
             
-            emailjs.send(
-                'YOUR_SERVICE_ID', 
-                'YOUR_TEMPLATE_ID', 
+            const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+            const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+
+            const emailConfigured = window.emailjs &&
+                typeof emailjs.send === 'function' &&
+                EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID &&
+                !EMAILJS_SERVICE_ID.includes('YOUR_') &&
+                !EMAILJS_TEMPLATE_ID.includes('YOUR_');
+
+            const sendPromise = emailConfigured ? emailjs.send(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
                 {
                     to_email: 'maxmotosport.shop@gmail.com',
                     from_name: formData.name,
@@ -168,7 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     subject: formData.subject,
                     message: formData.message
                 }
-            ).then(function() {
+            ) : Promise.reject(new Error('Email service is not configured.'));
+
+            sendPromise.then(function() {
                 contactForm.innerHTML = `
                     <div class="form-success">
                         <i class="fas fa-check-circle"></i>
@@ -193,8 +204,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 contactForm.innerHTML = `
                     <div class="form-success">
                         <i class="fas fa-times-circle" style="color: #d32f2f;"></i>
-                        <h3>Error sending message</h3>
-                        <p>An error occurred. Please try again or contact us directly at maxmotosport.shop@gmail.com.</p>
+                        <h3>Message not sent</h3>
+                        <p>An error occurred or email isn\'t configured yet. Please try again later or contact us directly at <a href="mailto:maxmotosport.shop@gmail.com">maxmotosport.shop@gmail.com</a>.</p>
                         <button type="button" class="close-success-btn">Close</button>
                     </div>
                 `;
@@ -475,6 +486,7 @@ function displayTimeline(data, filter) {
     
     displayTimelineItems(filteredData, container);
     
+    const timelineContent = document.getElementById('timelineContent');
     if (filteredData.length > 5 && timelineContent && timelineContent.classList.contains('minimized')) {
         const showMoreContainer = document.createElement('div');
         showMoreContainer.className = 'timeline-show-more';
@@ -849,22 +861,27 @@ function truncateText(text, maxLength) {
 function setupBackToTop() {
     const backToTopButton = document.getElementById('back-to-top');
     const timelineSection = document.getElementById('timelineSection');
-    
     if (!backToTopButton || !timelineSection) return;
-    
-    window.addEventListener('scroll', function() {
-        const timelinePosition = timelineSection.getBoundingClientRect().top;
-        const scrollPosition = window.scrollY;
-        
-        if (timelinePosition < 0 && scrollPosition > 300) {
+
+    const updateBtnVisibility = () => {
+        const y = window.scrollY || document.documentElement.scrollTop;
+        const sectionTop = timelineSection.offsetTop;
+        const sectionBottom = sectionTop + timelineSection.offsetHeight;
+        // Show when user is inside the timeline (not above it, not far below it)
+        if (y > sectionTop + 50 && y < sectionBottom - 50) {
             backToTopButton.classList.add('visible');
         } else {
             backToTopButton.classList.remove('visible');
         }
-    });
-    
-    backToTopButton.addEventListener('click', function() {
-        timelineSection.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.addEventListener('scroll', updateBtnVisibility);
+    window.addEventListener('resize', updateBtnVisibility);
+    updateBtnVisibility();
+
+    // Scroll to the top of the timeline section
+    backToTopButton.addEventListener('click', function () {
+        timelineSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 }
 

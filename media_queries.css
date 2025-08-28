@@ -5,9 +5,9 @@ Also contains base global styles (header, footer, newsletter, landing)
 */
 
 /* ======================================================================
-     BASE GLOBAL STYLES (Desktop-first)
-     Header, navigation, footer, base layout
-     ====================================================================== */
+    BASE GLOBAL STYLES (Desktop-first)
+    Header, navigation, footer, base layout
+    ====================================================================== */
 
 html,
 body {
@@ -211,7 +211,7 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
 .background-image { height: 500px; background-size: cover; background-position: center; position: relative; }
 .model-image { display: block; margin: 0 auto; max-width: 100%; position: relative; top: -30px; z-index: 1; }
 .bike-details { display: flex; flex-direction: column; gap: 15px; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-.bike-details-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 1200px; margin: 40px auto; background: #fff; }
+.bike-details-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; padding: 40px; border-radius: 0; box-shadow: none; max-width: 1200px; margin: 40px auto; background: transparent; }
 .price { font-size: 1.5rem; font-weight: bold; color: #e00; }
 .add-to-cart-btn, .btn-primary { padding: 12px 24px; font-size: 1.05rem; background: #e00; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
 .add-to-cart-btn:hover, .btn-primary:hover { background: #c00; }
@@ -231,6 +231,8 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
 .grid-item5 { grid-column: 3 / 4; grid-row: 1 / 2; }
 .grid-item6 { grid-column: 3 / 4; grid-row: 2 / 3; }
 .grid-item7 { grid-column: 3 / 4; grid-row: 3 / 4; }
+/* Ensure item 7 sits under item 2 in the first column on the DesertX specs gallery */
+.grid-item7 { grid-column: 1 / 2; grid-row: 4 / 5; }
 
 /* ==========================================================================
    DESKTOP STYLES (Default - screens larger than 600px)
@@ -254,9 +256,7 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
 }
 
 /* Show desktop elements */
-.desktop-only {
-    display: block !important;
-}
+/* Note: Do not force display on generic .desktop-only to avoid overriding specific flex layouts */
 
 /* Desktop navigation layout - ensure horizontal display */
 .desktop-nav {
@@ -334,9 +334,7 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
         display: none !important;
     }
     
-    .desktop-only {
-        display: block !important;
-    }
+    /* Do not force display on .desktop-only here; specific components control layout */
     
     .mobile-only {
         display: none !important;
@@ -852,8 +850,7 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
     }
     
     /* Show desktop elements */
-    .desktop-nav,
-    .desktop-only {
+    .desktop-nav {
         display: flex !important;
     }
     
@@ -925,7 +922,7 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
         color: #888;
         font-size: 14px;
     }
-}
+/* End of file */
 
 /* ==========================================================================
    ADMIN ELEMENTS - Hidden by default, shown only when user is admin
@@ -1067,3 +1064,4 @@ section p { font-size: 1.2rem; color: #555; line-height: 1.8; max-width: 800px; 
         height: auto !important;
         box-sizing: border-box !important;
     }
+}

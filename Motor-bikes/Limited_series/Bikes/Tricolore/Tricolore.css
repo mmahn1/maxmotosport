@@ -116,10 +116,11 @@ a {
 
 .model-image {
     display: block;
+    position: relative;
     margin: 0 auto; /* Remove extra margin */
     max-width: 100%;
-    position: relative;
-    top: -420px; /* Adjusted to move it slightly higher */
+
+    top: -520px !important;  /* Adjusted to move it slightly higher */
     z-index: 1;
 }
 
@@ -614,6 +615,11 @@ section:nth-child(even) {
 
 .specs-text {
     text-align: left;
+    background: #fafafa;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .specs-text h2 {
@@ -858,26 +864,35 @@ section:nth-child(even) {
     line-height: 1.8;
 }
 
-.navigation-arrows {
-    position: absolute;
-    bottom: -30px; /* Align arrows with the bottom of the image */
-    left: 0;
-    display: flex;
-    gap: 10px;
+.exclusive-apparel .navigation-arrows {
+    display: inline-flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    position: relative;
+    width: max-content;
 }
-
-.navigation-arrows button {
-    background-color: transparent; /* Remove background */
-    color: #888; /* Gray color for the arrows */
-    border: none; /* Remove border */
+.exclusive-apparel .apparel-text { align-items: flex-start; }
+.exclusive-apparel .apparel-text .navigation-arrows { margin-left: 0; }
+.exclusive-apparel .navigation-arrows button {
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px; height: 40px; aspect-ratio: 1/1;
+    padding: 0; box-sizing: border-box; min-width: 0;
+    appearance: none; -webkit-appearance: none;
     font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    transition: color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 0;
 }
-
-.navigation-arrows button:hover {
-    color: #333; /* Darker gray on hover */
-    transform: scale(1.1); /* Slightly enlarge on hover */
+.exclusive-apparel .navigation-arrows button:hover { background-color: #c00; transform: scale(1.1); }
+.exclusive-apparel .navigation-arrows button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.6), 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .dare-to-astonish {

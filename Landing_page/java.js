@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const bikeImage = document.getElementById("bike-detail-image");
     const bikeTitle = document.getElementById("bike-detail-title");
     const bikeDescription = document.getElementById("bike-detail-description");
-    const bikePrice = document.getElementById("bike-detail-price");
     const bikeLink = document.getElementById("bike-detail-link");
     let currentIndex = 0;
     let offers = [];
@@ -24,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     function setupBikeDetails() {
-        if (!bikeImage || !bikeTitle || !bikeDescription || !bikePrice || !bikeLink) {
+    if (!bikeImage || !bikeTitle || !bikeDescription || !bikeLink) {
             console.error("❌ Bike details elements not found in the DOM.");
             return;
         }
@@ -35,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
             bikeImage.alt = offer.title;
             bikeTitle.textContent = offer.title;
             bikeDescription.textContent = offer.description;
-            bikePrice.textContent = `Price: ${offer.price}`;
             bikeLink.href = offer.link;
         }
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DesertX</title>
+    <link rel="stylesheet" href="/Motor-bikes/DesertX/desertx.common.css">
     <link rel="stylesheet" href="DesertX.css">
     <script defer src="/header-footer/header-footer.js"></script>
     <script defer src="/Newsletter/newsletter.js"></script>
@@ -36,16 +37,16 @@
                 <li><a href="DesertX_Rally.html#bike-details-container">DesertX Rally</a></li>
             </ul>
         </section>
-        <section class="bike-details-container">
+    <section id="bike-details-container" class="bike-details-container">
             <div class="image-gallery">
                 <div class="main-image">
                     <img id="selected-image" src="/Motor-bikes/Slike/DesertX/Slika1.webp" alt="DesertX">
                 </div>
                 <div class="thumbnail-images">
-                    <img src="/Motor-bikes/Slike/DesertX/Slika1.webp" alt="Thumbnail 1" onclick="selectImage(this)" class="selected">
-                    <img src="/Motor-bikes/Slike/DesertX/Slika22.jpg" alt="Thumbnail 2" onclick="selectImage(this)">
-                    <img src="/Motor-bikes/Slike/DesertX/Slika23.jpg" alt="Thumbnail 3" onclick="selectImage(this)">
-                    <img src="/Motor-bikes/Slike/DesertX/Slika24.jpg" alt="Thumbnail 4" onclick="selectImage(this)">
+                    <img src="/Motor-bikes/Slike/DesertX/Slika1.webp" alt="Thumbnail 1" class="selected" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX/Slika22.jpg" alt="Thumbnail 2" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX/Slika23.jpg" alt="Thumbnail 3" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX/Slika24.jpg" alt="Thumbnail 4" loading="lazy" decoding="async">
                 </div>
             </div>
             <div class="bike-details">
@@ -64,7 +65,7 @@
             <div class="desertx-sound-content">
                 <h3>Listen to the DesertX sound</h3>
                 <p>Enjoy the sound of the Testastretta 11° desmo and imagine yourself riding the DesertX: your next adventure is just around the corner!</p>
-                <button id="play-pause-button" type="button" class="play-button">▶</button>
+                <button id="play-pause-button" type="button" class="play-button">🔊</button>
                 <audio id="desertx-audio" preload="auto" controls style="display: none;">
                     <source src="/Motor-bikes/Slike/DesertX/Mix_-_Desert_X_Pista.wav" type="audio/wav">
                     <source src="/Motor-bikes/Slike/DesertX/Mix_-_Desert_X_Pista.mp3" type="audio/mpeg">
@@ -75,7 +76,7 @@
         <section class="tech-specs" style="background-image: url('/Motor-bikes/Slike/DesertX/tech-specs.jpg');">
             <div class="tech-specs-content">
                 <h3>Tech Specs</h3>
-                <p>All the off-road attitude of DesertX and a comprehensive package of standard accessories dedicated to exploration in the purest sense.</p>
+                <p>All the off-road attitude of DesertX and a comprehensive package of standard accessories <br> dedicated to exploration in the purest sense.</p>
                 <a href="/Motor-bikes/DesertX/specs.html" class="btn">Learn More</a>
             </div>
         </section>
@@ -84,26 +85,18 @@
             <p class="gallery-description">Explore the stunning visuals of the DesertX in action. Check out the images below to see the bike from every angle.</p>
         </section>
         <section class="additional-images">
-            <img src="/Motor-bikes/Slike/DesertX/Slika17.jpg" alt="Tall Image" class="grid-item1">
-            <img src="/Motor-bikes/Slike/DesertX/Slika42.jpg" alt="Small Image Below Tall" class="grid-item2">
-            <img src="/Motor-bikes/Slike/DesertX/Slika44.jpg" alt="Small Image Top Second Column" class="grid-item3">
-            <img src="/Motor-bikes/Slike/DesertX/Slika29.jpg" alt="Tall Image Second Column" class="grid-item4">
-            <img src="/Motor-bikes/Slike/DesertX/Slika36.jpg" alt="Small Image Top Third Column" class="grid-item5">
-            <img src="/Motor-bikes/Slike/DesertX/Slika34.jpg" alt="Small Image Middle Third Column" class="grid-item6">
-            <img src="/Motor-bikes/Slike/DesertX/Slika37.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
+            <img src="/Motor-bikes/Slike/DesertX/Slika17.jpg" alt="Tall Image" class="grid-item1" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika42.jpg" alt="Small Image Below Tall" class="grid-item2" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika44.jpg" alt="Small Image Top Second Column" class="grid-item3" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika29.jpg" alt="Tall Image Second Column" class="grid-item4" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika36.jpg" alt="Small Image Top Third Column" class="grid-item5" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika34.jpg" alt="Small Image Middle Third Column" class="grid-item6" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX/Slika37.jpg" alt="Small Image Bottom Third Column" class="grid-item7" loading="lazy" decoding="async">
         </section>
         <div id="newsletter-placeholder"></div>
     </div>
     <div id="footer-placeholder"></div>
-    <script defer src="/Newsletter/newsletter.js"></script>
-    <script>
-        function selectImage(img) {
-            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
-            img.classList.add('selected');
-            document.getElementById('selected-image').src = img.src;
-        }
-        document.getElementById('desertx-audio').load();
-    </script>
+    
 </body>
 </html>
 

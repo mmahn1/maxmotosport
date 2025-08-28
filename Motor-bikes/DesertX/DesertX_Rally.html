@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DesertX Rally</title>
+    <link rel="stylesheet" href="/Motor-bikes/DesertX/desertx.common.css">
     <link rel="stylesheet" href="DesertX_Rally.css">
     <script defer src="/header-footer/header-footer.js"></script>
     <script defer src="/Newsletter/newsletter.js"></script>
@@ -14,7 +15,10 @@
     <div id="header-placeholder"></div>
     <div id="app">
         <section class="hero">
-            <img src="/Motor-bikes/Slike/DesertX_Rally/landing_page1.jpg" alt="DesertX Rally Landing Image">
+            <video class="hero-video" autoplay muted loop playsinline poster="/Slike/fallbackimage.png">
+                <source src="/Motor-bikes/Slike/DesertX_Rally/Video.mp4" />
+                Your browser does not support the video tag.
+            </video>
             <div class="hero-text">
                 <h1>DesertX Rally</h1>
                 <h2>RACE WILDER. Unleash your inner rally.</h2>
@@ -34,13 +38,13 @@
         <section id="bike-details-container" class="bike-details-container">
             <div class="image-gallery">
                 <div class="main-image">
-                    <img id="selected-image" src="/Motor-bikes/Slike/DesertX_Discovery/Slika1.webp" alt="DesertX">
+                    <img id="selected-image" src="/Motor-bikes/Slike/DesertX_Rally/Slika1.webp" alt="DesertX Rally" loading="lazy" decoding="async">
                 </div>
                 <div class="thumbnail-images">
-                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika1.webp" alt="Thumbnail 1" onclick="selectImage(this)" class="selected">
-                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika2.webp" alt="Thumbnail 2" onclick="selectImage(this)">
-                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika3.webp" alt="Thumbnail 3" onclick="selectImage(this)">
-                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika4.webp" alt="Thumbnail 4" onclick="selectImage(this)">
+                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika1.webp" alt="Thumbnail 1" class="selected" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika2.webp" alt="Thumbnail 2" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika3.webp" alt="Thumbnail 3" loading="lazy" decoding="async">
+                    <img src="/Motor-bikes/Slike/DesertX_Rally/Slika4.webp" alt="Thumbnail 4" loading="lazy" decoding="async">
                 </div>
             </div>
             <div class="bike-details">
@@ -52,14 +56,14 @@
                         data-id="desertx-rally" 
                         data-name="DesertX Rally" 
                         data-price="23000" 
-                        data-image="/Motor-bikes/Slike/DesertX_Discovery/Slika1.webp">Add to Cart</button>
+                        data-image="/Motor-bikes/Slike/DesertX_Rally/Slika1.webp">Add to Cart</button>
                 </div>
             </div>
         </section>
-        <section class="tech-specs" style="background-image: url('/Motor-bikes/Slike/DesertX/tech-specs.jpg');">
+        <section class="tech-specs" style="background-image: url('/Motor-bikes/Slike/DesertX_Rally/tech-specs.jpg');">
             <div class="tech-specs-content">
                 <h3>Tech Specs</h3>
-                <p>All the off-road attitude of DesertX and a comprehensive package of standard accessories dedicated to exploration in the purest sense.</p>
+                <p>All the off-road attitude of DesertX and a comprehensive package of standard accessories <br> dedicated to exploration in the purest sense.</p>
                 <a href="/Motor-bikes/DesertX/specs.html" class="btn">Learn More</a>
             </div>
         </section>
@@ -68,25 +72,18 @@
             <p class="gallery-description">Explore the stunning visuals of the DesertX in action. Check out the images below to see the bike from every angle.</p>
         </section>
         <section class="additional-images">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika16.jpg" alt="Tall Image" class="grid-item1">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika11.jpg" alt="Small Image Below Tall" class="grid-item2">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika5.jpg" alt="Small Image Top Second Column" class="grid-item3">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika12.jpg" alt="Tall Image Second Column" class="grid-item4">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika10.jpg" alt="Small Image Top Third Column" class="grid-item5">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika14.jpg" alt="Small Image Middle Third Column" class="grid-item6">
-            <img src="/Motor-bikes/Slike/DesertX_Discovery/Slika31.jpg" alt="Small Image Bottom Third Column" class="grid-item7">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika17.jpg" alt="Tall Image" class="grid-item1" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika42.jpg" alt="Small Image Below Tall" class="grid-item2" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika44.jpg" alt="Small Image Top Second Column" class="grid-item3" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika29.jpg" alt="Tall Image Second Column" class="grid-item4" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika36.jpg" alt="Small Image Top Third Column" class="grid-item5" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika34.jpg" alt="Small Image Middle Third Column" class="grid-item6" loading="lazy" decoding="async">
+            <img src="/Motor-bikes/Slike/DesertX_Rally/Slika37.jpg" alt="Small Image Bottom Third Column" class="grid-item7" loading="lazy" decoding="async">
         </section>
         <div id="newsletter-placeholder"></div>
     </div>
     <div id="footer-placeholder"></div>
-    <script defer src="/Newsletter/newsletter.js"></script>
-    <script>
-        function selectImage(img) {
-            document.querySelectorAll('.thumbnail-images img').forEach(image => image.classList.remove('selected'));
-            img.classList.add('selected');
-            document.getElementById('selected-image').src = img.src;
-        }
-    </script>
+    <script defer src="/Motor-bikes/DesertX/DeserX_Rally.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             if (window.location.hash === "#bike-details-container") {

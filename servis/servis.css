@@ -46,20 +46,22 @@
 
 .service-text h2 {
     color: #e00;
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* match services-offered spacing */
     font-family: 'Montserrat', sans-serif;
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 15px; /* match underline gap */
+    text-align: center; /* center title to match services-offered */
 }
 
 .service-text h2::after {
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: 0;
-    width: 60px;
+    width: 120px; /* slightly longer underline, not full title width */
     height: 3px;
     background-color: #e00;
+    transform: translateX(-50%);
 }
 
 .service-text p {
@@ -111,7 +113,9 @@
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* Use fixed column width and center the grid so the card block is centered, not stretched */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+    justify-content: center; /* center tracks as a group */
     gap: 30px;
 }
 
@@ -188,6 +192,10 @@
 .form-group.full-width {
     grid-column: span 2;
     padding: 0 15px; 
+    /* Center contents (status + button) inside the full-width row */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .form-group label {

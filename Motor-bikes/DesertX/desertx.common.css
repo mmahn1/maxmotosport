@@ -36,14 +36,20 @@ a { text-decoration: none; color: inherit; }
 .add-to-cart-btn:hover { background-color: #c00; }
 
 /* Sound section */
-.desertx-sound-section { display: flex; align-items: center; justify-content: space-between; padding: 20px 30px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 20px auto; max-width: 1200px; gap: 20px; }
-.desertx-sound-content { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-.play-button { background: #e00; color: #fff; border: none; border-radius: 50px; width: 120px; height: 40px; font-weight: bold; cursor: pointer; transition: background-color .3s, transform .2s; }
+.desertx-sound-section { position: relative; display: block; padding: 20px 30px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 20px auto; max-width: 1200px; }
+/* Grid layout: stack heading, description, then button; all left-aligned */
+.desertx-sound-content { display: grid; grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: 12px; }
+.desertx-sound-content h3 { grid-row: 1; margin: 0; text-align: center; }
+.desertx-sound-content p { grid-row: 2; margin: 0; color: #555; }
+/* Button sits below the text on the left */
+.play-button { grid-row: 3; justify-self: start; align-self: start; position: static; background: #e00; color: #fff; border: none; border-radius: 50px; min-width: 120px; height: 40px; font-weight: bold; cursor: pointer; transition: background-color .3s, transform .2s; }
 .play-button:hover { background: #c00; transform: scale(1.05); }
 
 /* Tech specs */
-.tech-specs { background-color: #000; color: #fff; padding: 40px; border-radius: 10px; max-width: 1200px; margin: 40px auto; position: relative; background-size: cover; background-position: center; }
-.tech-specs-content { position: relative; max-width: 600px; }
+.tech-specs { background-color: #000; color: #fff; padding: 40px; border-radius: 10px; max-width: 1200px; margin: 40px auto; position: relative; background-size: cover; background-position: center; display: grid; align-items: center; justify-items: start; justify-content: start; aspect-ratio: 16 / 9; min-height: 360px; }
+.tech-specs-content { position: static; display: grid; grid-auto-rows: min-content; row-gap: 12px; max-width: clamp(320px, 40%, 600px); justify-items: start; }
+.tech-specs-content p { color: #fff; white-space: normal; text-align: left; justify-self: start; }
+.tech-specs-content .btn { justify-self: start; text-align: center; margin-left: 0; }
 .tech-specs .btn { display: inline-block; padding: 10px 20px; background: #e00; color: #fff; border-radius: 5px; font-weight: bold; }
 
 /* Gallery section */

@@ -527,13 +527,15 @@ img {
 .timeline-controls {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
+  align-items: center;
+  gap: 8px; /* tighter spacing between buttons */
   flex-wrap: wrap;
+  width: max-content; /* shrink to fit content to avoid wide gaps */
+  margin: 0 auto 14px; /* center the group */
 }
 
 .control-btn {
-  padding: 12px 24px;
+  padding: 10px 18px;
   background-color: #333;
   color: white;
   border: none;
@@ -543,7 +545,7 @@ img {
   font-weight: 500;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 140px;
+  min-width: 120px;
 }
 
 .control-btn:hover {
@@ -555,13 +557,27 @@ img {
 .timeline-filters {
   display: flex;
   justify-content: center;
-  margin-bottom: 25px;
+  align-items: center;
+  gap: 8px; /* tighter spacing between buttons */
   flex-wrap: wrap;
-  gap: 8px;
+  width: max-content; /* shrink to fit content to avoid wide gaps */
+  margin: 0 auto 16px; /* center the group */
+}
+
+/* Support possible class name typos (timline-*) */
+.timline-controls,
+.timline-filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; /* keep spacing consistent for typo classes */
+  flex-wrap: wrap;
+  width: max-content;
+  margin: 0 auto 14px;
 }
 
 .filter-btn {
-  padding: 12px 24px;
+  padding: 10px 18px;
   border: 2px solid #d32f2f;
   background-color: transparent;
   color: #d32f2f;
@@ -570,9 +586,17 @@ img {
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.3s ease;
-  min-width: 120px;
+  min-width: 100px;
   text-align: center;
 }
+
+/* Ensure no stray margins inflate spacing */
+.timeline-controls .control-btn,
+.timeline-filters .filter-btn,
+.timline-controls .control-btn,
+.timline-filters .filter-btn { margin: 0; }
+
+/* removed small-screen @media block per request */
 
 .filter-btn.active, .filter-btn:hover {
   background-color: #d32f2f;
@@ -586,6 +610,12 @@ img {
   transition: max-height 0.5s ease;
   position: relative;
   overflow: visible;
+}
+
+/* Support minimize/expand behavior */
+.timeline-content.minimized {
+  max-height: 400px;
+  overflow: hidden;
 }
 
 .vertical-timeline {
@@ -1003,49 +1033,74 @@ img {
 }
 
 /* Back to Top Button */
-.back-to-top {
+.back-to-top-wrapper {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 100;
-  text-decoration: none;
-  outline: none;
+  z-index: 3000; /* ensure it's above most content */
+  pointer-events: auto; /* allow normal pointer events */
 }
 
-.back-to-top.visible {
+/* Reset any inherited/global styles on this specific button before applying ours */
+#back-to-top { all: initial; }
+
+.back-to-top,
+#back-to-top {
+  width: 45px !important;
+  height: 45px !important;
+  min-width: 45px !important;
+  min-height: 45px !important;
+  max-width: 45px !important;
+  max-height: 45px !important;
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+  display: grid;               /* robust centering */
+  place-items: center;
+  padding: 0 !important;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  overflow: hidden; /* guard against child overflow changing size */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+  outline: none;
+  pointer-events: auto; /* clickable even though wrapper ignores events */
+  transform: none !important; /* cancel any global button scales */
+}
+
+.back-to-top.visible, #back-to-top.visible {
   opacity: 1;
   visibility: visible;
   animation: pulse 2s infinite;
 }
 
-.back-to-top:hover {
+.back-to-top:hover, #back-to-top:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.back-to-top i {
-  line-height: 1;
-  font-size: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.back-to-top i, #back-to-top i {
+  font-size: 1em;              /* matches button font-size */
+  line-height: 1em;
+  width: 1em;
+  height: 1em;
+  display: block;              /* avoid inline baseline quirks */
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
+
+
 
 /* Animations */
 @keyframes fadeIn {
@@ -1071,150 +1126,3 @@ img {
   100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
 }
 
-/* Responsive Design */
-@media (max-width: 900px) {
-  .history-content {
-    flex-direction: column;
-  }
-
-  .ducati-history .history-content {
-    flex-direction: column;
-  }
-
-  .history-image, .history-text {
-    flex: none;
-    width: 100%;
-  }
-
-  .history-image {
-    margin-bottom: 30px;
-  }
-
-  .about-hero {
-    padding: 80px 0;
-  }
-
-  .about-hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .about-hero .subtitle {
-    font-size: 1.2rem;
-  }
-
-  .team-member, .testimonial {
-    flex: 0 0 calc(50% - 20px);
-  }
-
-  .timeline-item {
-    width: 100%;
-    left: 0 !important;
-    padding-left: 50px;
-    padding-right: 0;
-    margin-bottom: 40px;
-  }
-
-  .timeline-item:nth-child(even) {
-    left: 0;
-    padding-left: 50px;
-    padding-right: 0;
-  }
-
-  .timeline-item::after {
-    left: 0 !important;
-    right: auto;
-  }
-
-  .timeline-item:nth-child(odd)::after {
-    left: 0;
-    right: auto;
-  }
-
-  .vertical-timeline::before {
-    left: 25px;
-  }
-
-  .timeline-image::after {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .history-section h2, .timeline-section h2 {
-    font-size: 2rem;
-  }
-
-  .history-section, .timeline-section {
-    padding: 50px 0;
-  }
-
-  .about-hero {
-    padding: 60px 0;
-  }
-
-  .about-hero h1 {
-    font-size: 2rem;
-  }
-
-  .team-member, .testimonial {
-    flex: 0 0 100%;
-  }
-
-  .timeline-controls {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .control-btn {
-    width: 100%;
-    max-width: 280px;
-    min-width: auto;
-  }
-
-  .timeline-filters {
-    gap: 10px;
-  }
-
-  .filter-btn {
-    min-width: auto;
-    flex: 1;
-    min-width: 100px;
-  }
-
-  .year-inputs {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .back-to-top {
-    width: 40px;
-    height: 40px;
-    bottom: 20px;
-    right: 20px;
-    font-size: 1rem;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .submit-btn, .cancel-btn {
-    width: 100%;
-  }
-
-  .timeline-item::after {
-    width: 30px;
-    height: 30px;
-    font-size: 0.7rem;
-    left: -15px;
-  }
-
-  .vertical-timeline::before {
-    left: 15px;
-  }
-
-  .timeline-item {
-    padding-left: 40px;
-  }
-}

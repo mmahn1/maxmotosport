@@ -45,6 +45,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log('Play/pause button found:', playPauseButton);
 
+    // Initialize accessible state and static label
+    playPauseButton.textContent = '🔊';
+    playPauseButton.setAttribute('aria-label', 'Play DesertX engine sound');
+    playPauseButton.setAttribute('aria-pressed', 'false');
+
     playPauseButton.addEventListener('click', function () {
         console.log('Play/pause button clicked.');
 
@@ -52,8 +57,9 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Audio is currently paused. Attempting to play...');
             audio.play().then(() => {
                 console.log('Audio is now playing.');
-                playPauseButton.textContent = '⏸'; // Change to pause symbol
-                console.log('Updated button to "pause" symbol.');
+                // Keep speaker emoji; only update ARIA state
+                playPauseButton.setAttribute('aria-label', 'Pause DesertX engine sound');
+                playPauseButton.setAttribute('aria-pressed', 'true');
             }).catch(error => {
                 console.error('Error playing audio:', error);
             });
@@ -61,15 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Audio is currently playing. Attempting to pause...');
             audio.pause();
             console.log('Audio is now paused.');
-            playPauseButton.textContent = '▶'; // Change back to play symbol
-            console.log('Updated button to "play" symbol.');
+            // Keep speaker emoji; only update ARIA state
+            playPauseButton.setAttribute('aria-label', 'Play DesertX engine sound');
+            playPauseButton.setAttribute('aria-pressed', 'false');
         }
     });
 
     // Handle audio end to reset the button text
     audio.addEventListener('ended', function () {
         console.log('Audio playback ended.');
-        playPauseButton.textContent = '▶'; // Reset to play symbol
-        console.log('Reset button to "play" symbol.');
+    // Keep speaker emoji; only update ARIA state
+    playPauseButton.setAttribute('aria-label', 'Play DesertX engine sound');
+    playPauseButton.setAttribute('aria-pressed', 'false');
     });
 });

@@ -10,6 +10,7 @@ fetch("/api/config")
   });
 
 document.addEventListener("DOMContentLoaded", function () {
+  ensureHeaderAssets();
   window.addEventListener("resize", adjustFooterPosition);
   window.addEventListener("scroll", handleHeaderScroll);
   // Initialize dynamic parts once DOM is ready
@@ -19,6 +20,39 @@ document.addEventListener("DOMContentLoaded", function () {
   adjustFooterPosition();
   updateCartCount();
 });
+
+function ensureHeaderAssets() {
+  const head = document.head || document.getElementsByTagName("head")[0];
+  const version = 'v=20250828';
+
+  // Ensure header/footer stylesheet is present
+  const existingHeaderCss = document.querySelector('link[href*="/header-footer/header-footer.css"]');
+  if (existingHeaderCss) {
+    try {
+      const url = new URL(existingHeaderCss.href, window.location.origin);
+      url.search = version;
+      existingHeaderCss.href = url.toString();
+    } catch (e) {
+      // Fallback if URL API fails
+      existingHeaderCss.href = "/header-footer/header-footer.css?" + version;
+    }
+  } else {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/header-footer/header-footer.css?" + version;
+    head.appendChild(link);
+  }
+
+  // Ensure Font Awesome is present (for all the <i class="fa*"> icons)
+  const faSelector = 'link[href*="font-awesome"], link[href*="fontawesome"], link[href*="/css/all.min.css"]';
+  if (!document.querySelector(faSelector)) {
+    const fa = document.createElement("link");
+    fa.rel = "stylesheet";
+    fa.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css";
+    fa.crossOrigin = "anonymous";
+    head.appendChild(fa);
+  }
+}
 
 function loadHeader() {
   fetch("/header-footer/header.html")
@@ -269,6 +303,19 @@ function setupBurgerMenu() {
   const mobileNavOverlay = document.getElementById("mobileNavOverlay");
 
   if (burgerMenu && mobileNavOverlay) {
+    // Hide burger on desktop, show on mobile
+    const updateBurgerVisibility = () => {
+      const hasFinePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const isDesktopWidth = window.innerWidth > 900;
+      if (hasFinePointer || isDesktopWidth) {
+        burgerMenu.style.display = 'none';
+        mobileNavOverlay.classList.remove("show");
+      } else {
+        burgerMenu.style.display = ""; // revert to CSS-controlled value
+      }
+    };
+  updateBurgerVisibility();
+
     burgerMenu.addEventListener("click", function () {
       mobileNavOverlay.classList.toggle("show");
 
@@ -313,7 +360,7 @@ function setupBurgerMenu() {
 
     // Handle window resize - ensure proper display
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 600) {
+  if (window.innerWidth > 900) {
         // Desktop view - close mobile menu if open
         mobileNavOverlay.classList.remove("show");
         const icon = burgerMenu.querySelector("i");
@@ -322,6 +369,7 @@ function setupBurgerMenu() {
         }
         document.body.style.overflow = "";
       }
+  updateBurgerVisibility();
     });
   }
 }

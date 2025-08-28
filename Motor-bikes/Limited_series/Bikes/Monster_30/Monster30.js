@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateAidContent(index) {
         const aid = aids[index];
+        if (!aid) return;
         categoryElement.textContent = aid.category;
         titleElement.textContent = aid.title;
         textElement.textContent = aid.text;
@@ -95,15 +96,17 @@ document.addEventListener("DOMContentLoaded", function () {
         imageElement.alt = aid.title;
     }
 
-    prevButton.addEventListener("click", function () {
-        currentAidIndex = (currentAidIndex - 1 + aids.length) % aids.length;
-        updateAidContent(currentAidIndex);
-    });
+    if (prevButton && nextButton) {
+        prevButton.addEventListener("click", function () {
+            currentAidIndex = (currentAidIndex - 1 + aids.length) % aids.length;
+            updateAidContent(currentAidIndex);
+        });
 
-    nextButton.addEventListener("click", function () {
-        currentAidIndex = (currentAidIndex + 1) % aids.length;
-        updateAidContent(currentAidIndex);
-    });
+        nextButton.addEventListener("click", function () {
+            currentAidIndex = (currentAidIndex + 1) % aids.length;
+            updateAidContent(currentAidIndex);
+        });
+    }
 
     // Initialize with the first aid
     updateAidContent(currentAidIndex);

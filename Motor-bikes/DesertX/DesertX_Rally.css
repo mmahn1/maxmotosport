@@ -32,9 +32,50 @@
 
 /* additional-images grid moved to desertx.common.css */
 
+/* Rally-specific gallery layout: exact 3x3 with item1 and item4 tall */
+.additional-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, clamp(140px, 22vw, 280px));
+    grid-template-areas:
+        "a b c"
+        "a d e"
+        "f d g";
+    gap: 10px;
+    align-items: stretch;
+}
+
+.additional-images img { width: 100%; height: 100%; object-fit: cover; border-radius: 5px; display: block; }
+
+/* Map items to areas */
+.grid-item1 { grid-area: a; }
+.grid-item3 { grid-area: b; }
+.grid-item5 { grid-area: c; }
+.grid-item2 { grid-area: f; }
+.grid-item4 { grid-area: d; }
+.grid-item6 { grid-area: e; }
+.grid-item7 { grid-area: g; }
+
+/* Force img7 to column 3, row 3 explicitly */
+.additional-images .grid-item7 { grid-area: unset; grid-column: 3 / 4; grid-row: 3 / 4; }
+
 /* tech-specs moved to desertx.common.css */
 
 /* gallery-section moved to desertx.common.css */
 
 /* alternating section backgrounds removed; use shared styles instead */
+
+/* Center the Add to Cart button only on the Rally page */
+.bike-details .price-and-button .add-to-cart-btn {
+    display: block;
+    margin: 8px auto 0; /* small spacing above is okay; centers horizontally */
+}
+
+/* Ensure button sits directly under a centered price (Rally only) */
+.bike-details .price-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
 
