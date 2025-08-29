@@ -16,8 +16,8 @@ if (isLocalhost) {
 document.addEventListener("DOMContentLoaded", function () {
   // Page init
 
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+  const role = sessionStorage.getItem("role") || localStorage.getItem("role");
 
   // Initialize the page based on login status
   initializeAccountPage();
@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Helper function to initialize the account page based on login status
   function initializeAccountPage() {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    const role = localStorage.getItem("role");
+    const token = sessionStorage.getItem("token") || localStorage.getItem("token");
+    const username = sessionStorage.getItem("username") || localStorage.getItem("username");
+    const role = sessionStorage.getItem("role") || localStorage.getItem("role");
 
     // Get all the page elements
     const toggleButtons = document.querySelector(".toggle-buttons");
@@ -66,10 +66,17 @@ document.addEventListener("DOMContentLoaded", function () {
       if (logoutButton) {
         logoutButton.addEventListener("click", function () {
           if (confirm("Are you sure you want to log out?")) {
-            // Clear all stored data
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            localStorage.removeItem("role");
+            // Clear all stored data including cart
+            try {
+              sessionStorage.removeItem("token");
+              sessionStorage.removeItem("username");
+              sessionStorage.removeItem("role");
+              sessionStorage.removeItem("cart");
+              localStorage.removeItem("token");
+              localStorage.removeItem("username");
+              localStorage.removeItem("role");
+              localStorage.removeItem("cart");
+            } catch (e) {}
 
             // Update header to reflect logout
             if (typeof updateUserDisplay === "function") {
@@ -166,9 +173,16 @@ async function login() {
 
     if (response.ok) {
     // Login successful
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("role", data.role);
+      try {
+        // Prefer sessionStorage so it clears on tab close
+        sessionStorage.setItem("token", data.token);
+        sessionStorage.setItem("username", data.username);
+        sessionStorage.setItem("role", data.role);
+        // Proactively clear any legacy values in localStorage to enforce auto-logout on close
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+      } catch (e) {}
       showMessage("Login successful! Redirecting...", "success");
 
       if (typeof updateUserDisplay === "function") {
@@ -260,3 +274,5 @@ function createMessageContainer() {
   document.querySelector(".account-container").appendChild(container);
   return container;
 }
+
+// Note: Auth uses sessionStorage so it automatically clears on window/tab close.

@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
   loadHeader();
   loadFooter();
   loadNewsletter();
+  // Enforce session-based cart: clear any stale persistent cart from localStorage
+  try { localStorage.removeItem("cart"); } catch (e) {}
   adjustFooterPosition();
   updateCartCount();
 });
@@ -72,6 +74,8 @@ function loadHeader() {
         setTimeout(() => {
           updateUserDisplay();
           setupBurgerMenu();
+          // Ensure the cart count reflects persisted cart after header is in DOM
+          updateCartCount();
 
           // Force check admin status on every page load
           const role = localStorage.getItem("role");
@@ -139,7 +143,12 @@ function loadNewsletter() {
 }
 
 function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  // Only sessionStorage so the count resets on window/tab close
+  let raw = null;
+  try {
+    raw = sessionStorage.getItem("cart");
+  } catch (e) {}
+  const cart = raw ? JSON.parse(raw) : [];
   const cartCountElement = document.getElementById("cart-count");
   const cartCountMobileElement = document.getElementById("cart-count-mobile");
 
@@ -171,8 +180,9 @@ function updateUserDisplay() {
   const userIconMobile = document.getElementById("userIconMobile");
   const mobileUserIcon = document.getElementById("mobileUserIcon");
 
-  const username = localStorage.getItem("username");
-  const role = localStorage.getItem("role");
+  // Prefer sessionStorage for auth (auto-clears on tab close), fallback to localStorage
+  const username = sessionStorage.getItem("username") || localStorage.getItem("username");
+  const role = sessionStorage.getItem("role") || localStorage.getItem("role");
 
   // Update desktop elements
   if (userLink && userText && userIcon) {

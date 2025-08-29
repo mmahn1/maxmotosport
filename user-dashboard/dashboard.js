@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
+    const token = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('token')) || localStorage.getItem('token');
+    const username = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('username')) || localStorage.getItem('username');
     
     if (!token) {
         window.location.href = '/account/account.html';
@@ -10,9 +10,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('user-name').textContent = username || 'User';
     
     document.getElementById('logout-btn').addEventListener('click', function() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        localStorage.removeItem('role');
+        try {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('role');
+            sessionStorage.removeItem('cart');
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('role');
+            localStorage.removeItem('cart');
+        } catch (e) {}
         window.location.href = '/account/account.html';
     });
     
@@ -84,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const originalFetch = window.fetch;
 window.fetch = function(url, options = {}) {
-    const token = localStorage.getItem('token');
+    const token = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('token')) || localStorage.getItem('token');
     
     if (!options.headers) {
         options.headers = {};

@@ -1,3 +1,15 @@
+(() => {
+// Normalize product object from a button element's dataset
+function productFromButton(btn) {
+    return {
+        id: btn.dataset.id,
+        name: btn.dataset.name,
+        price: parseFloat(btn.dataset.price),
+        image: btn.dataset.image,
+        color: btn.dataset.color || 'default'
+    };
+}
+
 // Add a product to the cart
 function addToCart(product) {
     if (!product.id || !product.name || !product.price) {
@@ -6,7 +18,22 @@ function addToCart(product) {
         return;
     }
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    // Prefer sessionStorage so the cart clears on tab/window close. One-time migrate from localStorage if present.
+    let raw = null;
+    try {
+        raw = sessionStorage.getItem("cart");
+        if (!raw) {
+            const legacy = localStorage.getItem("cart");
+            if (legacy) {
+                sessionStorage.setItem("cart", legacy);
+                try { localStorage.removeItem("cart"); } catch (e) {}
+                raw = legacy;
+            }
+        }
+    } catch (e) {
+        // ignore storage errors
+    }
+    const cart = raw ? JSON.parse(raw) : [];
     const uniqueId = `${product.id}-${product.color}`; // Combine ID and color for uniqueness
     const existingItem = cart.find(item => item.uniqueId === uniqueId);
 
@@ -16,8 +43,14 @@ function addToCart(product) {
         cart.push({ ...product, uniqueId, quantity: 1 });
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount(); // Update cart count
+    // Write back to sessionStorage only
+    try {
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+    } catch (e) {
+        // ignore
+    }
+    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
+    try { console.debug('[Cart] Added:', product, 'Cart now:', cart); } catch (e) {}
     showCustomAlert(`${product.name} added to cart!`); // Display only the product name
 }
 
@@ -45,21 +78,29 @@ function showCustomAlert(message) {
     }, 3000); // Remove alert after 3 seconds
 }
 
-// Attach the addToCart function to buttons
+// Attach the addToCart function to buttons (guarded to attach only once)
+let __cartDelegatedHandlerAttached = false;
 function attachAddToCartButtons() {
-    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-        button.addEventListener("click", () => {
-            const product = {
-                id: button.dataset.id,
-                name: button.dataset.name,
-                price: parseFloat(button.dataset.price),
-                image: button.dataset.image,
-                color: button.dataset.color, // Include the selected color
-            };
-            addToCart(product);
-        });
+    if (__cartDelegatedHandlerAttached) return;
+    __cartDelegatedHandlerAttached = true;
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest && e.target.closest('.add-to-cart-btn');
+        if (btn) {
+            e.preventDefault();
+            addToCart(productFromButton(btn));
+        }
     });
 }
 
-// Initialize the cart functionality
-document.addEventListener("DOMContentLoaded", attachAddToCartButtons);
+// Initialize the cart functionality (attach once whether DOM loaded or not)
+if (document.readyState === 'loading') {
+    document.addEventListener("DOMContentLoaded", attachAddToCartButtons, { once: true });
+} else {
+    attachAddToCartButtons();
+}
+
+// Expose for debugging/manual calls
+try { window.addToCart = addToCart; } catch (e) {}
+try { window.showCustomAlert = showCustomAlert; } catch (e) {}
+
+})();

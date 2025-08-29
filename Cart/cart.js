@@ -1,39 +1,81 @@
-// Automatically detect environment and set server URL
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const isCustomDomain = window.location.hostname === 'maxmotosport.eu';
+(() => {
+    // Automatically detect environment and set server URL (scoped)
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const isCustomDomain = window.location.hostname === 'maxmotosport.eu';
 
-let serverUrl;
-if (isLocalhost) {
-    serverUrl = "http://localhost:3000";
-} else if (isCustomDomain) {
-    serverUrl = "https://maxmotosport.eu";
-} else {
-    serverUrl = "https://maxmotosport-production.up.railway.app";
-}
+    const serverUrl = isLocalhost
+        ? "http://localhost:3000"
+        : isCustomDomain
+        ? "https://maxmotosport.eu"
+        : "https://maxmotosport-production.up.railway.app";
 
-document.addEventListener("DOMContentLoaded", () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        document.addEventListener("DOMContentLoaded", () => {
+            // Simple green toast (non-blocking) for in-page notifications
+            function showGreenToast(message) {
+                const alertBox = document.createElement("div");
+                alertBox.textContent = message;
+                alertBox.style.position = "fixed";
+                alertBox.style.top = "20px";
+                alertBox.style.left = "50%";
+                alertBox.style.transform = "translateX(-50%)";
+                alertBox.style.backgroundColor = "#d4edda"; // light green
+                alertBox.style.color = "#155724"; // dark green text
+                alertBox.style.border = "2px solid #28a745";
+                alertBox.style.padding = "10px 20px";
+                alertBox.style.borderRadius = "6px";
+                alertBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+                alertBox.style.zIndex = "1000";
+                alertBox.style.fontSize = "16px";
+                document.body.appendChild(alertBox);
+                setTimeout(() => { alertBox.remove(); }, 3000);
+            }
+    function readCartFromStorage() {
+        try {
+            let s = sessionStorage.getItem("cart");
+            const l = localStorage.getItem("cart");
+            if (!s && l) {
+                sessionStorage.setItem("cart", l);
+                s = l;
+            }
+            return s || l;
+        } catch (e) { return null; }
+    }
+    let raw = readCartFromStorage();
+    let cart = raw ? JSON.parse(raw) : [];
+    try { console.debug("[Cart] Loaded items:", cart); } catch (e) {}
     const cartTableBody = document.querySelector("#cart-table tbody");
     const cartTotal = document.getElementById("cart-total");
     const checkoutButton = document.getElementById("checkout-btn");
 
     function renderCart() {
+        // Always read fresh from storage to avoid timing issues
+        const freshRaw = readCartFromStorage();
+        cart = freshRaw ? JSON.parse(freshRaw) : [];
         cartTableBody.innerHTML = "";
         let total = 0;
+
+        if (cart.length === 0) {
+            const emptyRow = document.createElement("tr");
+            emptyRow.innerHTML = `<td colspan="5" style="text-align:center; padding: 16px; opacity: .7;">Your cart is empty.</td>`;
+            cartTableBody.appendChild(emptyRow);
+            cartTotal.textContent = `€0.00`;
+            if (typeof updateCartCount === 'function') updateCartCount();
+            return;
+        }
 
         cart.forEach((item, index) => {
             const price = parseFloat(item.price) || 0; // Ensure price is a valid number
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>
-                    <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                    <img src="${item.image}" alt="${item.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                    <div style="font-size: 12px; color: #666;">${item.name}${item.color ? ` • ${item.color}` : ''}</div>
                 </td>
-                <td>${item.name}</td>
                 <td>€${price.toFixed(2)}</td>
-                <td>
-                    <input type="number" value="${item.quantity}" min="1" data-index="${index}" class="quantity-input">
-                </td>
                 <td>€${(price * item.quantity).toFixed(2)}</td>
+                <td>
+                    <input type="number" value="${item.quantity}" min="1" data-index="${index}" class="quantity-input" style="width:64px;">
+                </td>
                 <td>
                     <button data-index="${index}" class="remove-btn">Remove</button>
                 </td>
@@ -47,61 +89,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateQuantity(index, quantity) {
         cart[index].quantity = quantity;
-        localStorage.setItem("cart", JSON.stringify(cart));
-        renderCart();
-        updateCartCount(); // Update cart count
+        try {
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+        } catch (e) {}
+    renderCart();
+    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
     }
 
     function removeItem(index) {
         cart.splice(index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        renderCart();
-        updateCartCount(); // Update cart count
+        try {
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+        } catch (e) {}
+    renderCart();
+    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
     }
 
-    // Send cart data to the backend
-    function checkout() {
-        if (cart.length === 0) {
-            alert("Your cart is empty!");
-            return;
+        // Checkout clears the cart immediately and shows a success message
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            // Clear cart immediately
+            try { sessionStorage.removeItem("cart"); localStorage.removeItem("cart"); } catch (e) {}
+            cart = [];
+                    renderCart();
+                    if (typeof updateCartCount === 'function') updateCartCount();
+                    showGreenToast("Order Successful");
         }
-
-        // Prepare cart data for the backend
-        const cartData = cart.map(item => ({
-            product_id: item.id, // Use the product ID from the JSON file
-            quantity: item.quantity
-        }));
-
-    console.log("🚀 Checkout initiated");
-
-        fetch(`${serverUrl}/api/orders`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}` // Include JWT token
-            },
-            body: JSON.stringify({ cart: cartData })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(result => {
-                if (result.success) {
-                    alert("✅ Order placed successfully!");
-                    localStorage.removeItem("cart"); // Clear the cart
-                    renderCart(); // Re-render the cart
-                } else {
-                    alert("❌ " + (result.message || result.error));
-                }
-            })
-            .catch(error => {
-                console.error("❌ Checkout failed:", error);
-                alert("❌ Checkout failed: " + error.message);
-            });
-    }
 
     cartTableBody.addEventListener("input", (e) => {
         if (e.target.classList.contains("quantity-input")) {
@@ -121,4 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutButton.addEventListener("click", checkout);
 
     renderCart();
-});
+    // If empty on first pass, retry once shortly after to account for any async header migration
+    if (!cart || cart.length === 0) {
+        setTimeout(() => {
+            renderCart();
+        }, 100);
+    }
+    });
+})();

@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function fetchSubscribers() {
         fetch(`${serverUrl}/api/newsletter/subscribers`, {
             method: "GET",
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${ (typeof sessionStorage !== 'undefined' && sessionStorage.getItem("token")) || localStorage.getItem("token") }` }
         })
             .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
             .then(result => { if (result.success) renderSubscribers(result.subscribers); })
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function fetchOrders() {
         fetch(`${serverUrl}/api/admin/orders`, {
             method: "GET",
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+            headers: { Authorization: `Bearer ${ (typeof sessionStorage !== 'undefined' && sessionStorage.getItem("token")) || localStorage.getItem("token") }` }
         })
             .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
             .then(result => { if (result.success) renderOrders(result.orders); })
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`${serverUrl}/api/newsletter/subscribers/${encodeURIComponent(email)}`, {
                 method: "DELETE",
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                    Authorization: `Bearer ${ (typeof sessionStorage !== 'undefined' && sessionStorage.getItem("token")) || localStorage.getItem("token") }`
                 }
             })
                 .then(response => response.json())
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+                Authorization: `Bearer ${ (typeof sessionStorage !== 'undefined' && sessionStorage.getItem("token")) || localStorage.getItem("token") }`
             },
             body: JSON.stringify({ email })
         })
