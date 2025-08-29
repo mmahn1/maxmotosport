@@ -32,16 +32,34 @@ function ensureHeaderAssets() {
   const head = document.head || document.getElementsByTagName("head")[0];
   const version = 'v=20250828';
 
-  // Ensure header/footer stylesheet is present
-  const existingHeaderCss = document.querySelector('link[data-header-footer-css]');
-  if (existingHeaderCss) {
-    existingHeaderCss.href = HEADER_FOOTER_BASE + 'header-footer.css?' + version;
+  // Ensure global media queries stylesheet is present (robust for subpaths)
+  let mediaLink = document.querySelector('link[data-global-media-queries]')
+                || Array.from(document.querySelectorAll('link[rel="stylesheet"]')).find(l => (l.href||'').includes('media_queries.css'));
+  if (!mediaLink) {
+    mediaLink = document.createElement('link');
+    mediaLink.rel = 'stylesheet';
+    mediaLink.href = SITE_BASE + 'media_queries.css?' + version;
+    mediaLink.setAttribute('data-global-media-queries', 'true');
+    head.appendChild(mediaLink);
   } else {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = HEADER_FOOTER_BASE + 'header-footer.css?' + version;
-    link.setAttribute('data-header-footer-css', 'true');
-    head.appendChild(link);
+    try { mediaLink.href = SITE_BASE + 'media_queries.css?' + version; } catch (e) {}
+    mediaLink.setAttribute('data-global-media-queries', 'true');
+  }
+
+  // Ensure header/footer stylesheet is present and loaded LAST for priority
+  let headerCss = document.querySelector('link[data-header-footer-css]');
+  if (!headerCss) {
+    headerCss = document.createElement('link');
+    headerCss.rel = 'stylesheet';
+    headerCss.setAttribute('data-header-footer-css', 'true');
+  }
+  headerCss.href = HEADER_FOOTER_BASE + 'header-footer.css?' + version;
+  // Move to end of head to maximize cascade priority
+  if (headerCss.parentNode !== head) {
+    head.appendChild(headerCss);
+  } else {
+    head.removeChild(headerCss);
+    head.appendChild(headerCss);
   }
 
   // Ensure Font Awesome is present (for all the <i class="fa*"> icons)
@@ -52,6 +70,20 @@ function ensureHeaderAssets() {
     fa.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css";
     fa.crossOrigin = "anonymous";
     head.appendChild(fa);
+  }
+
+  // Minimal fallback CSS in case main header CSS fails to load (keeps account on the right)
+  if (!document.querySelector('style[data-header-fallback-css]')) {
+    const style = document.createElement('style');
+    style.setAttribute('data-header-fallback-css', 'true');
+    style.textContent = `
+      header .desktop-nav { display: flex; justify-content: space-between; align-items: center; }
+      header .desktop-nav .main-nav { display: flex; gap: 16px; list-style: none; padding: 0; margin: 0; }
+      header .desktop-nav .nav-right { margin-left: auto; display: flex; gap: 16px; list-style: none; padding: 0; margin: 0; }
+      header .mobile-header { display: none; }
+      @media (max-width:900px){ header .desktop-nav { display:none; } header .mobile-header { display:flex; justify-content: space-between; align-items:center; } }
+    `;
+    head.appendChild(style);
   }
 }
 
@@ -73,21 +105,10 @@ function loadHeader() {
         setTimeout(() => {
           // Normalize header links to work under any subpath
           try {
-            const linkTargets = [
-              'Landing_page/index.html',
-              'ponudba/ponudba.html',
-              'O_nas/o-nas.html',
-              'servis/servis.html',
-              'kontakt/kontakt.html',
-              'Cart/cart.html',
-              'account/account.html',
-              'Admin/admin-dashboard.html'
-            ];
-            linkTargets.forEach(rel => {
-              const sel = `a[href*="${rel}"]`;
-              document.querySelectorAll(sel).forEach(a => {
-                a.href = SITE_BASE + rel;
-              });
+            // Rewrite any root-relative links (starting with "/") to the correct site base
+            document.querySelectorAll('a[href^="/"]').forEach(a => {
+              const rel = a.getAttribute('href').replace(/^\//, '');
+              a.href = SITE_BASE + rel;
             });
           } catch (e) { /* ignore */ }
 
