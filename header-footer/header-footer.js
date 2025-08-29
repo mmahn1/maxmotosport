@@ -1,4 +1,13 @@
 let serverUrl;
+// Compute a prefix to reach the site root regardless of nesting (supports subpath deployments)
+function getRootPrefix() {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  // Remove the last segment if it looks like a file (has a dot)
+  const last = parts[parts.length - 1] || '';
+  const depth = Math.max(parts.length - (last.includes('.') ? 1 : 0), 0);
+  return '../'.repeat(depth);
+}
+const ROOT_PREFIX = getRootPrefix();
 fetch("/api/config")
   .then((response) => response.json())
   .then((config) => {
@@ -28,20 +37,19 @@ function ensureHeaderAssets() {
   const version = 'v=20250828';
 
   // Ensure header/footer stylesheet is present
-  const existingHeaderCss = document.querySelector('link[href*="/header-footer/header-footer.css"]');
+  const existingHeaderCss = document.querySelector('link[href*="header-footer/header-footer.css"]');
   if (existingHeaderCss) {
     try {
-      const url = new URL(existingHeaderCss.href, window.location.origin);
-      url.search = version;
-      existingHeaderCss.href = url.toString();
+      // Force cache-bust and correct base path
+      const base = ROOT_PREFIX + 'header-footer/header-footer.css';
+      existingHeaderCss.href = base + '?' + version;
     } catch (e) {
-      // Fallback if URL API fails
-      existingHeaderCss.href = "/header-footer/header-footer.css?" + version;
+      existingHeaderCss.href = ROOT_PREFIX + 'header-footer/header-footer.css?' + version;
     }
   } else {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/header-footer/header-footer.css?" + version;
+    link.href = ROOT_PREFIX + 'header-footer/header-footer.css?' + version;
     head.appendChild(link);
   }
 
@@ -57,7 +65,7 @@ function ensureHeaderAssets() {
 }
 
 function loadHeader() {
-  fetch("/header-footer/header.html")
+  fetch(ROOT_PREFIX + "header-footer/header.html")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to load header");
@@ -95,7 +103,7 @@ function loadHeader() {
 // (Removed duplicate DOMContentLoaded that redundantly called loadHeader)
 
 function loadFooter() {
-  fetch("/header-footer/footer.html")
+  fetch(ROOT_PREFIX + "header-footer/footer.html")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to load footer");
@@ -112,7 +120,7 @@ function loadFooter() {
 }
 
 function loadNewsletter() {
-  fetch("/Newsletter/index.html")
+  fetch(ROOT_PREFIX + "Newsletter/index.html")
     .then((response) => {
       if (!response.ok) {
         console.warn(
@@ -154,13 +162,8 @@ function updateCartCount() {
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  if (cartCountElement) {
-    cartCountElement.textContent = totalItems;
-  }
-
-  if (cartCountMobileElement) {
-    cartCountMobileElement.textContent = totalItems;
-  }
+  if (cartCountElement) cartCountElement.textContent = totalItems;
+  if (cartCountMobileElement) cartCountMobileElement.textContent = totalItems;
 }
 
 window.addEventListener("storage", (event) => {

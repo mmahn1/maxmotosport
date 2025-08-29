@@ -59,7 +59,7 @@
             emptyRow.innerHTML = `<td colspan="5" style="text-align:center; padding: 16px; opacity: .7;">Your cart is empty.</td>`;
             cartTableBody.appendChild(emptyRow);
             cartTotal.textContent = `€0.00`;
-            if (typeof updateCartCount === 'function') updateCartCount();
+            if (typeof window.updateCartCount === 'function') window.updateCartCount();
             return;
         }
 
@@ -106,7 +106,7 @@
             sessionStorage.setItem("cart", JSON.stringify(cart));
         } catch (e) {}
     renderCart();
-    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
+    if (typeof window.updateCartCount === 'function') window.updateCartCount(); // Update cart count
     }
 
     function removeItem(index) {
@@ -115,7 +115,7 @@
             sessionStorage.setItem("cart", JSON.stringify(cart));
         } catch (e) {}
     renderCart();
-    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
+    if (typeof window.updateCartCount === 'function') window.updateCartCount(); // Update cart count
     }
 
         // Checkout clears the cart immediately and shows a success message
@@ -128,7 +128,7 @@
             try { sessionStorage.removeItem("cart"); localStorage.removeItem("cart"); } catch (e) {}
             cart = [];
                     renderCart();
-                    if (typeof updateCartCount === 'function') updateCartCount();
+                    if (typeof window.updateCartCount === 'function') window.updateCartCount();
                     showGreenToast("Order Successful");
         }
 
