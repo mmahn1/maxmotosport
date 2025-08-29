@@ -49,7 +49,8 @@ function addToCart(product) {
     } catch (e) {
         // ignore
     }
-    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count
+    if (typeof updateCartCount === 'function') updateCartCount(); // Update cart count if available now
+    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (e) {}
     try { console.debug('[Cart] Added:', product, 'Cart now:', cart); } catch (e) {}
     showCustomAlert(`${product.name} added to cart!`); // Display only the product name
 }

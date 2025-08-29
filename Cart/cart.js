@@ -60,6 +60,7 @@
             cartTableBody.appendChild(emptyRow);
             cartTotal.textContent = `€0.00`;
             if (typeof window.updateCartCount === 'function') window.updateCartCount();
+            try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (e) {}
             return;
         }
 
@@ -107,6 +108,7 @@
         } catch (e) {}
     renderCart();
     if (typeof window.updateCartCount === 'function') window.updateCartCount(); // Update cart count
+    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (e) {}
     }
 
     function removeItem(index) {
@@ -116,6 +118,7 @@
         } catch (e) {}
     renderCart();
     if (typeof window.updateCartCount === 'function') window.updateCartCount(); // Update cart count
+    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (e) {}
     }
 
         // Checkout clears the cart immediately and shows a success message
@@ -129,6 +132,7 @@
             cart = [];
                     renderCart();
                     if (typeof window.updateCartCount === 'function') window.updateCartCount();
+                    try { window.dispatchEvent(new CustomEvent('cart:updated')); } catch (e) {}
                     showGreenToast("Order Successful");
         }
 

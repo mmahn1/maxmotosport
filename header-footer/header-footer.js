@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
   ensureHeaderAssets();
   window.addEventListener("resize", adjustFooterPosition);
   window.addEventListener("scroll", handleHeaderScroll);
+  // Update cart count whenever cart changes in this tab
+  window.addEventListener('cart:updated', updateCartCount);
   // Initialize dynamic parts once DOM is ready
   loadHeader();
   loadFooter();
