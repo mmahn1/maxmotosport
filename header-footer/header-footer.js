@@ -1,13 +1,9 @@
 let serverUrl;
-// Compute a prefix to reach the site root regardless of nesting (supports subpath deployments)
-function getRootPrefix() {
-  const parts = window.location.pathname.split('/').filter(Boolean);
-  // Remove the last segment if it looks like a file (has a dot)
-  const last = parts[parts.length - 1] || '';
-  const depth = Math.max(parts.length - (last.includes('.') ? 1 : 0), 0);
-  return '../'.repeat(depth);
-}
-const ROOT_PREFIX = getRootPrefix();
+// Resolve assets relative to where this script is served from (robust for subpaths)
+const currentScript = document.currentScript || Array.from(document.scripts).find(s => (s.src || '').includes('header-footer/header-footer.js'));
+const scriptUrl = currentScript && currentScript.src ? currentScript.src : new URL('header-footer.js', window.location.href).toString();
+const HEADER_FOOTER_BASE = new URL('./', scriptUrl).toString(); // .../header-footer/
+const SITE_BASE = new URL('../', HEADER_FOOTER_BASE).toString(); // parent of header-footer/
 fetch("/api/config")
   .then((response) => response.json())
   .then((config) => {
@@ -37,19 +33,14 @@ function ensureHeaderAssets() {
   const version = 'v=20250828';
 
   // Ensure header/footer stylesheet is present
-  const existingHeaderCss = document.querySelector('link[href*="header-footer/header-footer.css"]');
+  const existingHeaderCss = document.querySelector('link[data-header-footer-css]');
   if (existingHeaderCss) {
-    try {
-      // Force cache-bust and correct base path
-      const base = ROOT_PREFIX + 'header-footer/header-footer.css';
-      existingHeaderCss.href = base + '?' + version;
-    } catch (e) {
-      existingHeaderCss.href = ROOT_PREFIX + 'header-footer/header-footer.css?' + version;
-    }
+    existingHeaderCss.href = HEADER_FOOTER_BASE + 'header-footer.css?' + version;
   } else {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = ROOT_PREFIX + 'header-footer/header-footer.css?' + version;
+    link.href = HEADER_FOOTER_BASE + 'header-footer.css?' + version;
+    link.setAttribute('data-header-footer-css', 'true');
     head.appendChild(link);
   }
 
@@ -65,7 +56,7 @@ function ensureHeaderAssets() {
 }
 
 function loadHeader() {
-  fetch(ROOT_PREFIX + "header-footer/header.html")
+  fetch(HEADER_FOOTER_BASE + "header.html")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to load header");
@@ -80,6 +71,26 @@ function loadHeader() {
 
         // Wait for DOM elements to be available, then update user display
         setTimeout(() => {
+          // Normalize header links to work under any subpath
+          try {
+            const linkTargets = [
+              'Landing_page/index.html',
+              'ponudba/ponudba.html',
+              'O_nas/o-nas.html',
+              'servis/servis.html',
+              'kontakt/kontakt.html',
+              'Cart/cart.html',
+              'account/account.html',
+              'Admin/admin-dashboard.html'
+            ];
+            linkTargets.forEach(rel => {
+              const sel = `a[href*="${rel}"]`;
+              document.querySelectorAll(sel).forEach(a => {
+                a.href = SITE_BASE + rel;
+              });
+            });
+          } catch (e) { /* ignore */ }
+
           updateUserDisplay();
           setupBurgerMenu();
           // Ensure the cart count reflects persisted cart after header is in DOM
@@ -103,7 +114,7 @@ function loadHeader() {
 // (Removed duplicate DOMContentLoaded that redundantly called loadHeader)
 
 function loadFooter() {
-  fetch(ROOT_PREFIX + "header-footer/footer.html")
+  fetch(HEADER_FOOTER_BASE + "footer.html")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to load footer");
@@ -120,7 +131,9 @@ function loadFooter() {
 }
 
 function loadNewsletter() {
-  fetch(ROOT_PREFIX + "Newsletter/index.html")
+  // Try to load newsletter from sibling Newsletter/ folder
+  const newsletterBase = SITE_BASE + 'Newsletter/';
+  fetch(newsletterBase + "index.html")
     .then((response) => {
       if (!response.ok) {
         console.warn(
