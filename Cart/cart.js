@@ -63,18 +63,15 @@
             return;
         }
 
-        cart.forEach((item, index) => {
+    cart.forEach((item, index) => {
             const price = parseFloat(item.price) || 0; // Ensure price is a valid number
             // Normalize image path and provide a fallback for live environment
             let imageSrc = item.image || "/Slike/fallbackimage.png";
-            if (imageSrc && !imageSrc.startsWith("http")) {
-                // Ensure leading slash for relative paths
-                if (!imageSrc.startsWith("/")) imageSrc = "/" + imageSrc;
-            }
+        // Keep relative paths as-is to support subpath deployments; fallback handled via JS onerror
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>
-                    <img src="${imageSrc}" alt="${item.name || 'Product'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" onerror="this.onerror=null;this.src='/Slike/fallbackimage.png';">
+            <img src="${imageSrc}" alt="${item.name || 'Product'}" class="cart-img" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
                     <div style="font-size: 12px; color: #666;">${item.name}${item.color ? ` • ${item.color}` : ''}</div>
                 </td>
                 <td>€${price.toFixed(2)}</td>
@@ -90,7 +87,17 @@
             total += price * item.quantity;
         });
 
-        cartTotal.textContent = `€${total.toFixed(2)}`;
+                cartTotal.textContent = `€${total.toFixed(2)}`;
+
+                // Attach fallback handlers (CSP-safe) for any broken images
+                try {
+                    cartTableBody.querySelectorAll('img.cart-img').forEach(img => {
+                        img.addEventListener('error', function onErr() {
+                            this.removeEventListener('error', onErr);
+                            this.src = '/Slike/fallbackimage.png';
+                        });
+                    });
+                } catch (e) {}
     }
 
     function updateQuantity(index, quantity) {
@@ -125,7 +132,7 @@
                     showGreenToast("Order Successful");
         }
 
-    cartTableBody.addEventListener("input", (e) => {
+    if (cartTableBody) cartTableBody.addEventListener("input", (e) => {
         if (e.target.classList.contains("quantity-input")) {
             const index = e.target.dataset.index;
             const quantity = parseInt(e.target.value, 10);
@@ -133,14 +140,14 @@
         }
     });
 
-    cartTableBody.addEventListener("click", (e) => {
+    if (cartTableBody) cartTableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-btn")) {
             const index = e.target.dataset.index;
             removeItem(index);
         }
     });
 
-    checkoutButton.addEventListener("click", checkout);
+    if (checkoutButton) checkoutButton.addEventListener("click", checkout);
 
     renderCart();
     // If empty on first pass, retry once shortly after to account for any async header migration
