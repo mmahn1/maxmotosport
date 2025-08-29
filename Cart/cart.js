@@ -65,10 +65,16 @@
 
         cart.forEach((item, index) => {
             const price = parseFloat(item.price) || 0; // Ensure price is a valid number
+            // Normalize image path and provide a fallback for live environment
+            let imageSrc = item.image || "/Slike/fallbackimage.png";
+            if (imageSrc && !imageSrc.startsWith("http")) {
+                // Ensure leading slash for relative paths
+                if (!imageSrc.startsWith("/")) imageSrc = "/" + imageSrc;
+            }
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>
-                    <img src="${item.image}" alt="${item.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                    <img src="${imageSrc}" alt="${item.name || 'Product'}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" onerror="this.onerror=null;this.src='/Slike/fallbackimage.png';">
                     <div style="font-size: 12px; color: #666;">${item.name}${item.color ? ` • ${item.color}` : ''}</div>
                 </td>
                 <td>€${price.toFixed(2)}</td>
